@@ -1,0 +1,16 @@
+{
+  "material-icon-theme.folders.associations": {
+    "_components": "Components",
+    "_constants": "Constant",
+    "_hooks": "Hook",
+    "_service": "Api",
+    "_store": "Container",
+    "_types": "Typescript",
+    "_utils": "Utils",
+    "(route)": "Routes"
+  },
+  "editor.formatOnSave": true,
+  "notebook.formatOnSave.enabled": true,
+  "editor.formatOnPaste": true,
+  "editor.formatOnType": true
+}
