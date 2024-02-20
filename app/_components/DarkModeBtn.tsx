@@ -1,4 +1,5 @@
 'use client';
+import { useTheme } from 'next-themes';
 
 interface ButtonProps {
   children: string;
@@ -6,17 +7,10 @@ interface ButtonProps {
 }
 
 export const DarkModeBtn = ({ children }: ButtonProps) => {
-  const handleTheme = () => {
-    const theme = localStorage.getItem('theme');
-    if (!theme) {
-      localStorage.setItem('theme', 'dark');
-      document.documentElement.classList.add('dark');
-    }
+  const { theme, setTheme } = useTheme();
 
-    if (theme === 'dark') {
-      localStorage.removeItem('theme');
-      document.documentElement.classList.remove('dark');
-    }
+  const handleTheme = () => {
+    setTheme(theme === 'dark' ? 'light' : 'dark');
   };
 
   return <button onClick={handleTheme}>{children}</button>;

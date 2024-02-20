@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-
-const inter = Inter({ subsets: ['latin'] });
+import { Provider } from './_components/Provider';
+import QueryProviders from './_utills/QueryProvider';
 
 export const metadata: Metadata = {
   title: 'STO',
@@ -16,7 +16,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className="dark:bg-darkMode dark:text-white">
+        <QueryProviders>
+          <Provider>{children}</Provider>
+        </QueryProviders>
+      </body>
     </html>
   );
 }
