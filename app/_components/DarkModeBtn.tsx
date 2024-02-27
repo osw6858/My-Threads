@@ -6,7 +6,7 @@ interface ButtonProps {
   type: string;
 }
 
-export const DarkModeBtn = ({ children }: ButtonProps) => {
+const DarkModeBtn = ({ children }: ButtonProps) => {
   const { theme, setTheme } = useTheme();
 
   const handleTheme = () => {
@@ -15,3 +15,5 @@ export const DarkModeBtn = ({ children }: ButtonProps) => {
 
   return <button onClick={handleTheme}>{children}</button>;
 };
+
+export default DarkModeBtn;

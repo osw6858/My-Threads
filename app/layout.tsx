@@ -1,12 +1,12 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
 import './globals.css';
-import { Provider } from './_components/Provider';
+import MainThemeProvider from './_utills/MainThemeProvider';
 import QueryProviders from './_utills/QueryProvider';
+import AuthProvider from './_utills/AuthProvider';
 
 export const metadata: Metadata = {
-  title: 'STO',
-  description: 'study together online',
+  title: 'MySNS',
+  description: 'Our SNS',
 };
 
 export default function RootLayout({
@@ -18,7 +18,9 @@ export default function RootLayout({
     <html lang="en">
       <body className="dark:bg-darkMode dark:text-white">
         <QueryProviders>
-          <Provider>{children}</Provider>
+          <MainThemeProvider>
+            <AuthProvider>{children}</AuthProvider>
+          </MainThemeProvider>
         </QueryProviders>
       </body>
     </html>

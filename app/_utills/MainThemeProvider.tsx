@@ -3,6 +3,8 @@
 import { ThemeProvider } from 'next-themes';
 import { ReactNode } from 'react';
 
-export const Provider = ({ children }: { children: ReactNode }) => {
+const MainThemeProvider = ({ children }: { children: ReactNode }) => {
   return <ThemeProvider attribute="class">{children}</ThemeProvider>;
 };
+
+export default MainThemeProvider;
