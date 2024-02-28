@@ -19,8 +19,6 @@ const config: Config = {
         lightFontColor: '#9E9E9E',
         whiteNav: '#F9FAFA',
       },
-      width: { '85': '21rem', '92': '23rem' },
-      height: {},
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
