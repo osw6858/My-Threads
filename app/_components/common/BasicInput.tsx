@@ -1,5 +1,5 @@
 import { Control, useController } from 'react-hook-form';
-import { InputName, InputValue } from '../_types/inputType';
+import { InputName, InputValue } from '../../_types/inputType';
 
 interface InputProps {
   type: 'text' | 'password' | 'email';

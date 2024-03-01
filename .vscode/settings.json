@@ -9,7 +9,8 @@
     "_api": "Api",
     "_types": "Typescript",
     "_utils": "Utils",
-    "(route)": "Routes"
+    "(route)": "Routes",
+    "_constant": "Constant"
   },
   "editor.formatOnSave": true,
   "notebook.formatOnSave.enabled": true,
