@@ -1,12 +1,12 @@
+import { InputName, SignInData, SignUpData } from '@/app/_types/inputType';
 import { Control, useController } from 'react-hook-form';
-import { InputName, InputValue } from '../../_types/inputType';
 
 interface InputProps {
   type: 'text' | 'password' | 'email';
   placeholder?: string;
   style?: string;
   name: InputName;
-  control: Control<InputValue>;
+  control: Control<SignInData | SignUpData>;
 }
 
 const BasicInput = ({
@@ -19,7 +19,6 @@ const BasicInput = ({
   const { field } = useController({
     name,
     control,
-    rules: { required: true },
   });
 
   return (

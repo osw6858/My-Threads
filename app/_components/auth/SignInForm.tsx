@@ -7,9 +7,12 @@ import { SignInData } from '../../_types/inputType';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { SignIn } from '@/app/_api/auth';
 import { useRouter } from 'next/navigation';
+import ConfirmModal from '../common/ConfirmModal';
+import { useAuthStore } from '@/app/_store/auth';
 
 const SignInForm = () => {
   const router = useRouter();
+  const { userInfo, setIsAuth, setUserInfo } = useAuthStore();
 
   const { handleSubmit, control } = useForm<SignInData>({
     defaultValues: {
@@ -18,7 +21,16 @@ const SignInForm = () => {
     },
   });
 
+  const openModal = (modalName: string) => {
+    const modal = document.getElementById(modalName) as HTMLDialogElement;
+    modal.showModal();
+  };
+
   const handleSignIn = (data: SignInData) => {
+    if (data.email === '' || data.password === '') {
+      openModal('empty_input');
+      return;
+    }
     const signInData = {
       email: data.email,
       password: data.password,
@@ -27,22 +39,27 @@ const SignInForm = () => {
     mutate(signInData);
   };
 
-  const openModal = () => {
-    const modal = document.getElementById('my_modal_1') as HTMLDialogElement;
-    modal.showModal();
-  };
-
   const { mutate } = useMutation({
     mutationFn: SignIn,
     onSuccess: (data) => {
       if (data?.error !== null) {
-        openModal();
+        openModal('incorrect_error_modal');
         return;
       }
-      console.log(data);
-      router.push('/success');
+
+      if (!data.data.user?.email || !data.data.user.id) {
+        openModal('sign_in_error_modal');
+        return;
+      }
+
+      setUserInfo(data.data.user?.email, data.data.user?.id);
+      setIsAuth();
+
+      // router.push('/success');
     },
   });
+
+  console.log(userInfo);
 
   return (
     <div className="z-10 flex flex-col items-center w-full">
@@ -65,18 +82,24 @@ const SignInForm = () => {
         />
         <BasicButton type="submit">로그인</BasicButton>
       </form>
-      <dialog id="my_modal_1" className="modal">
-        <div className="modal-box">
-          <h3 className="font-bold text-lg">로그인 오류</h3>
-          <p className="py-4">이메일과 비밀번호를 다시 확인해 주세요.</p>
-          <div className="modal-action">
-            <form method="dialog">
-              {/* if there is a button in form, it will close the modal */}
-              <button className="btn">확인</button>
-            </form>
-          </div>
-        </div>
-      </dialog>
+      <ConfirmModal
+        modalId="empty_input"
+        title="로그인 오류"
+        content="비밀번호와 이메일을 모두 입력해 주세요."
+        confirmText="확인"
+      />
+      <ConfirmModal
+        modalId="incorrect_error_modal"
+        title="로그인 오류"
+        content="이메일과 비밀번호를 다시 확인해 주세요."
+        confirmText="확인"
+      />
+      <ConfirmModal
+        modalId="sign_in_error_modal"
+        title="로그인 오류"
+        content="로그인중 오류가 발생했습니다. 다시 시도해 주세요."
+        confirmText="확인"
+      />
     </div>
   );
 };
