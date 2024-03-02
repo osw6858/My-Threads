@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import MainThemeProvider from './_utills/MainThemeProvider';
-import QueryProviders from './_utills/QueryProvider';
-import AuthProvider from './_utills/AuthProvider';
+import MainThemeProvider from './_providers/MainThemeProvider';
+import QueryProviders from './_providers/QueryProvider';
+import AuthProvider from './_providers/AuthProvider';
+import SupabaseProvider from './_providers/SupabaseProvider';
 
 export const metadata: Metadata = {
   title: 'MySNS',
@@ -17,11 +18,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="bg-white dark:bg-darkMode dark:text-white">
-        <QueryProviders>
-          <MainThemeProvider>
-            <AuthProvider>{children}</AuthProvider>
-          </MainThemeProvider>
-        </QueryProviders>
+        <SupabaseProvider>
+          <QueryProviders>
+            <MainThemeProvider>
+              <AuthProvider>{children}</AuthProvider>
+            </MainThemeProvider>
+          </QueryProviders>
+        </SupabaseProvider>
       </body>
     </html>
   );

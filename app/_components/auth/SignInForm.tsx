@@ -3,17 +3,12 @@
 import { useForm } from 'react-hook-form';
 import BasicButton from '../common/BasicButton';
 import BasicInput from '../common/BasicInput';
-import { SignInData } from '../../_types/inputType';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { SignIn } from '@/app/_api/auth';
-import { useRouter } from 'next/navigation';
+import { SignInData } from '@/app/_types/inputType';
+import { useMutation } from '@tanstack/react-query';
+import { signInWhithEmail } from '@/app/_api/auth';
 import ConfirmModal from '../common/ConfirmModal';
-import { useAuthStore } from '@/app/_store/auth';
 
 const SignInForm = () => {
-  const router = useRouter();
-  const { userInfo, setIsAuth, setUserInfo } = useAuthStore();
-
   const { handleSubmit, control } = useForm<SignInData>({
     defaultValues: {
       email: '',
@@ -40,7 +35,7 @@ const SignInForm = () => {
   };
 
   const { mutate } = useMutation({
-    mutationFn: SignIn,
+    mutationFn: signInWhithEmail,
     onSuccess: (data) => {
       if (data?.error !== null) {
         openModal('incorrect_error_modal');
@@ -51,15 +46,8 @@ const SignInForm = () => {
         openModal('sign_in_error_modal');
         return;
       }
-
-      setUserInfo(data.data.user?.email, data.data.user?.id);
-      setIsAuth();
-
-      // router.push('/success');
     },
   });
-
-  console.log(userInfo);
 
   return (
     <div className="z-10 flex flex-col items-center w-full">
@@ -97,7 +85,7 @@ const SignInForm = () => {
       <ConfirmModal
         modalId="sign_in_error_modal"
         title="로그인 오류"
-        content="로그인중 오류가 발생했습니다. 다시 시도해 주세요."
+        content="로그인중 오류가 발생했습니다. 잠시후 다시 시도해 주세요."
         confirmText="확인"
       />
     </div>

@@ -1,9 +1,8 @@
 const TopLogo = () => {
   return (
     <svg
-      className="sm:hidden mb-10"
+      className="sm:hidden mb-10 fill-black dark:fill-white"
       aria-label="Threads"
-      fill="white"
       height="60px"
       role="img"
       viewBox="0 0 192 192"

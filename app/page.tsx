@@ -4,8 +4,7 @@ import TopImage from '../public/login_pic.webp';
 import Footer from './_components/common/Footer';
 import TopLogo from './_components/icons/TopLogo';
 import TextNav from './_components/common/TextNav';
-import KakaoLogo from '../public/KakaoTalk_logo.png';
-import Link from 'next/link';
+import KakaoSignIn from './_components/auth/KakaoSignIn';
 
 export default function Home() {
   return (
@@ -30,20 +29,7 @@ export default function Home() {
             또는
           </span>
         </div>
-        <Link
-          className="cursor-pointer border border-solid p-5 flex justify-between items-center border-lightFontColor dark:border-darkBorder rounded-xl h-[87px] w-full"
-          href={'/'}
-        >
-          <Image
-            priority
-            src={KakaoLogo}
-            alt="카카오톡"
-            width={45}
-            height={45}
-          />
-          <p className="font-semibold">카카오톡으로 계속</p>
-          <div className="border-t-2 border-r-2 border-solid border-gray-600 w-3 h-3 mr-2 rotate-45"></div>
-        </Link>
+        <KakaoSignIn />
         <TextNav title="아직 회원이 아니신가요?" style="mt-5" href={'/'} />
       </div>
       <Footer />
