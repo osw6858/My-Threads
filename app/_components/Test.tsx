@@ -3,7 +3,7 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { getAllUser } from '../_api/user';
 
-export const Test = () => {
+const Test = () => {
   const { data } = useSuspenseQuery({
     queryKey: ['getAllUser'],
     queryFn: getAllUser,
@@ -17,3 +17,5 @@ export const Test = () => {
     </div>
   );
 };
+
+export default Test;
