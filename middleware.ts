@@ -1,18 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { END_POINT } from './app/_constant/endPoint';
+
+// TODO: 로그인 및 로그아웃 여부에 따라 접근하지 못하는 페이지를 추가로 지정
+const logedOutRoute = [END_POINT.MAIN];
+const logedInRoute = [END_POINT.ROOT, END_POINT.SIGN_UP];
 
 export function middleware(request: NextRequest) {
   const { cookies } = request;
   const hasCookie = cookies.has('my-access-token');
-  if (!hasCookie && request.nextUrl.pathname !== '/') {
-    return NextResponse.redirect(new URL('/', request.nextUrl.origin));
+  if (!hasCookie && logedOutRoute.includes(request.nextUrl.pathname)) {
+    return NextResponse.redirect(
+      new URL(END_POINT.ROOT, request.nextUrl.origin),
+    );
   }
-  if (hasCookie && request.nextUrl.pathname === '/') {
-    return NextResponse.rewrite(new URL('/success', request.nextUrl.origin));
+  if (hasCookie && logedInRoute.includes(request.nextUrl.pathname)) {
+    return NextResponse.rewrite(
+      new URL(END_POINT.MAIN, request.nextUrl.origin),
+    );
   }
   return NextResponse.next();
 }
-
-// TODO: matcher는 일단 모든 경로로 설정함 추후에 세세하게 커스텀이 필요함
-export const config = {
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
-};

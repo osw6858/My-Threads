@@ -1,7 +1,7 @@
-const TopLogo = () => {
+const TopLogo = ({ style }: { style?: string }) => {
   return (
     <svg
-      className="sm:hidden mb-10 fill-black dark:fill-white"
+      className={`${style} fill-black dark:fill-white`}
       aria-label="Threads"
       height="60px"
       role="img"

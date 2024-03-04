@@ -3,6 +3,7 @@
 import { ComponentType, useEffect } from 'react';
 import { redirect } from 'next/navigation';
 import { useAuthStore } from '../_store/auth';
+import { END_POINT } from '../_constant/endPoint';
 
 export default function withAuth<P extends JSX.IntrinsicAttributes>(
   Component: ComponentType<P>,
@@ -13,7 +14,7 @@ export default function withAuth<P extends JSX.IntrinsicAttributes>(
 
     useEffect(() => {
       if (!isAuth) {
-        return redirect('/');
+        return redirect(END_POINT.ROOT);
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
