@@ -7,6 +7,7 @@ import { SignInData } from '@/app/_types/inputType';
 import { useMutation } from '@tanstack/react-query';
 import { signInWhithEmail } from '@/app/_api/auth';
 import ConfirmModal from '../common/ConfirmModal';
+import { openModal } from '@/app/_helper/openModal';
 
 const SignInForm = () => {
   const { handleSubmit, control } = useForm<SignInData>({
@@ -15,11 +16,6 @@ const SignInForm = () => {
       password: '',
     },
   });
-
-  const openModal = (modalName: string) => {
-    const modal = document.getElementById(modalName) as HTMLDialogElement;
-    modal.showModal();
-  };
 
   const handleSignIn = (data: SignInData) => {
     if (data.email === '' || data.password === '') {

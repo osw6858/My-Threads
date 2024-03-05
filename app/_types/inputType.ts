@@ -6,6 +6,6 @@ export interface SignInData {
 }
 
 export interface SignUpData extends SignInData {
-  passwordCheck: string;
-  nickname: string;
+  passwordCheck?: string;
+  nickname?: string;
 }
