@@ -21,7 +21,7 @@ export default function Home() {
         />
       </picture>
       <div className="flex justify-center items-center flex-col w-[418px] p-6">
-        <TopLogo style="sm:hidden mb-10" />
+        <TopLogo style="sm:hidden mb-10" height="60px" />
         <SignInForm />
         <TextNav title="비밀번호를 잊으셨나요?" style="mt-3" href={'/main'} />
         <div className="inline-flex items-center justify-center w-full dark:text-darkFontColor">

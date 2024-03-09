@@ -43,8 +43,6 @@ const AuthStateProvider = ({ children }: { children: ReactNode }) => {
     };
   }, [router, setIsAuth, setUserInfo]);
 
-  console.log(isAuth);
-
   return <>{children}</>;
 };
 

@@ -17,6 +17,7 @@ const config: Config = {
         darkNav: '#05090A',
         lightInput: '#F5F5F5',
         lightFontColor: '#9E9E9E',
+        hoverDarkColor: '#212121',
         whiteNav: '#F9FAFA',
       },
       backgroundImage: {

@@ -8,7 +8,7 @@ const SignUp = () => {
   return (
     <div className="h-screen relative flex justify-center overflow-hidden">
       <div className="flex justify-center items-center flex-col w-[418px] p-6">
-        <TopLogo style="mb-10" />
+        <TopLogo style="mb-10" height="60px" />
         <SignUpForm />
         <TextNav
           title="이미 회원 이신가요?"
