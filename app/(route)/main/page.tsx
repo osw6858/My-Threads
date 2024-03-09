@@ -1,7 +1,5 @@
-import Test from '@/app/_components/Test';
-
-const RoutTest = () => {
-  return <div>라우팅팅 성공</div>;
+const MainPage = () => {
+  return <div>메인페이지</div>;
 };
 
-export default RoutTest;
+export default MainPage;

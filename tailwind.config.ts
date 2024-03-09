@@ -19,6 +19,7 @@ const config: Config = {
         lightFontColor: '#9E9E9E',
         hoverDarkColor: '#212121',
         whiteNav: '#F9FAFA',
+        headerBg: 'rgba(16,16,16,0.8)',
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

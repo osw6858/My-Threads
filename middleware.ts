@@ -2,7 +2,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import { END_POINT } from './app/_constant/endPoint';
 
 // TODO: 로그인 및 로그아웃 여부에 따라 접근하지 못하는 페이지를 추가로 지정
-const logedOutRoute = [END_POINT.MAIN];
+const logedOutRoute = [
+  END_POINT.MAIN,
+  END_POINT.SEARCH,
+  END_POINT.USER,
+  END_POINT.ACTIVITY,
+];
 const logedInRoute = [END_POINT.ROOT, END_POINT.SIGN_UP];
 
 export function middleware(request: NextRequest) {
