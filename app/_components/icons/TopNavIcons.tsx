@@ -3,6 +3,8 @@
 import { END_POINT } from '@/app/_constant/endPoint';
 import { useSelect } from '@/app/_hooks/useSelect';
 import Link from 'next/link';
+import PostModal from '../post/PostModal';
+import { openModal } from '@/app/_helper/openModal';
 
 const TopNavIcons = () => {
   const { select, onSelected } = useSelect();
@@ -20,9 +22,9 @@ const TopNavIcons = () => {
             viewBox="0 0 26 26"
             height="26px"
             width="26px"
-            className={`${select[0] ? 'text-black' : 'text-gray-500'} dark:${
-              select[0] ? 'text-white' : 'text-gray-500'
-            }  cursor-pointer`}
+            className={`${
+              select[0] ? 'text-black' : 'text-nonSelectIcon'
+            } dark:${select[0] ? 'text-white' : 'text-darkNonSelctIcon'}`}
           >
             <title>홈</title>
             <path
@@ -46,9 +48,9 @@ const TopNavIcons = () => {
             viewBox="0 0 26 26"
             height="26px"
             width="26px"
-            className={`${select[1] ? 'text-black' : 'text-gray-500'} dark:${
-              select[1] ? 'text-white' : 'text-gray-500'
-            }  cursor-pointer`}
+            className={`${
+              select[1] ? 'text-black' : 'text-nonSelectIcon'
+            } dark:${select[1] ? 'text-white' : 'text-darkNonSelctIcon'}`}
           >
             <title>검색</title>
             <path
@@ -58,14 +60,17 @@ const TopNavIcons = () => {
           </svg>
         </div>
       </Link>
-      <div className="w-full h-full py-5 px-8 rounded-lg cursor-pointer transition duration-300 hover:bg-whiteNav dark:hover:bg-hoverDarkColor">
+      <div
+        className="w-full h-full py-5 px-8 rounded-lg cursor-pointer transition duration-300 hover:bg-whiteNav dark:hover:bg-hoverDarkColor"
+        onClick={() => openModal('add-post')}
+      >
         <svg
           aria-label="만들기"
           role="img"
           viewBox="0 0 26 26"
           height="26px"
           width="26px"
-          className={`text-gray-500 fill-white dark:text-gray-500 dark:fill-darkMode cursor-pointer`}
+          className={`text-nonSelectIcon fill-white dark:text-darkNonSelctIcon dark:fill-darkMode cursor-pointer`}
         >
           <title>만들기</title>
           <path
@@ -94,11 +99,13 @@ const TopNavIcons = () => {
             height="26px"
             width="26px"
             className={`${
-              select[2] ? 'text-black fill-black' : 'text-gray-500 fill-white'
+              select[2]
+                ? 'text-black fill-black'
+                : 'text-nonSelectIcon fill-white'
             } dark:${
               select[2]
                 ? 'text-white dark:fill-white'
-                : 'text-gray-500 dark:fill-darkMode'
+                : 'text-darkNonSelctIcon dark:fill-darkMode'
             } `}
           >
             <title>알림</title>
@@ -122,12 +129,14 @@ const TopNavIcons = () => {
             height="26px"
             width="26px"
             className={`${
-              select[3] ? 'text-black  fill-black' : 'text-gray-500 fill-white'
+              select[3]
+                ? 'text-black  fill-black'
+                : 'text-nonSelectIcon fill-white'
             } dark:${
               select[3]
                 ? 'text-white dark:fill-white'
-                : 'text-gray-500 dark:fill-darkMode'
-            }  cursor-pointer`}
+                : 'text-darkNonSelctIcon dark:fill-darkMode'
+            }`}
           >
             <title>프로필</title>
             <circle
@@ -145,6 +154,7 @@ const TopNavIcons = () => {
           </svg>
         </div>
       </Link>
+      <PostModal modalId={'add-post'} />
     </nav>
   );
 };

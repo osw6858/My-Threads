@@ -20,6 +20,8 @@ const config: Config = {
         hoverDarkColor: '#212121',
         whiteNav: '#F9FAFA',
         headerBg: 'rgba(16,16,16,0.8)',
+        darkNonSelctIcon: '#444444',
+        nonSelectIcon: '#AFAFAF',
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
