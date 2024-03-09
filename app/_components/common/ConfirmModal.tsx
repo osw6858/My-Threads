@@ -3,9 +3,22 @@ interface ModalProps {
   title?: string;
   content?: string;
   confirmText: string;
+  onConfirm?: () => void;
 }
 
-const ConfirmModal = ({ title, content, confirmText, modalId }: ModalProps) => {
+const ConfirmModal = ({
+  title,
+  content,
+  confirmText,
+  modalId,
+  onConfirm,
+}: ModalProps) => {
+  const handleConfirm = () => {
+    if (onConfirm) {
+      onConfirm();
+    }
+  };
+
   return (
     <dialog id={modalId} className="modal">
       <div className="modal-box">
@@ -13,7 +26,9 @@ const ConfirmModal = ({ title, content, confirmText, modalId }: ModalProps) => {
         <p className="py-4">{content}</p>
         <div className="modal-action">
           <form method="dialog">
-            <button className="btn">{confirmText}</button>
+            <button onClick={handleConfirm} className="btn">
+              {confirmText}
+            </button>
           </form>
         </div>
       </div>

@@ -8,6 +8,7 @@ import { useMutation } from '@tanstack/react-query';
 import { signInWhithEmail } from '@/app/_api/auth';
 import ConfirmModal from '../common/ConfirmModal';
 import { openModal } from '@/app/_helper/openModal';
+import { SIGN_IN_ERROR_MESSAGE } from '@/app/_constant/modalErrorMessage';
 
 const SignInForm = () => {
   const { handleSubmit, control } = useForm<SignInData>({
@@ -33,6 +34,7 @@ const SignInForm = () => {
   const { mutate } = useMutation({
     mutationFn: signInWhithEmail,
     onSuccess: (data) => {
+      // console.log(data?.error?.message);
       if (data?.error !== null) {
         openModal('incorrect_error_modal');
         return;
@@ -66,24 +68,15 @@ const SignInForm = () => {
         />
         <BasicButton type="submit">로그인</BasicButton>
       </form>
-      <ConfirmModal
-        modalId="empty_input"
-        title="로그인 오류"
-        content="비밀번호와 이메일을 모두 입력해 주세요."
-        confirmText="확인"
-      />
-      <ConfirmModal
-        modalId="incorrect_error_modal"
-        title="로그인 오류"
-        content="이메일과 비밀번호를 다시 확인해 주세요."
-        confirmText="확인"
-      />
-      <ConfirmModal
-        modalId="sign_in_error_modal"
-        title="로그인 오류"
-        content="로그인중 오류가 발생했습니다. 잠시후 다시 시도해 주세요."
-        confirmText="확인"
-      />
+      {SIGN_IN_ERROR_MESSAGE.map((msg) => (
+        <ConfirmModal
+          key={msg.modalId}
+          modalId={msg.modalId}
+          title="로그인 오류"
+          content={msg.content}
+          confirmText="확인"
+        />
+      ))}
     </div>
   );
 };
