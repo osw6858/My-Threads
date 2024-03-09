@@ -1,6 +1,12 @@
+'use client';
+
+import { useSelect } from '@/app/_hooks/useSelect';
+
 const TopLogo = ({ style, height }: { style?: string; height: string }) => {
+  const { onSelected } = useSelect();
+
   return (
-    <div className={`w-[${height}]`}>
+    <div className={`w-[${height}]`} onClick={() => onSelected(0)}>
       <svg
         className={`${style} fill-black dark:fill-white`}
         aria-label="Threads"
