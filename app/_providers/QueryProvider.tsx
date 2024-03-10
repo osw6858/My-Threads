@@ -1,11 +1,11 @@
 'use client';
 
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ReactQueryStreamedHydration } from '@tanstack/react-query-next-experimental';
 
-function QueryProviders({ children }: React.PropsWithChildren) {
+function QueryProviders({ children }: { children: ReactNode }) {
   const [client] = React.useState(new QueryClient());
 
   return (
