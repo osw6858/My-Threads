@@ -1,0 +1,14 @@
+.ql-editor.ql-blank::before {
+  color: rgb(177, 177, 177);
+  content: attr(data-placeholder);
+  left: 15px;
+  pointer-events: none;
+  position: absolute;
+  right: 15px;
+}
+
+.ql-tooltip-arrow,
+.ql-tooltip,
+.ql-toolbar {
+  display: none;
+}
