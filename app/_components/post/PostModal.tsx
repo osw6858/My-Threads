@@ -1,8 +1,16 @@
-import AddPostForm from './AddPostForm';
+'use client';
+
+import dynamic from 'next/dynamic';
 
 interface ModalProps {
   modalId: string;
 }
+
+// TODO: 로딩 메시지 개선
+const AddPostForm = dynamic(() => import('../post/AddPostForm'), {
+  loading: () => <div>...loading</div>,
+  ssr: false,
+});
 
 const PostModal = ({ modalId }: ModalProps) => {
   return (
@@ -19,7 +27,7 @@ const PostModal = ({ modalId }: ModalProps) => {
         </div>
       </div>
       <form method="dialog" className="modal-backdrop">
-        <button>close</button>
+        <button>닫기</button>
       </form>
     </dialog>
   );
