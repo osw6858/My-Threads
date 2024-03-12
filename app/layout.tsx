@@ -1,12 +1,13 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
 import './globals.css';
-
-const inter = Inter({ subsets: ['latin'] });
+import MainThemeProvider from './_providers/MainThemeProvider';
+import QueryProviders from './_providers/QueryProvider';
+import AuthStateProvider from './_providers/AuthStateProvider';
+import SupabaseProvider from './_providers/SupabaseProvider';
 
 export const metadata: Metadata = {
-  title: 'STO',
-  description: 'study together online',
+  title: 'MySNS',
+  description: 'Our SNS',
 };
 
 export default function RootLayout({
@@ -15,8 +16,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang="ko" suppressHydrationWarning>
+      <body className="bg-white dark:bg-darkMode dark:text-white">
+        <SupabaseProvider>
+          <QueryProviders>
+            <MainThemeProvider>
+              <AuthStateProvider>{children}</AuthStateProvider>
+            </MainThemeProvider>
+          </QueryProviders>
+        </SupabaseProvider>
+      </body>
     </html>
   );
 }
