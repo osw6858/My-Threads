@@ -33,7 +33,7 @@ export const signUp = async (signUpData: SignUpData) => {
       password: signUpData.password,
       options: {
         data: {
-          nickname: signUpData.nickname,
+          user_name: signUpData.userName,
         },
       },
     });

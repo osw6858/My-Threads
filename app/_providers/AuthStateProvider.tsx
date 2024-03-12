@@ -8,7 +8,7 @@ import { END_POINT } from '../_constant/endPoint';
 
 const AuthStateProvider = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
-  const { setIsAuth, setUserInfo, isAuth } = useAuthStore();
+  const { setIsAuth, setUserInfo } = useAuthStore();
 
   useEffect(() => {
     // TODO: 블로그에 supabase onAuthStateChange 에 대하여 정리하기

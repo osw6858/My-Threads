@@ -10,15 +10,17 @@ import { signUp } from '@/app/_api/auth';
 import { useRouter } from 'next/navigation';
 import { openModal } from '@/app/_helper/openModal';
 import { SIGN_UP_ERROR_MESSAGE } from '@/app/_constant/modalErrorMessage';
+import { useState } from 'react';
 
 const SignUpForm = () => {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   const { handleSubmit, control } = useForm<SignUpData>({
     defaultValues: {
       email: '',
       password: '',
-      nickname: '',
+      userName: '',
       passwordCheck: '',
     },
   });
@@ -26,7 +28,7 @@ const SignUpForm = () => {
   const handleSignUp = (data: SignUpData) => {
     if (
       !data.email ||
-      !data.nickname ||
+      !data.userName ||
       !data.password ||
       !data.passwordCheck
     ) {
@@ -45,8 +47,10 @@ const SignUpForm = () => {
     const signUpData = {
       email: data.email,
       password: data.password,
-      nickname: data.nickname,
+      userName: data.userName,
     };
+    console.log(signUpData);
+
     mutate(signUpData);
   };
 
@@ -59,6 +63,9 @@ const SignUpForm = () => {
       }
 
       openModal('sign-up-success-modal');
+    },
+    onMutate: () => {
+      setLoading(true);
     },
   });
 
@@ -88,12 +95,16 @@ const SignUpForm = () => {
           placeholder="비밀번호 확인"
         />
         <BasicInput
-          name="nickname"
+          name="userName"
           control={control}
           type="text"
           placeholder="닉네임"
         />
-        <BasicButton type="submit">가입</BasicButton>
+        {loading ? (
+          <BasicButton type="button">진행중...</BasicButton>
+        ) : (
+          <BasicButton type="submit">가입</BasicButton>
+        )}
       </form>
       {SIGN_UP_ERROR_MESSAGE.map((msg) => (
         <ConfirmModal

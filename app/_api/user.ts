@@ -7,3 +7,19 @@ export const getAllUser = async () => {
   }
   return data;
 };
+
+export const getCurrentUser = async (uid: string) => {
+  try {
+    const { data, error } = await supabase
+      .from('users')
+      .select('*')
+      .eq('id', uid)
+      .single();
+
+    if (error) console.error(error);
+
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};

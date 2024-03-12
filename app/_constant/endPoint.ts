@@ -6,3 +6,6 @@ export const END_POINT = {
   ACTIVITY: '/main/activity',
   USER: '/main/user',
 };
+
+export const STORAGE_ROOT_URL =
+  'https://ohpldinktpofyatjafei.supabase.co/storage/v1/object/public/images/';

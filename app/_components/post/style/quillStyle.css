@@ -5,6 +5,7 @@
   pointer-events: none;
   position: absolute;
   right: 15px;
+  font-style: normal;
 }
 
 .ql-tooltip-arrow,

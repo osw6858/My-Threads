@@ -1,4 +1,4 @@
-export type InputName = 'email' | 'password' | 'nickname' | 'passwordCheck';
+export type InputName = 'email' | 'password' | 'userName' | 'passwordCheck';
 
 export interface SignInData {
   email: string;
@@ -7,5 +7,5 @@ export interface SignInData {
 
 export interface SignUpData extends SignInData {
   passwordCheck?: string;
-  nickname?: string;
+  userName?: string;
 }
