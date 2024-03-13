@@ -13,3 +13,7 @@
 .ql-toolbar {
   display: none;
 }
+
+.ql-editor {
+  padding: 1px 15px;
+}

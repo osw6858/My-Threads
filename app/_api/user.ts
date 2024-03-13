@@ -9,6 +9,7 @@ export const getAllUser = async () => {
 };
 
 export const getCurrentUser = async (uid: string) => {
+  console.log(uid);
   try {
     const { data, error } = await supabase
       .from('users')

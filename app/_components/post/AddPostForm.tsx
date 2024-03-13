@@ -55,7 +55,6 @@ export const AddPostForm = () => {
     setImagePreviewUrls(newUrlArray);
   };
 
-  // TODO: 게시물이 빈글일때 저장되는거 막기
   const handleSubmit = () => {
     if (isEmpty) {
       return;
@@ -91,11 +90,9 @@ export const AddPostForm = () => {
     },
   });
 
-  console.log(isEmpty);
-
   return (
     <>
-      <form className="">
+      <form>
         <ReactQuill
           className="text-black dark:text-white placeholder:text-white"
           theme="bubble"
@@ -110,13 +107,13 @@ export const AddPostForm = () => {
             </div>
           </div>
         ) : (
-          <div className="p-3">
+          <div className="p-1">
             {imagePreviewUrls.length !== 0 && (
               <ImageSlider>
                 {imagePreviewUrls.map((url, index) => (
                   <picture
-                    className={`w-32 ${
-                      imagePreviewUrls.length > 1 && 'h-56'
+                    className={`${
+                      imagePreviewUrls.length > 1 ? 'h-56' : 'h-auto'
                     } relative`}
                     key={url}
                   >
