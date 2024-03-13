@@ -1,6 +1,7 @@
 'use client';
 
 import { getCurrentUser } from '@/app/_api/user';
+import { DEFAULT_PROFIL_IMAGE } from '@/app/_constant/endPoint';
 import { GET_USER_PROFILE } from '@/app/_constant/queryKeys';
 import { useAuthStore } from '@/app/_store/auth';
 import { useQuery } from '@tanstack/react-query';
@@ -25,6 +26,8 @@ const PostModal = ({ modalId }: ModalProps) => {
     queryFn: () => getCurrentUser(userInfo.uid),
   });
 
+  console.log(userInfo.uid);
+
   return (
     <dialog id={modalId} className="modal">
       <div className="modal-box max-w-[620px] overflow-y-visible px-5 pt-1 pb-5">
@@ -33,7 +36,12 @@ const PostModal = ({ modalId }: ModalProps) => {
         </h3>
         <div className="avatar flex items-center">
           <div className="w-9 rounded-full">
-            <Image width={100} height={100} src={data?.avatar_url} alt={''} />
+            <Image
+              width={100}
+              height={100}
+              src={data?.avatar_url ?? DEFAULT_PROFIL_IMAGE}
+              alt={''}
+            />
           </div>
           <p className="ml-3 ">{data?.user_name}</p>
         </div>

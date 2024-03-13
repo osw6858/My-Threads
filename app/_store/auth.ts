@@ -10,7 +10,7 @@ interface Auth {
   isAuth: boolean;
   setIsAuth: () => void;
   userInfo: UserInfo;
-  setUserInfo: (email: string, uid: string) => void;
+  setUserInfo: (email: string, uid: string, userName: string) => void;
 }
 
 const isWindowMount = typeof window !== 'undefined';
@@ -27,8 +27,13 @@ export const useAuthStore = create<Auth>()((set) => ({
   },
 
   setIsAuth: () => set((state) => ({ isAuth: !state.isAuth })),
-  setUserInfo: (email: string, uid: string) =>
+  setUserInfo: (email: string, uid: string, userName: string) =>
     set((state) => ({
-      userInfo: { ...state.userInfo, email: email, uid: uid },
+      userInfo: {
+        ...state.userInfo,
+        email: email,
+        uid: uid,
+        userName: userName,
+      },
     })),
 }));
