@@ -1,6 +1,6 @@
 'use client';
 
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import ReactQuill from 'react-quill';
 import DOMPurify from 'dompurify';
 import PostTooltipIcon from '../icons/PostTooltipIcon';
@@ -18,11 +18,20 @@ import 'slick-carousel/slick/slick.css';
 export const AddPostForm = () => {
   const [post, setPost] = useState<string | Node>('');
   const [imagePreviewUrls, setImagePreviewUrls] = useState<string[]>([]);
+  const [isEmpty, setIsEmpty] = useState(true);
   const [loading, setLoading] = useState(false);
 
   const { userInfo } = useAuthStore();
 
   const safeHTML = DOMPurify.sanitize(post);
+
+  useEffect(() => {
+    if (post === '' || post === '<p><br></p>') {
+      setIsEmpty(true);
+    } else {
+      setIsEmpty(false);
+    }
+  }, [post]);
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -46,7 +55,12 @@ export const AddPostForm = () => {
     setImagePreviewUrls(newUrlArray);
   };
 
+  // TODO: 게시물이 빈글일때 저장되는거 막기
   const handleSubmit = () => {
+    if (isEmpty) {
+      return;
+    }
+
     const postData = {
       content: safeHTML,
       userId: userInfo.uid,
@@ -65,13 +79,19 @@ export const AddPostForm = () => {
       const url = `${STORAGE_ROOT_URL}${data.data?.path}`;
       setLoading(false);
       setImagePreviewUrls([...imagePreviewUrls, url]);
-      setPost('');
-      setImagePreviewUrls([]);
     },
     onMutate: () => setLoading(true),
   });
 
-  const postUpload = useMutation({ mutationFn: uploadPost });
+  const postUpload = useMutation({
+    mutationFn: uploadPost,
+    onSuccess: () => {
+      setPost('');
+      setImagePreviewUrls([]);
+    },
+  });
+
+  console.log(isEmpty);
 
   return (
     <>
@@ -110,7 +130,7 @@ export const AddPostForm = () => {
                       priority={true}
                     />
                     <div
-                      className="absolute top-0 right-0"
+                      className="absolute top-3 right-3"
                       onClick={() => removeImage(url)}
                     >
                       <RemoveIcon />
@@ -122,7 +142,7 @@ export const AddPostForm = () => {
           </div>
         )}
         <label className="cursor-pointer" htmlFor="add-picture">
-          <PostTooltipIcon />
+          <PostTooltipIcon style="ml-3" />
         </label>
         <input
           className="hidden"
@@ -135,7 +155,11 @@ export const AddPostForm = () => {
       <div className="modal-action">
         <form method="dialog">
           <button
-            className="btn bg-black dark:bg-white text-white dark:text-black p-4 rounded-2xl"
+            className={`btn  p-4 rounded-2xl ${
+              isEmpty
+                ? 'pointer-events-none cursor-not-allowed bg-gray-500 text-white dark:bg-gray-600 dark:text-white'
+                : 'bg-black dark:bg-white text-white dark:text-black'
+            }`}
             onClick={handleSubmit}
           >
             게시

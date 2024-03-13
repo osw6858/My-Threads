@@ -3,6 +3,7 @@ import { create } from 'zustand';
 interface UserInfo {
   email: string;
   uid: string;
+  userName: string;
 }
 
 interface Auth {
@@ -22,6 +23,7 @@ export const useAuthStore = create<Auth>()((set) => ({
   userInfo: {
     uid: parseAuthData?.user?.id,
     email: parseAuthData?.user?.email,
+    userName: parseAuthData?.user?.user_metadata?.user_name,
   },
 
   setIsAuth: () => set((state) => ({ isAuth: !state.isAuth })),

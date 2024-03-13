@@ -1,4 +1,4 @@
-const PostTooltipIcon = () => {
+const PostTooltipIcon = ({ style }: { style?: string }) => {
   return (
     <svg
       aria-label="미디어 첨부"
@@ -6,7 +6,7 @@ const PostTooltipIcon = () => {
       viewBox="0 0 24 24"
       height="20px"
       width="20px"
-      className="text-nonSelectIcon"
+      className={`${style} text-nonSelectIcon`}
     >
       <title>미디어 첨부</title>
       <g>

@@ -12,6 +12,8 @@ const AddPostForm = dynamic(() => import('../post/AddPostForm'), {
   ssr: false,
 });
 
+// TODO: 유저 정보 불러와서 프로필 이미지 띄우기
+
 const PostModal = ({ modalId }: ModalProps) => {
   return (
     <dialog id={modalId} className="modal">
