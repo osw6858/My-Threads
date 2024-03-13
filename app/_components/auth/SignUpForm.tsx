@@ -101,9 +101,16 @@ const SignUpForm = () => {
           placeholder="닉네임"
         />
         {loading ? (
-          <BasicButton type="button">진행중...</BasicButton>
+          <BasicButton
+            style="p-5 my-2 pointer-events-none cursor-not-allowed"
+            type="button"
+          >
+            진행중...
+          </BasicButton>
         ) : (
-          <BasicButton type="submit">가입</BasicButton>
+          <BasicButton style="p-5 my-2" type="submit">
+            가입
+          </BasicButton>
         )}
       </form>
       {SIGN_UP_ERROR_MESSAGE.map((msg) => (

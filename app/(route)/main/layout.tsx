@@ -6,7 +6,9 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
   return (
     <div className="h-screen">
       <TopHeader />
-      <div className="pt-16">{children}</div>
+      <div className="container mx-auto max-w-[620px] px-6 pt-16 ">
+        {children}
+      </div>
       <PostModal modalId={'add-post'} />
     </div>
   );

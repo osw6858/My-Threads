@@ -66,7 +66,9 @@ const SignInForm = () => {
           type="password"
           placeholder="비밀번호"
         />
-        <BasicButton type="submit">로그인</BasicButton>
+        <BasicButton style="p-5 my-2" type="submit">
+          로그인
+        </BasicButton>
       </form>
       {SIGN_IN_ERROR_MESSAGE.map((msg) => (
         <ConfirmModal
