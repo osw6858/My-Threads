@@ -94,7 +94,7 @@ export const AddPostForm = () => {
     <>
       <form>
         <ReactQuill
-          className="text-black dark:text-white placeholder:text-white"
+          className="text-gray-700 dark:text-gray-400 placeholder:text-nonSelectIcon"
           theme="bubble"
           onChange={setPost}
           placeholder="스레드를 시작하세요..."
@@ -138,8 +138,16 @@ export const AddPostForm = () => {
             )}
           </div>
         )}
-        <label className="cursor-pointer" htmlFor="add-picture">
-          <PostTooltipIcon style="ml-3" />
+        <label
+          className="flex items-center cursor-pointer w-16"
+          htmlFor="add-picture"
+        >
+          <div className="">
+            <PostTooltipIcon style="ml-1" />
+          </div>
+          {imagePreviewUrls.length >= 1 && (
+            <span className="text-xs ml-2 text-nonSelectIcon">추가</span>
+          )}
         </label>
         <input
           className="hidden"
@@ -149,7 +157,7 @@ export const AddPostForm = () => {
           onChange={handleImageChange}
         />
       </form>
-      <div className="modal-action">
+      <div className="modal-action absolute bottom-3 right-3 sm:flex sm:static">
         <form method="dialog">
           <button
             className={`btn  p-4 rounded-2xl ${

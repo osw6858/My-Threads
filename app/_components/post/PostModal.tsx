@@ -26,12 +26,10 @@ const PostModal = ({ modalId }: ModalProps) => {
     queryFn: () => getCurrentUser(userInfo.uid),
   });
 
-  console.log(userInfo.uid);
-
   return (
-    <dialog id={modalId} className="modal">
-      <div className="modal-box max-w-[620px] overflow-y-visible px-5 pt-1 pb-5">
-        <h3 className="max-w-24 font-bold text-base -translate-y-16 translate-x-60 text-white">
+    <dialog id={modalId} className="modal modal-bottom sm:modal-middle">
+      <div className="relative modal-box overflow-y-visible p-5 h-screen sm:h-auto">
+        <h3 className="absolute -top-9 left-52 max-w-24 font-bold text-base  text-white hidden sm:block">
           새로운 스레드
         </h3>
         <div className="avatar flex items-center">
@@ -43,7 +41,7 @@ const PostModal = ({ modalId }: ModalProps) => {
               alt={''}
             />
           </div>
-          <p className="ml-3 ">{data?.user_name}</p>
+          <p className="ml-3 font-semibold">{data?.user_name}</p>
         </div>
         <div className="ml-8">
           <AddPostForm />

@@ -1,11 +1,13 @@
 import TopHeader from '@/app/_components/main/TopHeader';
+import PostModal from '@/app/_components/post/PostModal';
 import { ReactNode } from 'react';
 
 const MainLayout = ({ children }: { children: ReactNode }) => {
   return (
     <div className="h-screen">
       <TopHeader />
-      <div className="pt-20">{children}</div>
+      <div className="pt-16">{children}</div>
+      <PostModal modalId={'add-post'} />
     </div>
   );
 };

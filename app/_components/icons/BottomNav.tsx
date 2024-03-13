@@ -1,6 +1,7 @@
 'use client';
 
 import { END_POINT } from '@/app/_constant/endPoint';
+import { openModal } from '@/app/_helper/openModal';
 import { useSelect } from '@/app/_hooks/useSelect';
 import Link from 'next/link';
 
@@ -53,7 +54,7 @@ const BottomNav = () => {
             </svg>
           </div>
         </Link>
-        <div className="h-full">
+        <div className="h-full" onClick={() => openModal('add-post')}>
           <svg
             aria-label="만들기"
             role="img"

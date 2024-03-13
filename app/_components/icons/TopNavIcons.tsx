@@ -154,7 +154,6 @@ const TopNavIcons = () => {
           </svg>
         </div>
       </Link>
-      <PostModal modalId={'add-post'} />
     </nav>
   );
 };
