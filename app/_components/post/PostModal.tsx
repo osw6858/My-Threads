@@ -43,7 +43,7 @@ const PostModal = ({ modalId }: ModalProps) => {
           </div>
           <p className="ml-3 font-semibold">{data?.user_name}</p>
         </div>
-        <div className="ml-8">
+        <div className="p-3">
           <AddPostForm />
         </div>
       </div>

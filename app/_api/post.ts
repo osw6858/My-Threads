@@ -1,9 +1,16 @@
 import { supabase } from '../_supabase/supabaseClient';
 
-export const getPost = async () => {
-  const { data, error } = await supabase.from('posts').select('*');
+export const getAllPost = async (uuid: string) => {
+  const { data, error } = await supabase.from('posts').select(`
+    *,
+    user: user_id (
+      *
+    ),
+    images(*)
+  `);
+
   if (error) {
-    throw new Error(error.message);
+    console.error(error);
   }
   return data;
 };

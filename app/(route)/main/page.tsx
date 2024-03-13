@@ -1,14 +1,14 @@
 import TopPostBar from '@/app/_components/main/TopPostBar';
+import Posts from '@/app/_components/post/Posts';
+import { Suspense } from 'react';
 
 const MainPage = () => {
   return (
     <div className="">
       <TopPostBar />
-      {/* NOTIC: 테스트 컴포넌트 Suspense와 반드시 같이 써야함
-        <Suspense fallback={<div>로딩중</div>}>
-          <Test />
-        </Suspense> 
-      */}
+      <Suspense fallback={<div>로딩중</div>}>
+        <Posts />
+      </Suspense>
     </div>
   );
 };

@@ -122,7 +122,7 @@ export const AddPostForm = () => {
                       src={url}
                       width="500"
                       height="500"
-                      className="w-full p-1 h-full object-cover rounded-lg"
+                      className="w-full p-1 h-full object-cover rounded-xl"
                       alt={`Image preview ${index}`}
                       priority={true}
                     />

@@ -59,6 +59,7 @@ const SignUpForm = () => {
     onSuccess: (data) => {
       if (data?.error !== null) {
         openModal('sign-up-error-modal');
+        setLoading(false);
         return;
       }
 
