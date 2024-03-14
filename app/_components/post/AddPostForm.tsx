@@ -5,7 +5,7 @@ import ReactQuill from 'react-quill';
 import DOMPurify from 'dompurify';
 import PostTooltipIcon from '../icons/PostTooltipIcon';
 import Image from 'next/image';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { uploadImage, uploadPost } from '@/app/_api/post';
 import { useAuthStore } from '@/app/_store/auth';
 import { STORAGE_ROOT_URL } from '@/app/_constant/endPoint';
@@ -14,6 +14,7 @@ import ImageSlider from '../common/ImageSlider';
 import 'react-quill/dist/quill.bubble.css';
 import './style/quillStyle.css';
 import 'slick-carousel/slick/slick.css';
+import { GET_ALL_POSTS } from '@/app/_constant/queryKeys';
 
 export const AddPostForm = () => {
   const [post, setPost] = useState<string | Node>('');
@@ -24,6 +25,8 @@ export const AddPostForm = () => {
   const { userInfo } = useAuthStore();
 
   const safeHTML = DOMPurify.sanitize(post);
+
+  const client = useQueryClient();
 
   useEffect(() => {
     if (post === '' || post === '<p><br></p>') {
@@ -87,6 +90,7 @@ export const AddPostForm = () => {
     onSuccess: () => {
       setPost('');
       setImagePreviewUrls([]);
+      client.invalidateQueries({ queryKey: [GET_ALL_POSTS] });
     },
   });
 

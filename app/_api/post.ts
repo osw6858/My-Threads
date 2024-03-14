@@ -1,11 +1,16 @@
 import { supabase } from '../_supabase/supabaseClient';
 
 export const getAllPost = async () => {
-  const { data, error } = await supabase.from('posts').select(`
+  const { data, error } = await supabase
+    .from('posts')
+    .select(
+      `
     *,
     users(*),
     images(*)
-  `);
+  `,
+    )
+    .order('created_at', { ascending: false });
 
   if (error) {
     console.error(error);

@@ -6,7 +6,7 @@ import BasicButton from '../common/BasicButton';
 const TopPostBar = () => {
   return (
     <>
-      <div className="flex items-center justify-between text-sm text-darkFontColor">
+      <div className="flex items-center justify-between text-sm text-darkFontColor mt-3">
         <div
           className="flex items-center"
           onClick={() => openModal('add-post')}

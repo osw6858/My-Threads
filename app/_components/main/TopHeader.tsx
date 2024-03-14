@@ -7,8 +7,8 @@ import BottomNav from '../icons/BottomNav';
 
 const TopHeader = () => {
   return (
-    <header className="h-16 w-full dark:bg-headerBg fixed z-50 ">
-      <div className="container h-full mx-auto my-0 flex items-center px-3 justify-between">
+    <header className="h-16 w-full bg-whiteHeaderBg dark:bg-headerBg fixed z-50 ">
+      <div className="container h-full max-w-[1230px] mx-auto my-0 flex items-center px-3 justify-between">
         <div className="sm:hidden w-[26px]" />
         <Link href={END_POINT.MAIN}>
           <TopLogo

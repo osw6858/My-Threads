@@ -3,18 +3,23 @@
 import { END_POINT } from '@/app/_constant/endPoint';
 import { useSelect } from '@/app/_hooks/useSelect';
 import Link from 'next/link';
-import PostModal from '../post/PostModal';
 import { openModal } from '@/app/_helper/openModal';
+import { useQueryClient } from '@tanstack/react-query';
+import { GET_ALL_POSTS } from '@/app/_constant/queryKeys';
 
 const TopNavIcons = () => {
   const { select, onSelected } = useSelect();
+  const client = useQueryClient();
 
   return (
     <nav className="hidden sm:flex items-center">
       <Link href={END_POINT.MAIN}>
         <div
           className="w-full h-full py-5 px-8 rounded-lg cursor-pointer transition duration-300 hover:bg-whiteNav dark:hover:bg-hoverDarkColor"
-          onClick={() => onSelected(0)}
+          onClick={() => {
+            onSelected(0);
+            client.invalidateQueries({ queryKey: [GET_ALL_POSTS] });
+          }}
         >
           <svg
             aria-label="홈"

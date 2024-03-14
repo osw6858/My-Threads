@@ -71,10 +71,10 @@ const Post = ({ post }: { post: PostType }) => {
             </div>
           ))
         ) : (
-          <div className="pl-10">
+          <div className="pl-10 pr-4">
             <ImageSlider>
               {post.images.map((image) => (
-                <picture className="p-1" key={image.image_id}>
+                <picture className="p-1 aspect-square" key={image.image_id}>
                   <Image
                     className="rounded-xl h-56"
                     width={400}
