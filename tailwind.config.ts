@@ -22,6 +22,7 @@ const config: Config = {
         headerBg: 'rgba(16,16,16,0.8)',
         darkNonSelctIcon: '#444444',
         nonSelectIcon: '#AFAFAF',
+        contentText: 'rgb(243, 245, 247)',
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

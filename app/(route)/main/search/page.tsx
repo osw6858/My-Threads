@@ -1,5 +1,5 @@
 const SearchPage = () => {
-  return <div>검색페이지</div>;
+  return <div className="h-screen">검색페이지</div>;
 };
 
 export default SearchPage;

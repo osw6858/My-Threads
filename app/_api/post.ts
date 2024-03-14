@@ -1,11 +1,9 @@
 import { supabase } from '../_supabase/supabaseClient';
 
-export const getAllPost = async (uuid: string) => {
+export const getAllPost = async () => {
   const { data, error } = await supabase.from('posts').select(`
     *,
-    user: user_id (
-      *
-    ),
+    users(*),
     images(*)
   `);
 

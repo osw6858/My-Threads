@@ -1,13 +1,14 @@
+import Skeleton from '@/app/_components/common/Skeleton';
 import TopPostBar from '@/app/_components/main/TopPostBar';
-import Posts from '@/app/_components/post/Posts';
+import PostList from '@/app/_components/post/PostList';
 import { Suspense } from 'react';
 
 const MainPage = () => {
   return (
-    <div className="">
+    <div className="h-full">
       <TopPostBar />
-      <Suspense fallback={<div>로딩중</div>}>
-        <Posts />
+      <Suspense fallback={<Skeleton />}>
+        <PostList />
       </Suspense>
     </div>
   );
