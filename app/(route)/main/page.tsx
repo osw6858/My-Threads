@@ -7,7 +7,7 @@ const MainPage = () => {
   return (
     <div className="h-full">
       <TopPostBar />
-      <Suspense fallback={<Skeleton />}>
+      <Suspense fallback={<Skeleton count={3} />}>
         <PostList />
       </Suspense>
     </div>

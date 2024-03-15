@@ -7,14 +7,14 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/ko';
 import { PostType } from '@/app/_types/post';
 import { useEffect, useRef, useState } from 'react';
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import Post from './Post';
 
 const PostList = () => {
   const [isFetchingMore, setIsFetchingMore] = useState(false);
   const loader = useRef(null);
 
-  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
+  const { data, fetchNextPage, hasNextPage } = useSuspenseInfiniteQuery({
     queryKey: [GET_ALL_POSTS],
     queryFn: async ({ pageParam }) => {
       const response = await getAllPost(pageParam, 5);

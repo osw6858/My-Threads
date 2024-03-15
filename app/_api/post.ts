@@ -10,7 +10,8 @@ export const getAllPost = async (page = 1, limit = 5) => {
       `
         *,
         users(*),
-        images(*)
+        images(*),
+        likes(user_id)
       `,
       { count: 'exact' },
     )

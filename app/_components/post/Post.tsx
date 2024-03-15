@@ -1,18 +1,25 @@
 import { PostType } from '@/app/_types/post';
-import ReactQuill from 'react-quill';
 import Image from 'next/image';
 import { DEFAULT_PROFIL_IMAGE } from '@/app/_constant/endPoint';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/ko';
 import ImageSlider from '../common/ImageSlider';
-import PostBottomIcon from '../icons/PostBottomIcon';
+import LikeIcon from '../icons/LikeIcon';
 import Link from 'next/link';
 import parse from 'html-react-parser';
+import { useAuthStore } from '@/app/_store/auth';
+import { useState } from 'react';
+import CommentIcon from '../icons/CommentIcon';
 
 const Post = ({ post }: { post: PostType }) => {
   dayjs.extend(relativeTime);
   dayjs.locale('ko');
+  const { userInfo } = useAuthStore();
+  const [likeCount, setLikeCount] = useState<number>(post.likes.length);
+
+  const isLiked =
+    post.likes.find((like) => like.user_id === userInfo.uid) !== undefined;
 
   return (
     <div className="relative mb-3">
@@ -29,7 +36,7 @@ const Post = ({ post }: { post: PostType }) => {
         </picture>
         <div className=" flex flex-col pl-1">
           <div className="pl-2 font-semibold">{post?.users.user_name}</div>
-          <div className="text-black dark:text-contentText my-1">
+          <div className="text-black dark:text-contentText my-1 pl-2">
             {parse(post.content)}
           </div>
         </div>
@@ -55,7 +62,7 @@ const Post = ({ post }: { post: PostType }) => {
       <>
         {post.images.length <= 1 ? (
           post.images.map((image) => (
-            <div className="pl-10" key={image.image_id}>
+            <div className="pl-11" key={image.image_id}>
               <picture>
                 <Image
                   className="rounded-xl"
@@ -87,7 +94,17 @@ const Post = ({ post }: { post: PostType }) => {
           </div>
         )}
       </>
-      <PostBottomIcon />
+      <div className="flex pl-10 mt-5 ">
+        <LikeIcon
+          setLikeCount={setLikeCount}
+          isLiked={isLiked}
+          postId={post.post_id}
+        />
+        <CommentIcon />
+      </div>
+      <div className="pl-10 mt-3 text-sm text-lightFontColor dark:text-darkFontColor">
+        {likeCount > 0 && <span>좋아요 {likeCount}개</span>}
+      </div>
     </div>
   );
 };
