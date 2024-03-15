@@ -30,4 +30,13 @@ export const SIGN_UP_ERROR_MESSAGE = [
     modalId: 'password-lenght-error',
     content: '비밀번호는 최소 6자리 입니다.',
   },
+  {
+    modalId: 'duplicate-nickname',
+    content: '이미 존재하는 닉네임 입니다.',
+  },
 ];
+
+export const SUPABASE_ERROR_MESSAGE = {
+  duplicateNickname:
+    'duplicate key value violates unique constraint "users_user_name_key"',
+};

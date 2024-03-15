@@ -10,8 +10,7 @@ const ImageSlider = ({ children }: { children: ReactNode }) => {
     dots: false,
     infinite: false,
     speed: 500,
-    slidesToShow: 2,
-    slidesToScroll: 1,
+    slidesToShow: 1.5,
   };
   return <Slider {...SilderSettings}>{children}</Slider>;
 };

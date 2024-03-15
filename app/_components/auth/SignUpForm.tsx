@@ -9,7 +9,10 @@ import { useMutation } from '@tanstack/react-query';
 import { signUp } from '@/app/_api/auth';
 import { useRouter } from 'next/navigation';
 import { openModal } from '@/app/_helper/openModal';
-import { SIGN_UP_ERROR_MESSAGE } from '@/app/_constant/modalErrorMessage';
+import {
+  SIGN_UP_ERROR_MESSAGE,
+  SUPABASE_ERROR_MESSAGE,
+} from '@/app/_constant/modalErrorMessage';
 import { useState } from 'react';
 
 const SignUpForm = () => {
@@ -58,6 +61,12 @@ const SignUpForm = () => {
     mutationFn: signUp,
     onSuccess: (data) => {
       if (data?.error !== null) {
+        if (data?.error.message === SUPABASE_ERROR_MESSAGE.duplicateNickname) {
+          openModal('duplicate-nickname');
+          setLoading(false);
+          return;
+        }
+
         openModal('sign-up-error-modal');
         setLoading(false);
         return;
