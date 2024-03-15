@@ -8,6 +8,7 @@ import 'dayjs/locale/ko';
 import ImageSlider from '../common/ImageSlider';
 import PostBottomIcon from '../icons/PostBottomIcon';
 import Link from 'next/link';
+import parse from 'html-react-parser';
 
 const Post = ({ post }: { post: PostType }) => {
   dayjs.extend(relativeTime);
@@ -28,12 +29,9 @@ const Post = ({ post }: { post: PostType }) => {
         </picture>
         <div className=" flex flex-col pl-1">
           <div className="pl-2 font-semibold">{post?.users.user_name}</div>
-          <ReactQuill
-            className="text-black dark:text-contentText my-1"
-            theme="bubble"
-            value={post.content}
-            readOnly
-          />
+          <div className="text-black dark:text-contentText my-1">
+            {parse(post.content)}
+          </div>
         </div>
         <div className="absolute right-0 mb-4">
           <span className="mr-3 text-sm text-darkFontColor">

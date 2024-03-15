@@ -1,21 +1,27 @@
 import { supabase } from '../_supabase/supabaseClient';
 
-export const getAllPost = async () => {
-  const { data, error } = await supabase
+export const getAllPost = async (page = 1, limit = 5) => {
+  const startIndex = (page - 1) * limit;
+  const endIndex = page * limit - 1;
+
+  const { data, error, count } = await supabase
     .from('posts')
     .select(
       `
-    *,
-    users(*),
-    images(*)
-  `,
+        *,
+        users(*),
+        images(*)
+      `,
+      { count: 'exact' },
     )
-    .order('created_at', { ascending: false });
+    .order('created_at', { ascending: false })
+    .range(startIndex, endIndex);
 
   if (error) {
     console.error(error);
+    return { data: null, error };
   }
-  return data;
+  return { data, error, count };
 };
 
 export const uploadImage = async (fileData: { image: File; uuid: string }) => {
