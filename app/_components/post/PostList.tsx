@@ -16,13 +16,13 @@ const PostList = () => {
 
   const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
     queryKey: [GET_ALL_POSTS],
-    queryFn: async ({ pageParam = 1 }) => {
+    queryFn: async ({ pageParam }) => {
       const response = await getAllPost(pageParam, 5);
       return response;
     },
     getNextPageParam: (lastPage, allPages) => {
       const nextPage = allPages.length + 1;
-      const maxPage = Math.ceil(lastPage.count ?? 0 / 10);
+      const maxPage = Math.ceil((lastPage.count ?? 0) / 5);
       return nextPage <= maxPage ? nextPage : undefined;
     },
     initialPageParam: 1,
@@ -61,12 +61,12 @@ const PostList = () => {
   dayjs.locale('ko');
   return (
     <div className={`w-full ${data ? 'h-full' : 'h-screen'} flex flex-col`}>
-      {data?.pages.map((page) => (
-        <>
+      {data?.pages.map((page, i) => (
+        <div key={i}>
           {page.data?.map((post: PostType) => (
             <Post key={post.post_id} post={post} />
           ))}
-        </>
+        </div>
       ))}
       <div
         className="-translate-y-72"
