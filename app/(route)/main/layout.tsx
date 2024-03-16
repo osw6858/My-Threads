@@ -1,4 +1,5 @@
 import TopHeader from '@/app/_components/main/TopHeader';
+import CommentModal from '@/app/_components/post/CommentModal';
 import PostModal from '@/app/_components/post/PostModal';
 import { ReactNode } from 'react';
 

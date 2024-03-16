@@ -9,11 +9,9 @@ import { PostType } from '@/app/_types/post';
 import { useEffect, useRef, useState } from 'react';
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import Post from './Post';
+import useInfiniteScroll from '@/app/_hooks/useInfiniteScroll';
 
 const PostList = () => {
-  const [isFetchingMore, setIsFetchingMore] = useState(false);
-  const loader = useRef(null);
-
   const { data, fetchNextPage, hasNextPage } = useSuspenseInfiniteQuery({
     queryKey: [GET_ALL_POSTS],
     queryFn: async ({ pageParam }) => {
@@ -28,34 +26,7 @@ const PostList = () => {
     initialPageParam: 1,
   });
 
-  useEffect(() => {
-    const handleObserver = (entities: IntersectionObserverEntry[]) => {
-      const target = entities[0];
-      if (target.isIntersecting && !isFetchingMore && hasNextPage) {
-        setIsFetchingMore(true);
-      }
-    };
-
-    const observer = new IntersectionObserver(handleObserver, {
-      root: null,
-      rootMargin: '20px',
-      threshold: 0.1,
-    });
-
-    if (loader.current) {
-      observer.observe(loader.current);
-    }
-
-    return () => {
-      observer.disconnect();
-    };
-  }, [isFetchingMore, hasNextPage]);
-
-  useEffect(() => {
-    if (!isFetchingMore) return;
-
-    fetchNextPage().then(() => setIsFetchingMore(false));
-  }, [isFetchingMore, fetchNextPage]);
+  const { loader } = useInfiniteScroll({ fetchNextPage, hasNextPage });
 
   dayjs.extend(relativeTime);
   dayjs.locale('ko');
@@ -64,7 +35,7 @@ const PostList = () => {
       {data?.pages.map((page, i) => (
         <div key={i}>
           {page.data?.map((post: PostType) => (
-            <Post key={post.post_id} post={post} />
+            <Post key={post.post_id} post={post} isOpenComment={false} />
           ))}
         </div>
       ))}

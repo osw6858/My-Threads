@@ -5,6 +5,7 @@ export const END_POINT = {
   SEARCH: '/main/search',
   ACTIVITY: '/main/activity',
   USER: '/main/user',
+  COMMENT: '/main/comment',
 };
 
 export const STORAGE_ROOT_URL =

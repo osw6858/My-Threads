@@ -14,6 +14,7 @@ export interface ImageType {
 }
 
 export interface PostType {
+  comments: { id: number }[];
   content: string;
   created_at: string;
   images: ImageType[];
@@ -21,4 +22,13 @@ export interface PostType {
   user_id: number;
   users: UserType;
   likes: { user_id: string }[];
+}
+
+export interface CommentType {
+  id: number;
+  content: string;
+  created_at: string;
+  post_id: number;
+  user_id: string;
+  users: { avatar_url: string; id: number; user_name: string };
 }
