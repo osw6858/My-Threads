@@ -60,7 +60,9 @@ const Post = ({
         <div className="pl-3 max-w-[calc(100%_-_30px)]">
           <div className="flex">
             <div className=" flex flex-col pl-1">
-              <div className=" font-semibold">{post?.users?.user_name}</div>
+              <Link href={`${END_POINT.USER}/${post?.users?.user_name}`}>
+                <div className=" font-semibold">{post?.users?.user_name}</div>
+              </Link>
               <div className="text-black dark:text-contentText my-1">
                 {post?.content && parse(post.content)}
               </div>
