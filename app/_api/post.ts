@@ -1,11 +1,30 @@
 import { supabase } from '../_supabase/supabaseClient';
 
-export const getPost = async () => {
-  const { data, error } = await supabase.from('posts').select('*');
+export const getAllPost = async (page = 1, limit = 5) => {
+  const startIndex = (page - 1) * limit;
+  const endIndex = page * limit - 1;
+
+  const { data, error, count } = await supabase
+    .from('posts')
+    .select(
+      `
+        *,
+        users(*),
+        images(*),
+        likes(user_id),
+        comments(id)
+       
+      `,
+      { count: 'exact' },
+    )
+    .order('created_at', { ascending: false })
+    .range(startIndex, endIndex);
+
   if (error) {
-    throw new Error(error.message);
+    console.error(error);
+    return { data: null, error };
   }
-  return data;
+  return { data, error, count };
 };
 
 export const uploadImage = async (fileData: { image: File; uuid: string }) => {
@@ -51,4 +70,97 @@ export const uploadPost = async (postData: {
       console.error('이미지 업로드중 문제 발생', error);
     }
   }
+};
+
+export const getSelectedPost = async (postId: number | undefined) => {
+  const { data, error } = await supabase
+    .from('posts')
+    .select(
+      `
+        *,
+        users(*),
+        images(*),
+        likes(user_id)
+      `,
+    )
+    .eq('post_id', postId)
+    .single();
+
+  if (error) {
+    console.error('게시글 불러오는 중 문제 발생', error);
+  }
+
+  return { data, error };
+};
+
+export const getComments = async (
+  postId: number | undefined,
+  page = 1,
+  limit = 5,
+) => {
+  const startIndex = (page - 1) * limit;
+  const endIndex = page * limit - 1;
+
+  const { data, error, count } = await supabase
+    .from('comments')
+    .select(
+      `
+      *,
+      users (
+        id,
+        user_name,
+        avatar_url
+      )
+    `,
+    )
+    .eq('post_id', postId)
+    .order('created_at', { ascending: false })
+    .range(startIndex, endIndex);
+
+  if (error) {
+    console.error(`댓글 및 사용자 정보 불러오기 에러`, error);
+  }
+
+  return { data, error, count };
+};
+
+export const addComment = async ({
+  content,
+  userId,
+  postId,
+}: {
+  content: string;
+  userId: string;
+  postId: number;
+}) => {
+  const { data, error } = await supabase
+    .from('comments')
+    .insert([{ content: content, user_id: userId, post_id: postId }]);
+
+  if (error) {
+    console.error('댓글 저장 중 오류 발생:', error);
+  }
+
+  return data;
+};
+
+export const removeComment = async ({
+  commentId,
+  userId,
+  postId,
+}: {
+  commentId: number;
+  userId: string;
+  postId: number;
+}) => {
+  const { data, error } = await supabase
+    .from('comments')
+    .delete()
+    .match({ id: commentId, user_id: userId, post_id: postId });
+
+  if (error) {
+    console.error('댓글 삭제 중 오류 발생:', error);
+  }
+
+  return data;
 };

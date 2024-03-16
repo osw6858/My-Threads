@@ -1,12 +1,15 @@
+import Skeleton from '@/app/_components/common/Skeleton';
+import TopPostBar from '@/app/_components/main/TopPostBar';
+import PostList from '@/app/_components/post/PostList';
+import { Suspense } from 'react';
+
 const MainPage = () => {
   return (
-    <div>
-      메인페이지
-      {/* NOTIC: 테스트 컴포넌트 Suspense와 반드시 같이 써야함
-        <Suspense fallback={<div>로딩중</div>}>
-          <Test />
-        </Suspense> 
-      */}
+    <div className="h-full">
+      <TopPostBar />
+      <Suspense fallback={<Skeleton count={3} />}>
+        <PostList />
+      </Suspense>
     </div>
   );
 };

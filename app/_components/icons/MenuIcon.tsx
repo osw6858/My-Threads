@@ -1,6 +1,13 @@
+'use client';
+
+import { supabase } from '@/app/_supabase/supabaseClient';
 import DarkModeBtn from '../common/DarkModeBtn';
 
 const MenuIcon = ({ style }: { style?: string }) => {
+  async function signOut() {
+    await supabase.auth.signOut();
+  }
+
   return (
     <div className="dropdown dropdown-end">
       <div tabIndex={0} role="button" className="mb-3">
@@ -45,7 +52,7 @@ const MenuIcon = ({ style }: { style?: string }) => {
           <span>문제 신고</span>
         </li>
         <li>
-          <span>로그아웃</span>
+          <span onClick={signOut}>로그아웃</span>
         </li>
       </ul>
     </div>

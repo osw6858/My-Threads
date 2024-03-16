@@ -13,7 +13,7 @@ export const getCurrentUser = async (uid: string) => {
     const { data, error } = await supabase
       .from('users')
       .select('*')
-      .eq('id', uid)
+      .eq('uuid', uid)
       .single();
 
     if (error) console.error(error);

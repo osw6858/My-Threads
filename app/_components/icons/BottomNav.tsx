@@ -1,6 +1,7 @@
 'use client';
 
 import { END_POINT } from '@/app/_constant/endPoint';
+import { openModal } from '@/app/_helper/openModal';
 import { useSelect } from '@/app/_hooks/useSelect';
 import Link from 'next/link';
 
@@ -8,7 +9,7 @@ const BottomNav = () => {
   const { select, onSelected } = useSelect();
 
   return (
-    <nav className="fixed bottom-0 left-0 w-screen sm:hidden">
+    <nav className="fixed bottom-0 left-0 w-screen sm:hidden bg-whiteHeaderBg dark:bg-headerBg">
       <div className="grid grid-cols-5 place-items-center py-4">
         <Link href={END_POINT.MAIN}>
           <div className="h-full" onClick={() => onSelected(0)}>
@@ -53,7 +54,7 @@ const BottomNav = () => {
             </svg>
           </div>
         </Link>
-        <div className="h-full">
+        <div className="h-full" onClick={() => openModal('add-post')}>
           <svg
             aria-label="만들기"
             role="img"
@@ -90,7 +91,7 @@ const BottomNav = () => {
               } dark:${
                 select[2]
                   ? 'text-white dark:fill-white'
-                  : 'text-gray-500 dark:fill-darkMode'
+                  : 'text-gray-500 dark:fill-transparent'
               } `}
             >
               <title>알림</title>
@@ -117,7 +118,7 @@ const BottomNav = () => {
               } dark:${
                 select[3]
                   ? 'text-white dark:fill-white'
-                  : 'text-gray-500 dark:fill-darkMode'
+                  : 'text-gray-500 dark:fill-transparent'
               }  cursor-pointer`}
             >
               <title>프로필</title>

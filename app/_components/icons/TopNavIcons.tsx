@@ -3,7 +3,6 @@
 import { END_POINT } from '@/app/_constant/endPoint';
 import { useSelect } from '@/app/_hooks/useSelect';
 import Link from 'next/link';
-import PostModal from '../post/PostModal';
 import { openModal } from '@/app/_helper/openModal';
 
 const TopNavIcons = () => {
@@ -14,7 +13,9 @@ const TopNavIcons = () => {
       <Link href={END_POINT.MAIN}>
         <div
           className="w-full h-full py-5 px-8 rounded-lg cursor-pointer transition duration-300 hover:bg-whiteNav dark:hover:bg-hoverDarkColor"
-          onClick={() => onSelected(0)}
+          onClick={() => {
+            onSelected(0);
+          }}
         >
           <svg
             aria-label="홈"
@@ -70,7 +71,7 @@ const TopNavIcons = () => {
           viewBox="0 0 26 26"
           height="26px"
           width="26px"
-          className={`text-nonSelectIcon fill-white dark:text-darkNonSelctIcon dark:fill-darkMode cursor-pointer`}
+          className={`text-nonSelectIcon fill-transparent dark:text-darkNonSelctIcon dark:fill-transparent cursor-pointer`}
         >
           <title>만들기</title>
           <path
@@ -101,11 +102,11 @@ const TopNavIcons = () => {
             className={`${
               select[2]
                 ? 'text-black fill-black'
-                : 'text-nonSelectIcon fill-white'
+                : 'text-nonSelectIcon fill-transparent'
             } dark:${
               select[2]
                 ? 'text-white dark:fill-white'
-                : 'text-darkNonSelctIcon dark:fill-darkMode'
+                : 'text-darkNonSelctIcon dark:fill-transparent'
             } `}
           >
             <title>알림</title>
@@ -131,11 +132,11 @@ const TopNavIcons = () => {
             className={`${
               select[3]
                 ? 'text-black  fill-black'
-                : 'text-nonSelectIcon fill-white'
+                : 'text-nonSelectIcon fill-transparent'
             } dark:${
               select[3]
                 ? 'text-white dark:fill-white'
-                : 'text-darkNonSelctIcon dark:fill-darkMode'
+                : 'text-darkNonSelctIcon dark:fill-transparent'
             }`}
           >
             <title>프로필</title>
@@ -154,7 +155,6 @@ const TopNavIcons = () => {
           </svg>
         </div>
       </Link>
-      <PostModal modalId={'add-post'} />
     </nav>
   );
 };

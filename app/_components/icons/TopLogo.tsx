@@ -1,12 +1,20 @@
 'use client';
 
+import { GET_ALL_POSTS } from '@/app/_constant/queryKeys';
 import { useSelect } from '@/app/_hooks/useSelect';
+import { useQueryClient } from '@tanstack/react-query';
 
 const TopLogo = ({ style, height }: { style?: string; height: string }) => {
   const { onSelected } = useSelect();
+  const client = useQueryClient();
+
+  const handleClick = () => {
+    onSelected(0);
+    client.invalidateQueries({ queryKey: [GET_ALL_POSTS] });
+  };
 
   return (
-    <div className={`w-[${height}]`} onClick={() => onSelected(0)}>
+    <div className={`w-[${height}]`} onClick={handleClick}>
       <svg
         className={`${style} fill-black dark:fill-white`}
         aria-label="Threads"

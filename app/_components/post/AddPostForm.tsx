@@ -1,11 +1,11 @@
 'use client';
 
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import ReactQuill from 'react-quill';
 import DOMPurify from 'dompurify';
 import PostTooltipIcon from '../icons/PostTooltipIcon';
 import Image from 'next/image';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { uploadImage, uploadPost } from '@/app/_api/post';
 import { useAuthStore } from '@/app/_store/auth';
 import { STORAGE_ROOT_URL } from '@/app/_constant/endPoint';
@@ -14,15 +14,27 @@ import ImageSlider from '../common/ImageSlider';
 import 'react-quill/dist/quill.bubble.css';
 import './style/quillStyle.css';
 import 'slick-carousel/slick/slick.css';
+import { GET_ALL_POSTS } from '@/app/_constant/queryKeys';
 
 export const AddPostForm = () => {
   const [post, setPost] = useState<string | Node>('');
   const [imagePreviewUrls, setImagePreviewUrls] = useState<string[]>([]);
+  const [isEmpty, setIsEmpty] = useState(true);
   const [loading, setLoading] = useState(false);
 
   const { userInfo } = useAuthStore();
 
   const safeHTML = DOMPurify.sanitize(post);
+
+  const client = useQueryClient();
+
+  useEffect(() => {
+    if (post === '' || post === '<p><br></p>') {
+      setIsEmpty(true);
+    } else {
+      setIsEmpty(false);
+    }
+  }, [post]);
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -47,6 +59,10 @@ export const AddPostForm = () => {
   };
 
   const handleSubmit = () => {
+    if (isEmpty) {
+      return;
+    }
+
     const postData = {
       content: safeHTML,
       userId: userInfo.uid,
@@ -65,19 +81,24 @@ export const AddPostForm = () => {
       const url = `${STORAGE_ROOT_URL}${data.data?.path}`;
       setLoading(false);
       setImagePreviewUrls([...imagePreviewUrls, url]);
-      setPost('');
-      setImagePreviewUrls([]);
     },
     onMutate: () => setLoading(true),
   });
 
-  const postUpload = useMutation({ mutationFn: uploadPost });
+  const postUpload = useMutation({
+    mutationFn: uploadPost,
+    onSuccess: () => {
+      setPost('');
+      setImagePreviewUrls([]);
+      client.invalidateQueries({ queryKey: [GET_ALL_POSTS] });
+    },
+  });
 
   return (
     <>
-      <form className="">
+      <form>
         <ReactQuill
-          className="text-black dark:text-white placeholder:text-white"
+          className="text-gray-700 dark:text-gray-400 placeholder:text-nonSelectIcon"
           theme="bubble"
           onChange={setPost}
           placeholder="스레드를 시작하세요..."
@@ -90,13 +111,13 @@ export const AddPostForm = () => {
             </div>
           </div>
         ) : (
-          <div className="p-3">
+          <div className="p-1">
             {imagePreviewUrls.length !== 0 && (
               <ImageSlider>
                 {imagePreviewUrls.map((url, index) => (
                   <picture
-                    className={`w-32 ${
-                      imagePreviewUrls.length > 1 && 'h-56'
+                    className={`${
+                      imagePreviewUrls.length > 1 ? 'h-56' : 'h-auto'
                     } relative`}
                     key={url}
                   >
@@ -105,12 +126,12 @@ export const AddPostForm = () => {
                       src={url}
                       width="500"
                       height="500"
-                      className="w-full p-1 h-full object-cover rounded-lg"
+                      className="w-full p-1 h-full object-cover rounded-xl"
                       alt={`Image preview ${index}`}
                       priority={true}
                     />
                     <div
-                      className="absolute top-0 right-0"
+                      className="absolute top-3 right-3"
                       onClick={() => removeImage(url)}
                     >
                       <RemoveIcon />
@@ -121,8 +142,16 @@ export const AddPostForm = () => {
             )}
           </div>
         )}
-        <label className="cursor-pointer" htmlFor="add-picture">
-          <PostTooltipIcon />
+        <label
+          className="flex items-center cursor-pointer w-16"
+          htmlFor="add-picture"
+        >
+          <div className="">
+            <PostTooltipIcon style="ml-1" />
+          </div>
+          {imagePreviewUrls.length >= 1 && (
+            <span className="text-xs ml-2 text-nonSelectIcon">추가</span>
+          )}
         </label>
         <input
           className="hidden"
@@ -132,10 +161,14 @@ export const AddPostForm = () => {
           onChange={handleImageChange}
         />
       </form>
-      <div className="modal-action">
+      <div className="modal-action absolute bottom-3 right-3 sm:flex sm:static">
         <form method="dialog">
           <button
-            className="btn bg-black dark:bg-white text-white dark:text-black p-4 rounded-2xl"
+            className={`btn  p-4 rounded-2xl ${
+              isEmpty
+                ? 'pointer-events-none cursor-not-allowed bg-gray-500 text-white dark:bg-gray-600 dark:text-white'
+                : 'bg-black dark:bg-white text-white dark:text-black'
+            }`}
             onClick={handleSubmit}
           >
             게시
