@@ -36,7 +36,8 @@ export const SIGN_UP_ERROR_MESSAGE = [
   },
   {
     modalId: 'english-only',
-    content: '닉네임은 영어로만 설정 가능합니다.',
+    content: `닉네임은 영어 알파벳, 숫자, 일부 특수문자
+    (-, _, ., !, ~, *, ', (, ))만 사용 가능합니다.`,
   },
 ];
 
