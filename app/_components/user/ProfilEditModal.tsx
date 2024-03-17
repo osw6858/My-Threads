@@ -7,8 +7,10 @@ import { useForm } from 'react-hook-form';
 import ProfilInput from '../common/ProfilInput';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import {
+  GET_ALL_POSTS,
   GET_CURRENT_USER,
   GET_USER_INFO,
+  GET_USER_POST,
   GET_USER_PROFILE,
   UPDATE_PROFILE,
   UPDATE_PROFILE_IMAGE,
@@ -96,8 +98,19 @@ const ProfilEditModal = ({
         return;
       }
       setSuccess('변경 완료!');
-      client.invalidateQueries({ queryKey: [GET_USER_INFO, Userurl] });
-      client.invalidateQueries({ queryKey: [GET_CURRENT_USER] });
+
+      const queryKeys = [
+        [GET_USER_INFO, Userurl],
+        [GET_CURRENT_USER],
+        [GET_ALL_POSTS, user.uuid],
+        [GET_USER_POST, user.user_name],
+        [GET_USER_PROFILE],
+      ];
+
+      queryKeys.forEach((queryKey) => {
+        client.invalidateQueries({ queryKey });
+      });
+
       route.push(`${END_POINT.USER}/${Userurl}`);
     },
   });

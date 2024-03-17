@@ -25,6 +25,8 @@ export const getFollowedUsersPosts = async (
   const followedUserIds =
     followedUsers && followedUsers.map((user) => user.following_id);
 
+  const userIdsIncludingUser = [...followedUserIds, userId];
+
   const { data, error, count } = await supabase
     .from('posts')
     .select(
@@ -37,7 +39,7 @@ export const getFollowedUsersPosts = async (
       `,
       { count: 'exact' },
     )
-    .in('user_id', followedUserIds)
+    .in('user_id', userIdsIncludingUser)
     .order('created_at', { ascending: false })
     .range(startIndex, endIndex);
 
