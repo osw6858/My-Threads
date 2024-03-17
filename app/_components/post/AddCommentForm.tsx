@@ -31,12 +31,14 @@ const AddCommentForm = ({ postId }: { postId: number }) => {
     };
 
     mutate(commentData);
-    client.invalidateQueries({ queryKey: [GET_ALL_POSTS] });
   };
 
   const { mutate } = useMutation({
     mutationKey: [ADD_COMMENT],
     mutationFn: addComment,
+    onSuccess: () => {
+      client.invalidateQueries({ queryKey: [GET_ALL_POSTS] });
+    },
   });
 
   return (

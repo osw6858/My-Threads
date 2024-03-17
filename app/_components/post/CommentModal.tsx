@@ -43,7 +43,9 @@ const CommentModal = ({
         <h3 className="absolute -top-9 left-52 max-w-24 font-bold text-base  text-white hidden sm:block">
           새로운 댓글
         </h3>
-        <Post post={post.data?.data && post.data?.data} isOpenComment />
+        <div className="max-w-sm">
+          <Post post={post.data?.data && post.data?.data} isOpenComment />
+        </div>
         <div className="avatar flex items-center">
           <div className="w-9 rounded-full">
             <Image

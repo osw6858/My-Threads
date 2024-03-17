@@ -164,3 +164,31 @@ export const removeComment = async ({
 
   return data;
 };
+
+export const getUserPost = async (uuId: string, page = 1, limit = 5) => {
+  const startIndex = (page - 1) * limit;
+  const endIndex = page * limit - 1;
+
+  const { data, error, count } = await supabase
+    .from('posts')
+    .select(
+      `
+        *,
+        users(*),
+        images(*),
+        likes(user_id),
+        comments(id)
+       
+      `,
+      { count: 'exact' },
+    )
+    .eq('user_id', uuId)
+    .order('created_at', { ascending: false })
+    .range(startIndex, endIndex);
+
+  if (error) {
+    console.error(error);
+    return { data: null, error };
+  }
+  return { data, error, count };
+};

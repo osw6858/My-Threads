@@ -4,8 +4,8 @@ import { Suspense } from 'react';
 
 const UserPage = () => {
   return (
-    <div className="h-screen">
-      <Suspense fallback={<Skeleton count={3} />}>
+    <div className="h-full">
+      <Suspense fallback={<Skeleton count={5} />}>
         <UserInfo />
       </Suspense>
     </div>

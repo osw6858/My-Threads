@@ -41,15 +41,19 @@ const Post = ({
       )}
       <div className="flex">
         <div className="w-9 flex flex-col">
-          <picture>
-            <Image
-              className="rounded-full min-w-9"
-              width={100}
-              height={100}
-              src={post?.users?.avatar_url ?? DEFAULT_PROFIL_IMAGE}
-              alt={''}
-            />
-          </picture>
+          <div className="avatar flex items-center">
+            <div className="w-9 rounded-full">
+              <picture>
+                <Image
+                  className="rounded-full min-w-9"
+                  width={100}
+                  height={100}
+                  src={post?.users?.avatar_url ?? DEFAULT_PROFIL_IMAGE}
+                  alt={''}
+                />
+              </picture>
+            </div>
+          </div>
           {post?.comments?.length > 0 || isOpenComment ? (
             <div className="mx-[17.5px] my-3 w-[2px] h-full bg-gray-200 dark:bg-darkBorder" />
           ) : null}

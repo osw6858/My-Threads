@@ -5,7 +5,11 @@ import parse from 'html-react-parser';
 import { useAuthStore } from '@/app/_store/auth';
 import { useEffect, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { DELETE_COMMENT, GET_COMMENT } from '@/app/_constant/queryKeys';
+import {
+  DELETE_COMMENT,
+  GET_ALL_POSTS,
+  GET_COMMENT,
+} from '@/app/_constant/queryKeys';
 import { removeComment } from '@/app/_api/post';
 
 const Comment = ({ comment }: { comment: CommentType }) => {
@@ -34,6 +38,7 @@ const Comment = ({ comment }: { comment: CommentType }) => {
     mutationFn: removeComment,
     onSuccess: () => {
       client.invalidateQueries({ queryKey: [GET_COMMENT, comment.post_id] });
+      client.invalidateQueries({ queryKey: [GET_ALL_POSTS] });
     },
   });
 
