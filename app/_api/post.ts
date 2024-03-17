@@ -1,8 +1,29 @@
 import { supabase } from '../_supabase/supabaseClient';
 
-export const getAllPost = async (page = 1, limit = 5) => {
+export const getFollowedUsersPosts = async (
+  userId: string,
+  page = 1,
+  limit = 5,
+) => {
   const startIndex = (page - 1) * limit;
   const endIndex = page * limit - 1;
+
+  const { data: followedUsers, error: followError } = await supabase
+    .from('follows')
+    .select('following_id')
+    .eq('follower_id', userId);
+
+  if (followError) {
+    console.error(followError);
+    return { data: null, error: followError };
+  }
+
+  if (!followedUsers || followedUsers.length === 0) {
+    return { data: [], error: null, count: 0 };
+  }
+
+  const followedUserIds =
+    followedUsers && followedUsers.map((user) => user.following_id);
 
   const { data, error, count } = await supabase
     .from('posts')
@@ -13,17 +34,19 @@ export const getAllPost = async (page = 1, limit = 5) => {
         images(*),
         likes(user_id),
         comments(id)
-       
       `,
       { count: 'exact' },
     )
+    .in('user_id', followedUserIds)
     .order('created_at', { ascending: false })
     .range(startIndex, endIndex);
 
   if (error) {
     console.error(error);
+
     return { data: null, error };
   }
+
   return { data, error, count };
 };
 

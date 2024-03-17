@@ -7,12 +7,15 @@ import { useForm } from 'react-hook-form';
 import ProfilInput from '../common/ProfilInput';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import {
+  GET_CURRENT_USER,
+  GET_USER_INFO,
   GET_USER_PROFILE,
   UPDATE_PROFILE,
   UPDATE_PROFILE_IMAGE,
 } from '@/app/_constant/queryKeys';
 import { updateProfile, uploadProfilImage } from '@/app/_api/user';
 import { useRouter } from 'next/navigation';
+import { useAuthStore } from '@/app/_store/auth';
 
 const ProfilEditModal = ({
   modalId,
@@ -23,9 +26,11 @@ const ProfilEditModal = ({
 }) => {
   const [profilImage, setProfilImage] = useState(user.avatar_url);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const [changingImage, setChangingImage] = useState(false);
   const [Userurl, setUserUrl] = useState(user.user_name);
   const client = useQueryClient();
+  const { userInfo } = useAuthStore();
   const route = useRouter();
 
   const handleEditProfile = (data: ProfileData) => {
@@ -90,12 +95,12 @@ const ProfilEditModal = ({
         setError('프로필 수정 중 문제 발생');
         return;
       }
-      client.invalidateQueries({ queryKey: [GET_USER_PROFILE] });
+      setSuccess('변경 완료!');
+      client.invalidateQueries({ queryKey: [GET_USER_INFO, Userurl] });
+      client.invalidateQueries({ queryKey: [GET_CURRENT_USER] });
       route.push(`${END_POINT.USER}/${Userurl}`);
     },
   });
-
-  console.log(Userurl);
 
   const { handleSubmit, control } = useForm<ProfileData>({
     defaultValues: {
@@ -116,6 +121,11 @@ const ProfilEditModal = ({
             {error && (
               <p className="pl-3 mb-3 text-sm text-lightFontColor dark:text-darkFontColor">
                 {error}
+              </p>
+            )}
+            {success && (
+              <p className="pl-3 mb-3 text-sm text-lightFontColor dark:text-darkFontColor">
+                {success}
               </p>
             )}
             <div className="flex justify-between items-center">

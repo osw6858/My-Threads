@@ -47,13 +47,17 @@ const Comment = ({ comment }: { comment: CommentType }) => {
       <div className="flex flex-col">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
-            <Image
-              className="rounded-full"
-              width={36}
-              height={36}
-              src={comment.users.avatar_url}
-              alt={''}
-            />
+            <div className="avatar flex items-center">
+              <div className="w-9 rounded-full">
+                <Image
+                  className="rounded-full"
+                  width={36}
+                  height={36}
+                  src={comment.users.avatar_url}
+                  alt={''}
+                />
+              </div>
+            </div>
             <p className="ml-3">{comment.users.user_name}</p>
           </div>
           <div className="dropdown dropdown-end">

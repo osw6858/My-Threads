@@ -4,12 +4,7 @@ import BasicButton from '../common/BasicButton';
 import { useAuthStore } from '@/app/_store/auth';
 import ProfilEditModal from './ProfilEditModal';
 import { openModal } from '@/app/_helper/openModal';
-import {
-  useMutation,
-  useQueries,
-  useQuery,
-  useQueryClient,
-} from '@tanstack/react-query';
+import { useMutation, useQueries, useQueryClient } from '@tanstack/react-query';
 import {
   ADD_FOLLOW,
   GET_FOLLOWERS,
@@ -21,7 +16,6 @@ import {
   getFollowingUsers,
   removeFollowingUser,
 } from '@/app/_api/follows';
-import { useEffect, useState } from 'react';
 
 const UserProfile = ({ user }: { user: UserType }) => {
   const { userInfo } = useAuthStore();
