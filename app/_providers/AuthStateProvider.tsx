@@ -44,6 +44,7 @@ const AuthStateProvider = ({ children }: { children: ReactNode }) => {
         setIsAuth();
         setUserInfo('', '', '');
         router.push(END_POINT.ROOT);
+        router.refresh();
       }
     });
 
