@@ -33,6 +33,7 @@ const AuthStateProvider = ({ children }: { children: ReactNode }) => {
           session?.user.user_metadata.user_name,
         );
         router.push(END_POINT.MAIN);
+        router.refresh();
       } else if (event === 'SIGNED_OUT') {
         // TODO: 추후 테스트 이후 코드 보강이 필요.
 
@@ -49,7 +50,7 @@ const AuthStateProvider = ({ children }: { children: ReactNode }) => {
     return () => {
       subscription.data.subscription.unsubscribe();
     };
-  }, [router, setIsAuth, setUserInfo]);
+  }, [client, router, setIsAuth, setUserInfo]);
 
   return <>{children}</>;
 };
