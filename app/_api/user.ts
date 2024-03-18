@@ -79,3 +79,21 @@ export const updateProfile = async ({
   }
   return { data, error };
 };
+
+export const getUserList = async () => {
+  const { data, error } = await supabase
+    .from('users')
+    .select(
+      `*,
+    follows!fk_following(follower_id)
+    `,
+    )
+    .range(0, 20)
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    console.error('유저를 불러오는 중 에러 발생', error);
+  }
+
+  return { data, error };
+};

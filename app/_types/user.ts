@@ -7,3 +7,7 @@ export interface UserType {
   uuid: string;
   user_intro: string;
 }
+
+export interface SearchedUser extends UserType {
+  follows: { follower_id: string }[];
+}

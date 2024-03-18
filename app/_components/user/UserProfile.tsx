@@ -4,72 +4,36 @@ import BasicButton from '../common/BasicButton';
 import { useAuthStore } from '@/app/_store/auth';
 import ProfilEditModal from './ProfilEditModal';
 import { openModal } from '@/app/_helper/openModal';
-import { useMutation, useQueries, useQueryClient } from '@tanstack/react-query';
-import {
-  ADD_FOLLOW,
-  GET_FOLLOWERS,
-  REMOVE_FOLLOW,
-} from '@/app/_constant/queryKeys';
-import {
-  addfollowUser,
-  getFollowerUser,
-  getFollowingUsers,
-  removeFollowingUser,
-} from '@/app/_api/follows';
+import { useQueries } from '@tanstack/react-query';
+import { GET_FOLLOWERS } from '@/app/_constant/queryKeys';
+import { getFollowerUser, getFollowingUsers } from '@/app/_api/follows';
+import { useFollow } from '@/app/_hooks/useFollow';
 
 const UserProfile = ({ user }: { user: UserType }) => {
   const { userInfo } = useAuthStore();
-  const client = useQueryClient();
 
   const [follower, following] = useQueries({
     queries: [
       {
-        queryKey: [GET_FOLLOWERS],
+        queryKey: [GET_FOLLOWERS, 'follower'],
         queryFn: () => getFollowingUsers(userInfo.uid),
       },
       {
-        queryKey: [GET_FOLLOWERS],
+        queryKey: [GET_FOLLOWERS, 'following'],
         queryFn: () => getFollowerUser(user.uuid),
       },
     ],
-  });
-
-  const followData = {
-    followerId: userInfo.uid,
-    followingId: user.uuid,
-  };
-
-  const addFollow = useMutation({
-    mutationKey: [ADD_FOLLOW],
-    mutationFn: addfollowUser,
-    onSuccess: () => {
-      client.invalidateQueries({ queryKey: [GET_FOLLOWERS] });
-    },
-  });
-
-  const removeFollow = useMutation({
-    mutationKey: [REMOVE_FOLLOW],
-    mutationFn: removeFollowingUser,
-    onSuccess: () => {
-      client.invalidateQueries({ queryKey: [GET_FOLLOWERS] });
-    },
   });
 
   const editProfile = () => {
     openModal('profile-eidt');
   };
 
-  const handAddleFollow = () => {
-    addFollow.mutate(followData);
-  };
-
-  const handleRemoveFollow = () => {
-    removeFollow.mutate(followData);
-  };
-
   const isFollow = follower.data?.some(
     (item) => item.following_id === user.uuid,
   );
+
+  const { handleAddFollow, handleRemoveFollow } = useFollow(user);
 
   return (
     <div className="h-full">
@@ -104,17 +68,17 @@ const UserProfile = ({ user }: { user: UserType }) => {
           <div>
             {isFollow ? (
               <BasicButton
-                style="p-3 w-full  border border-solid border-lightFontColor dark:border-darkBorder text-black dark:text-white bg-transparent dark:bg-transparent"
+                style="p-3 w-full bg-transparent text-gray-900 dark:bg-transparent dark:text-white border border-soild border-nonSelectIcon dark:border-darkBorder "
                 type="button"
                 onClick={handleRemoveFollow}
               >
-                언팔로우
+                팔로잉
               </BasicButton>
             ) : (
               <BasicButton
                 style="p-3 w-full"
                 type="button"
-                onClick={handAddleFollow}
+                onClick={handleAddFollow}
               >
                 팔로우
               </BasicButton>
