@@ -29,6 +29,7 @@ const SignUpForm = () => {
   });
 
   const handleSignUp = (data: SignUpData) => {
+    const regex = /^[A-Za-z0-9\-\._\!~\*'\(\)]+$/;
     if (
       !data.email ||
       !data.userName ||
@@ -46,7 +47,10 @@ const SignUpForm = () => {
       openModal('missmatch-password');
       return;
     }
-
+    if (!regex.test(data.userName)) {
+      openModal('english-only');
+      return;
+    }
     const signUpData = {
       email: data.email,
       password: data.password,

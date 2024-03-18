@@ -34,6 +34,11 @@ export const SIGN_UP_ERROR_MESSAGE = [
     modalId: 'duplicate-nickname',
     content: '이미 존재하는 닉네임 입니다.',
   },
+  {
+    modalId: 'english-only',
+    content: `닉네임은 영어 알파벳, 숫자, 일부 특수문자
+    (-, _, ., !, ~, *, ', (, ))만 사용 가능합니다.`,
+  },
 ];
 
 export const SUPABASE_ERROR_MESSAGE = {

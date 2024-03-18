@@ -1,8 +1,31 @@
 import { supabase } from '../_supabase/supabaseClient';
 
-export const getAllPost = async (page = 1, limit = 5) => {
+export const getFollowedUsersPosts = async (
+  userId: string,
+  page = 1,
+  limit = 5,
+) => {
   const startIndex = (page - 1) * limit;
   const endIndex = page * limit - 1;
+
+  const { data: followedUsers, error: followError } = await supabase
+    .from('follows')
+    .select('following_id')
+    .eq('follower_id', userId);
+
+  if (followError) {
+    console.error(followError);
+    return { data: null, error: followError };
+  }
+
+  if (!followedUsers || followedUsers.length === 0) {
+    return { data: [], error: null, count: 0 };
+  }
+
+  const followedUserIds =
+    followedUsers && followedUsers.map((user) => user.following_id);
+
+  const userIdsIncludingUser = [...followedUserIds, userId];
 
   const { data, error, count } = await supabase
     .from('posts')
@@ -13,17 +36,19 @@ export const getAllPost = async (page = 1, limit = 5) => {
         images(*),
         likes(user_id),
         comments(id)
-       
       `,
       { count: 'exact' },
     )
+    .in('user_id', userIdsIncludingUser)
     .order('created_at', { ascending: false })
     .range(startIndex, endIndex);
 
   if (error) {
     console.error(error);
+
     return { data: null, error };
   }
+
   return { data, error, count };
 };
 
@@ -163,4 +188,54 @@ export const removeComment = async ({
   }
 
   return data;
+};
+
+export const getUserPost = async (uuId: string, page = 1, limit = 5) => {
+  const startIndex = (page - 1) * limit;
+  const endIndex = page * limit - 1;
+
+  const { data, error, count } = await supabase
+    .from('posts')
+    .select(
+      `
+        *,
+        users(*),
+        images(*),
+        likes(user_id),
+        comments(id)
+       
+      `,
+      { count: 'exact' },
+    )
+    .eq('user_id', uuId)
+    .order('created_at', { ascending: false })
+    .range(startIndex, endIndex);
+
+  if (error) {
+    console.error(error);
+    return { data: null, error };
+  }
+  return { data, error, count };
+};
+
+export const searchPost = async (query: string) => {
+  const { data, error } = await supabase
+    .from('posts')
+    .select(
+      `
+        *,
+        users(*),
+        images(*),
+        likes(user_id),
+        comments(id)
+      `,
+    )
+    .ilike('content', `%${query}%`)
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    console.error('포스팅 검색중 에러 발생', error);
+  }
+
+  return { data, error };
 };

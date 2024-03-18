@@ -6,6 +6,7 @@ const logedOutRoute = [
   END_POINT.MAIN,
   END_POINT.SEARCH,
   END_POINT.USER,
+  END_POINT.COMMENT,
   END_POINT.ACTIVITY,
 ];
 const logedInRoute = [END_POINT.ROOT, END_POINT.SIGN_UP];

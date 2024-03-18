@@ -4,9 +4,19 @@ import { END_POINT } from '@/app/_constant/endPoint';
 import { useSelect } from '@/app/_hooks/useSelect';
 import Link from 'next/link';
 import { openModal } from '@/app/_helper/openModal';
+import { useAuthStore } from '@/app/_store/auth';
+import { useQuery } from '@tanstack/react-query';
+import { GET_CURRENT_USER } from '@/app/_constant/queryKeys';
+import { getCurrentUser } from '@/app/_api/user';
 
 const TopNavIcons = () => {
   const { select, onSelected } = useSelect();
+  const { userInfo } = useAuthStore();
+
+  const { data } = useQuery({
+    queryKey: [GET_CURRENT_USER],
+    queryFn: () => getCurrentUser(userInfo.uid),
+  });
 
   return (
     <nav className="hidden sm:flex items-center">
@@ -118,7 +128,7 @@ const TopNavIcons = () => {
           </svg>
         </div>
       </Link>
-      <Link href={END_POINT.USER}>
+      <Link href={`${END_POINT.USER}/${data?.user_name}`}>
         <div
           className="w-full h-full py-5 px-8 rounded-lg cursor-pointer transition duration-300 hover:bg-whiteNav dark:hover:bg-hoverDarkColor"
           onClick={() => onSelected(3)}
