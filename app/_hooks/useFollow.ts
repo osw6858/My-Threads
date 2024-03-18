@@ -6,6 +6,7 @@ import {
   GET_FOLLOWERS,
   GET_USER_LIST,
   REMOVE_FOLLOW,
+  SEARCH_USER,
 } from '../_constant/queryKeys';
 import { addfollowUser, removeFollowingUser } from '../_api/follows';
 
@@ -24,6 +25,7 @@ export const useFollow = (user: UserType) => {
     onSuccess: () => {
       client.invalidateQueries({ queryKey: [GET_FOLLOWERS] });
       client.invalidateQueries({ queryKey: [GET_USER_LIST] });
+      client.invalidateQueries({ queryKey: [SEARCH_USER] });
     },
   });
 
@@ -33,6 +35,7 @@ export const useFollow = (user: UserType) => {
     onSuccess: () => {
       client.invalidateQueries({ queryKey: [GET_FOLLOWERS] });
       client.invalidateQueries({ queryKey: [GET_USER_LIST] });
+      client.invalidateQueries({ queryKey: [SEARCH_USER] });
     },
   });
 

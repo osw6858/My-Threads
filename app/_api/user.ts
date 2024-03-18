@@ -97,3 +97,20 @@ export const getUserList = async () => {
 
   return { data, error };
 };
+
+export const searchUser = async (query: string) => {
+  const { data, error } = await supabase
+    .from('users')
+    .select(
+      `*,
+    follows!fk_following(follower_id)
+    `,
+    )
+    .or(`user_name.ilike.%${query}%,user_intro.ilike.%${query}%`);
+
+  if (error) {
+    console.error('유저 검색중 에러 발생', error);
+  }
+
+  return { data, error };
+};

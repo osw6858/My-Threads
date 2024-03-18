@@ -33,3 +33,7 @@ export const GET_FOLLOWERS = 'getFollowers' as const;
 export const REMOVE_FOLLOW = 'removeFollow' as const;
 
 export const GET_USER_LIST = 'getUserList' as const;
+
+export const SEARCH_USER = 'searchUser' as const;
+
+export const SEARCH_POST = 'searchPost' as const;

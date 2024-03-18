@@ -217,3 +217,25 @@ export const getUserPost = async (uuId: string, page = 1, limit = 5) => {
   }
   return { data, error, count };
 };
+
+export const searchPost = async (query: string) => {
+  const { data, error } = await supabase
+    .from('posts')
+    .select(
+      `
+        *,
+        users(*),
+        images(*),
+        likes(user_id),
+        comments(id)
+      `,
+    )
+    .ilike('content', `%${query}%`)
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    console.error('포스팅 검색중 에러 발생', error);
+  }
+
+  return { data, error };
+};

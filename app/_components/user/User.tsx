@@ -1,10 +1,16 @@
-import { SearchedUser } from '@/app/_types/user';
+import { UserList } from '@/app/_types/user';
 import BasicButton from '../common/BasicButton';
 import Image from 'next/image';
 import { useFollow } from '@/app/_hooks/useFollow';
 import { useAuthStore } from '@/app/_store/auth';
 
-const User = ({ user }: { user: SearchedUser }) => {
+const User = ({
+  user,
+  isSearched,
+}: {
+  user: UserList;
+  isSearched: boolean;
+}) => {
   const { handleAddFollow, handleRemoveFollow } = useFollow(user);
 
   const { userInfo } = useAuthStore();
@@ -31,8 +37,15 @@ const User = ({ user }: { user: SearchedUser }) => {
             <p className="text-lightFontColor  dark:text-darkFontColor">
               {user.user_intro}
             </p>
-            {user.follows.length > 0 && <p>팔로워 {user.follows.length}명</p>}
+            {!isSearched && (
+              <>
+                {user.follows.length > 0 && (
+                  <p>팔로워 {user.follows.length}명</p>
+                )}
+              </>
+            )}
           </div>
+
           <div>
             {isFollow ? (
               <BasicButton

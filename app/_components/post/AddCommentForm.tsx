@@ -1,5 +1,9 @@
 import { addComment, getComments } from '@/app/_api/post';
-import { ADD_COMMENT, GET_ALL_POSTS } from '@/app/_constant/queryKeys';
+import {
+  ADD_COMMENT,
+  GET_ALL_POSTS,
+  SEARCH_POST,
+} from '@/app/_constant/queryKeys';
 import { useAuthStore } from '@/app/_store/auth';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import DOMPurify from 'dompurify';
@@ -38,6 +42,7 @@ const AddCommentForm = ({ postId }: { postId: number }) => {
     mutationFn: addComment,
     onSuccess: () => {
       client.invalidateQueries({ queryKey: [GET_ALL_POSTS] });
+      client.invalidateQueries({ queryKey: [SEARCH_POST] });
     },
   });
 

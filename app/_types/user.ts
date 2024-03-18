@@ -8,6 +8,6 @@ export interface UserType {
   user_intro: string;
 }
 
-export interface SearchedUser extends UserType {
+export interface UserList extends UserType {
   follows: { follower_id: string }[];
 }
