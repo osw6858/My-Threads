@@ -1,12 +1,23 @@
 'use client';
 
+import { getCurrentUser } from '@/app/_api/user';
 import { END_POINT } from '@/app/_constant/endPoint';
+import { GET_CURRENT_USER } from '@/app/_constant/queryKeys';
 import { openModal } from '@/app/_helper/openModal';
 import { useSelect } from '@/app/_hooks/useSelect';
+import { useAuthStore } from '@/app/_store/auth';
+import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 
 const BottomNav = () => {
   const { select, onSelected } = useSelect();
+
+  const { userInfo } = useAuthStore();
+
+  const { data } = useQuery({
+    queryKey: [GET_CURRENT_USER],
+    queryFn: () => getCurrentUser(userInfo.uid),
+  });
 
   return (
     <nav className="fixed bottom-0 left-0 w-screen sm:hidden bg-whiteHeaderBg dark:bg-headerBg">
@@ -103,7 +114,7 @@ const BottomNav = () => {
             </svg>
           </div>
         </Link>
-        <Link href={END_POINT.USER}>
+        <Link href={`${END_POINT.USER}/${data?.user_name}`}>
           <div className="h-full" onClick={() => onSelected(3)}>
             <svg
               aria-label="프로필"

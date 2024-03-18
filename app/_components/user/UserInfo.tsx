@@ -50,7 +50,7 @@ const UserInfo = () => {
   }
 
   return (
-    <div className={`${data ? 'h-full' : 'h-screen'}`}>
+    <div className={`min-h-screen`}>
       <UserProfile user={user.data} />
       <div className="min-h-screen">
         <div className="flex justify-center mt-10">
