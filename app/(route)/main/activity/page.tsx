@@ -1,4 +1,4 @@
-import ActiveList from '@/app/_components/active/activeList';
+import ActiveList from '@/app/_components/active/ActiveList';
 
 const ActivityPage = () => {
   return (

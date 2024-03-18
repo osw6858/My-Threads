@@ -33,7 +33,7 @@ const RealTimeProvider = ({ children }: { children: ReactNode }) => {
     return () => {
       subscription.unsubscribe();
     };
-  }, []);
+  }, [clinet]);
 
   useEffect(() => {
     if (payload) {
