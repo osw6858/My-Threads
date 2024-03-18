@@ -50,7 +50,7 @@ const User = ({
             {isFollow ? (
               <BasicButton
                 onClick={handleRemoveFollow}
-                style="p-2 px-8 bg-transparent text-gray-900 dark:bg-transparent dark:text-white border border-soild border-nonSelectIcon dark:border-darkBorder "
+                style="p-2 px-8 bg-transparent text-gray-900 dark:bg-transparent dark:text-black border border-soild border-nonSelectIcon dark:border-darkBorder "
                 type="button"
               >
                 팔로잉
@@ -58,7 +58,7 @@ const User = ({
             ) : (
               <BasicButton
                 onClick={handleAddFollow}
-                style="p-2 px-8 bg-transparent text-gray-900 dark:bg-transparent dark:text-white border border-soild border-nonSelectIcon dark:border-darkBorder "
+                style="p-2 px-8 bg-transparent text-gray-900 dark:bg-transparent dark:text-black border border-soild border-nonSelectIcon dark:border-darkBorder "
                 type="button"
               >
                 팔로우

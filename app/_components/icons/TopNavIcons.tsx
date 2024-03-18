@@ -8,15 +8,23 @@ import { useAuthStore } from '@/app/_store/auth';
 import { useQuery } from '@tanstack/react-query';
 import { GET_CURRENT_USER } from '@/app/_constant/queryKeys';
 import { getCurrentUser } from '@/app/_api/user';
+import { useEffect, useState } from 'react';
 
 const TopNavIcons = () => {
   const { select, onSelected } = useSelect();
   const { userInfo } = useAuthStore();
+  const [userName, setUserName] = useState('');
 
   const { data } = useQuery({
     queryKey: [GET_CURRENT_USER],
     queryFn: () => getCurrentUser(userInfo.uid),
   });
+
+  useEffect(() => {
+    if (data) {
+      setUserName(data.user_name);
+    }
+  }, [data, data?.user_name]);
 
   return (
     <nav className="hidden sm:flex items-center">
@@ -130,7 +138,7 @@ const TopNavIcons = () => {
           </svg>
         </div>
       </Link>
-      <Link href={`${END_POINT.USER}/${data?.user_name}`}>
+      <Link href={`${END_POINT.USER}/${userName}`}>
         <div
           className="w-full h-full py-5 px-8 rounded-lg cursor-pointer transition duration-300 hover:bg-whiteNav dark:hover:bg-hoverDarkColor"
           onClick={() => onSelected(3)}
