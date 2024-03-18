@@ -101,7 +101,9 @@ const TopNavIcons = () => {
       <Link href={END_POINT.ACTIVITY}>
         <div
           className="w-full h-full py-5 px-8 rounded-lg cursor-pointer transition duration-300 hover:bg-whiteNav dark:hover:bg-hoverDarkColor"
-          onClick={() => onSelected(2)}
+          onClick={() => {
+            onSelected(2);
+          }}
         >
           <svg
             aria-label="알림"

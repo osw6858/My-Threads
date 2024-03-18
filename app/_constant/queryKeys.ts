@@ -37,3 +37,5 @@ export const GET_USER_LIST = 'getUserList' as const;
 export const SEARCH_USER = 'searchUser' as const;
 
 export const SEARCH_POST = 'searchPost' as const;
+
+export const GET_ACTIVE_USER = 'getActiveUser' as const;

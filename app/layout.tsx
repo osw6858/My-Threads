@@ -23,13 +23,13 @@ export default function RootLayout({
       <body
         className={`${inter.className} bg-white dark:bg-darkMode dark:text-white`}
       >
-        <SupabaseProvider>
-          <QueryProviders>
+        <QueryProviders>
+          <SupabaseProvider>
             <MainThemeProvider>
               <AuthStateProvider>{children}</AuthStateProvider>
             </MainThemeProvider>
-          </QueryProviders>
-        </SupabaseProvider>
+          </SupabaseProvider>
+        </QueryProviders>
       </body>
     </html>
   );
