@@ -13,7 +13,7 @@ import { useEffect, useState } from 'react';
 const TopNavIcons = () => {
   const { select, onSelected } = useSelect();
   const { userInfo } = useAuthStore();
-  const [userName, setUserName] = useState('');
+  const [url, setUrl] = useState('');
 
   const { data } = useQuery({
     queryKey: [GET_CURRENT_USER],
@@ -22,7 +22,7 @@ const TopNavIcons = () => {
 
   useEffect(() => {
     if (data) {
-      setUserName(data.user_name);
+      setUrl(`${END_POINT.USER}/${data?.user_name}`);
     }
   }, [data, data?.user_name]);
 
@@ -138,7 +138,7 @@ const TopNavIcons = () => {
           </svg>
         </div>
       </Link>
-      <Link href={`${END_POINT.USER}/${userName}`}>
+      <Link href={url}>
         <div
           className="w-full h-full py-5 px-8 rounded-lg cursor-pointer transition duration-300 hover:bg-whiteNav dark:hover:bg-hoverDarkColor"
           onClick={() => onSelected(3)}
