@@ -7,8 +7,12 @@ import SupabaseProvider from './_providers/SupabaseProvider';
 import { Inter } from 'next/font/google';
 
 export const metadata: Metadata = {
-  title: 'MySNS',
-  description: 'Our SNS',
+  title: 'My-Thread',
+  description:
+    '스레드 서버스를 클론코딩 하여 나만의 스레드 서비스를 만들어 보았습니다.',
+  icons: {
+    icon: '/thread_logo.png',
+  },
 };
 
 const inter = Inter({ subsets: ['latin'] });
