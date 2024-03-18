@@ -2,9 +2,6 @@
 
 import { getFollowedUsersPosts } from '@/app/_api/post';
 import { GET_ALL_POSTS } from '@/app/_constant/queryKeys';
-import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
-import 'dayjs/locale/ko';
 import { PostType } from '@/app/_types/post';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import Post from './Post';
@@ -36,8 +33,6 @@ const PostList = () => {
     return <Skeleton count={3} />;
   }
 
-  dayjs.extend(relativeTime);
-  dayjs.locale('ko');
   return (
     <div className={`w-full ${data ? 'h-full' : 'h-screen'} flex flex-col`}>
       {data?.pages.map((page, i) => (

@@ -2,10 +2,15 @@
 
 import { supabase } from '@/app/_supabase/supabaseClient';
 import DarkModeBtn from '../common/DarkModeBtn';
+import { useQueryClient } from '@tanstack/react-query';
+import { GET_ACTIVE_USER } from '@/app/_constant/queryKeys';
 
 const MenuIcon = ({ style }: { style?: string }) => {
+  const client = useQueryClient();
+
   async function signOut() {
     await supabase.auth.signOut();
+    client.removeQueries({ queryKey: [GET_ACTIVE_USER] });
   }
 
   return (

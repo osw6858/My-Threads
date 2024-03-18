@@ -3,6 +3,7 @@ import { useAuthStore } from '../_store/auth';
 import { UserType } from '../_types/user';
 import {
   ADD_FOLLOW,
+  GET_ALL_POSTS,
   GET_FOLLOWERS,
   GET_USER_LIST,
   REMOVE_FOLLOW,
@@ -26,6 +27,7 @@ export const useFollow = (user: UserType) => {
       client.invalidateQueries({ queryKey: [GET_FOLLOWERS] });
       client.invalidateQueries({ queryKey: [GET_USER_LIST] });
       client.invalidateQueries({ queryKey: [SEARCH_USER] });
+      client.invalidateQueries({ queryKey: [GET_ALL_POSTS] });
     },
   });
 
@@ -36,6 +38,7 @@ export const useFollow = (user: UserType) => {
       client.invalidateQueries({ queryKey: [GET_FOLLOWERS] });
       client.invalidateQueries({ queryKey: [GET_USER_LIST] });
       client.invalidateQueries({ queryKey: [SEARCH_USER] });
+      client.invalidateQueries({ queryKey: [GET_ALL_POSTS] });
     },
   });
 

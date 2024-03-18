@@ -10,12 +10,12 @@ import { UserList } from '@/app/_types/user';
 import { useAuthStore } from '@/app/_store/auth';
 
 const UserList = () => {
+  const { userInfo } = useAuthStore();
+
   const { data } = useQuery({
     queryKey: [GET_USER_LIST],
     queryFn: getUserList,
   });
-
-  const { userInfo } = useAuthStore();
 
   return (
     <div className="flex flex-col mt-3">
