@@ -15,3 +15,5 @@ export const STORAGE_ROOT_URL =
 
 export const DEFAULT_PROFIL_IMAGE =
   'https://ohpldinktpofyatjafei.supabase.co/storage/v1/object/public/images/profile/default-profile.jpeg';
+
+export const DEPLOY_URL = 'https://my-threads-beige.vercel.app/';

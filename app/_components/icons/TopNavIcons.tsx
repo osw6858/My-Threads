@@ -1,6 +1,6 @@
 'use client';
 
-import { END_POINT } from '@/app/_constant/endPoint';
+import { DEPLOY_URL, END_POINT } from '@/app/_constant/endPoint';
 import { useSelect } from '@/app/_hooks/useSelect';
 import Link from 'next/link';
 import { openModal } from '@/app/_helper/openModal';
@@ -22,9 +22,11 @@ const TopNavIcons = () => {
 
   useEffect(() => {
     if (data) {
-      setUrl(`${END_POINT.USER}/${data?.user_name}`);
+      setUrl(`${DEPLOY_URL}/${END_POINT.USER}/${data?.user_name}`);
     }
   }, [data, data?.user_name]);
+
+  console.log(url);
 
   return (
     <nav className="hidden sm:flex items-center">
