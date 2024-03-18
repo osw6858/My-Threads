@@ -6,6 +6,8 @@ export const END_POINT = {
   ACTIVITY: '/main/activity',
   USER: '/main/user',
   COMMENT: '/main/comment',
+  RESET: '/reset',
+  RECOVER: '/reset/recover',
 };
 
 export const STORAGE_ROOT_URL =

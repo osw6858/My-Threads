@@ -9,7 +9,12 @@ const logedOutRoute = [
   END_POINT.COMMENT,
   END_POINT.ACTIVITY,
 ];
-const logedInRoute = [END_POINT.ROOT, END_POINT.SIGN_UP];
+const logedInRoute = [
+  END_POINT.ROOT,
+  END_POINT.SIGN_UP,
+  END_POINT.RESET,
+  END_POINT.RECOVER,
+];
 
 export function middleware(request: NextRequest) {
   const { cookies } = request;

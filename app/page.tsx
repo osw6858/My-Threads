@@ -23,7 +23,11 @@ export default function Home() {
       <div className="flex justify-center items-center flex-col w-[418px] p-6">
         <TopLogo style="sm:hidden mb-10" height="60px" />
         <SignInForm />
-        <TextNav title="비밀번호를 잊으셨나요?" style="mt-3" href={'/main'} />
+        <TextNav
+          title="비밀번호를 잊으셨나요?"
+          style="mt-3"
+          href={END_POINT.RESET}
+        />
         <div className="inline-flex items-center justify-center w-full dark:text-darkFontColor">
           <hr className="h-px w-full my-8 bg-lightFontColor border-0 dark:bg-darkBorder" />
           <span className="absolute px-3 -translate-x-1/2 text-lightFontColor bg-white left-1/2 dark:text-darkFontColor dark:bg-darkMode">

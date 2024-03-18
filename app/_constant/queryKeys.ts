@@ -39,3 +39,7 @@ export const SEARCH_USER = 'searchUser' as const;
 export const SEARCH_POST = 'searchPost' as const;
 
 export const GET_ACTIVE_USER = 'getActiveUser' as const;
+
+export const RESET_PASSWORD = 'resetPassword' as const;
+
+export const UPDATE_PASSWORD = 'updatePassword' as const;
