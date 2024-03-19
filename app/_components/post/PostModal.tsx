@@ -28,7 +28,7 @@ const PostModal = ({ modalId }: ModalProps) => {
 
   return (
     <dialog id={modalId} className="modal modal-bottom sm:modal-middle">
-      <div className="relative modal-box overflow-y-visible p-5 h-screen sm:h-auto">
+      <div className="relative modal-box overflow-y-visible h-4/6 p-5 sm:h-auto">
         <h3 className="absolute -top-9 left-52 max-w-24 font-bold text-base  text-white hidden sm:block">
           새로운 스레드
         </h3>
