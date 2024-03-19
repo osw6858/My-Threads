@@ -50,14 +50,16 @@ const MenuIcon = ({ style }: { style?: string }) => {
         <li>
           <DarkModeBtn></DarkModeBtn>
         </li>
-        <li>
+        {/* <li>
           <span>좋아요</span>
         </li>
         <li>
           <span>문제 신고</span>
-        </li>
+        </li> */}
         <li>
-          <span onClick={signOut}>로그아웃</span>
+          <span className="text-red-500 font-semibold" onClick={signOut}>
+            로그아웃
+          </span>
         </li>
       </ul>
     </div>
