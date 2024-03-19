@@ -2,7 +2,7 @@ import { END_POINT, STORAGE_ROOT_URL } from '@/app/_constant/endPoint';
 import { ProfileData } from '@/app/_types/inputType';
 import { UserType } from '@/app/_types/user';
 import Image from 'next/image';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import ProfilInput from '../common/ProfilInput';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -17,7 +17,8 @@ import {
 } from '@/app/_constant/queryKeys';
 import { updateProfile, uploadProfilImage } from '@/app/_api/user';
 import { useRouter } from 'next/navigation';
-import { useAuthStore } from '@/app/_store/auth';
+import { SUPABASE_ERROR_MESSAGE } from '@/app/_constant/modalErrorMessage';
+import { openModal } from '@/app/_helper/openModal';
 
 const ProfilEditModal = ({
   modalId,
@@ -32,7 +33,6 @@ const ProfilEditModal = ({
   const [changingImage, setChangingImage] = useState(false);
   const [Userurl, setUserUrl] = useState(user.user_name);
   const client = useQueryClient();
-  const { userInfo } = useAuthStore();
   const route = useRouter();
 
   const handleEditProfile = (data: ProfileData) => {
@@ -93,7 +93,12 @@ const ProfilEditModal = ({
     mutationFn: updateProfile,
     onSuccess: (data) => {
       if (data?.error !== null) {
+        if (data?.error.message === SUPABASE_ERROR_MESSAGE.duplicateNickname) {
+          openModal('duplicate-nickname');
+          return;
+        }
         console.log(data?.error.message);
+
         setError('프로필 수정 중 문제 발생');
         return;
       }
