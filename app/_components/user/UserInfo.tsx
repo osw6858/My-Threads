@@ -19,7 +19,28 @@ const UserInfo = () => {
 
   useEffect(() => {
     const user = extractUserName(pathname) ?? 'No_User';
-    setUserName(user);
+
+    const isKoreanOrEnglish = (user: string) => {
+      const decodedName = decodeURIComponent(user);
+
+      const koreanRegex = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+      const englishRegex = /[a-zA-Z]/;
+
+      const isKorean = koreanRegex.test(decodedName);
+      const isEnglish = englishRegex.test(decodedName);
+
+      if (isKorean && !isEnglish) {
+        return decodedName;
+      } else if (isEnglish && !isKorean) {
+        return user;
+      } else {
+        return '';
+      }
+    };
+
+    const decodeUserName = isKoreanOrEnglish(user);
+
+    setUserName(decodeUserName);
   }, [pathname]);
 
   const user = useQuery({
