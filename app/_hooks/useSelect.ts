@@ -4,11 +4,22 @@ import { END_POINT } from '../_constant/endPoint';
 
 export const useSelect = () => {
   const pathname = usePathname();
-  const [select, setSelect] = useState([true, false, false, false]);
+  const [select, setSelect] = useState([false, false, false, false]);
 
   useEffect(() => {
-    if (pathname === END_POINT.MAIN) {
-      setSelect([true, false, false, false]);
+    switch (pathname) {
+      case END_POINT.MAIN:
+        setSelect([true, false, false, false]);
+        break;
+      case END_POINT.SEARCH:
+        setSelect([false, true, false, false]);
+        break;
+      case END_POINT.ACTIVITY:
+        setSelect([false, false, true, false]);
+        break;
+      case END_POINT.USER:
+        setSelect([false, false, false, true]);
+        break;
     }
   }, [pathname]);
 

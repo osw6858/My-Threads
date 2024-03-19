@@ -68,7 +68,7 @@ const UserProfile = ({ user }: { user: UserType }) => {
           <div>
             {isFollow ? (
               <BasicButton
-                style="p-3 w-full bg-transparent text-gray-900 dark:bg-transparent dark:text-white border border-soild border-nonSelectIcon dark:border-darkBorder "
+                style="p-3 w-full opacity-70"
                 type="button"
                 onClick={handleRemoveFollow}
               >

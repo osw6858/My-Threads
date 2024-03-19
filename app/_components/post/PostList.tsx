@@ -8,6 +8,8 @@ import Post from './Post';
 import useInfiniteScroll from '@/app/_hooks/useInfiniteScroll';
 import { useAuthStore } from '@/app/_store/auth';
 import Skeleton from '../common/Skeleton';
+import Link from 'next/link';
+import { END_POINT } from '@/app/_constant/endPoint';
 
 const PostList = () => {
   const { userInfo } = useAuthStore();
@@ -37,9 +39,21 @@ const PostList = () => {
     <div className={`w-full ${data ? 'h-full' : 'h-screen'} flex flex-col`}>
       {data?.pages.map((page, i) => (
         <div className="min-h-screen" key={i}>
-          {page.data?.map((post: PostType) => (
-            <Post key={post.post_id} post={post} isOpenComment={false} />
-          ))}
+          {page.data?.length === 0 ? (
+            <div className="h-screen flex justify-center items-center">
+              <div className="pb-48 text-lg font-semibold">
+                <Link href={END_POINT.SEARCH}>
+                  <p>팔로우 해서 스레드 시작하기</p>
+                </Link>
+              </div>
+            </div>
+          ) : (
+            <>
+              {page.data?.map((post: PostType) => (
+                <Post key={post.post_id} post={post} isOpenComment={false} />
+              ))}
+            </>
+          )}
         </div>
       ))}
       <div

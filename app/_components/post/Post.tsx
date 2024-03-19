@@ -43,15 +43,17 @@ const Post = ({
         <div className="w-9 flex flex-col">
           <div className="avatar flex items-center">
             <div className="w-9 rounded-full">
-              <picture>
-                <Image
-                  className="rounded-full min-w-9"
-                  width={100}
-                  height={100}
-                  src={post?.users?.avatar_url ?? DEFAULT_PROFIL_IMAGE}
-                  alt={''}
-                />
-              </picture>
+              <Link href={`${END_POINT.USER}/${post?.users?.user_name}`}>
+                <picture>
+                  <Image
+                    className="rounded-full min-w-9"
+                    width={100}
+                    height={100}
+                    src={post?.users?.avatar_url ?? DEFAULT_PROFIL_IMAGE}
+                    alt={''}
+                  />
+                </picture>
+              </Link>
             </div>
           </div>
           {post?.comments?.length > 0 || isOpenComment ? (

@@ -29,12 +29,14 @@ const Active = ({ active }: { active: ActiveType }) => {
         <div className="flex justify-between w-full pl-3">
           <div className="grid gap-2">
             <p className="font-semibold">{active.users.user_name}</p>
-            <p className="text-lightFontColor  dark:text-darkFontColor">
+            <p className="text-lightFontColor dark:text-darkFontColor pr-7">
               {active.content}
             </p>
           </div>
           <div>
-            <p className="text-sm">{dayjs(active.created_at).fromNow()}</p>
+            <p className="min-w-[45px] text-sm">
+              {dayjs(active.created_at).fromNow()}
+            </p>
           </div>
         </div>
       </div>
