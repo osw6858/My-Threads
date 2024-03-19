@@ -5,7 +5,6 @@ import QueryProviders from './_providers/QueryProvider';
 import AuthStateProvider from './_providers/AuthStateProvider';
 import SupabaseProvider from './_providers/SupabaseProvider';
 import { Inter } from 'next/font/google';
-import Head from 'next/head';
 
 export const metadata: Metadata = {
   title: 'My-Threads',
@@ -25,12 +24,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko" suppressHydrationWarning>
-      <Head>
-        <meta
-          http-equiv="Content-Security-Policy"
-          content="script-src 'self'"
-        />
-      </Head>
       <body
         className={`${inter.className} bg-white dark:bg-darkMode dark:text-white`}
       >
