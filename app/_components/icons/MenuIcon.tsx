@@ -63,7 +63,10 @@ const MenuIcon = ({ style }: { style?: string }) => {
           <span>문제 신고</span>
         </li> */}
         <li>
-          <span className="text-red-500 font-semibold" onClick={signOut}>
+          <span
+            className="text-darkFontColor dark:text-lightFontColor font-semibold"
+            onClick={signOut}
+          >
             로그아웃
           </span>
         </li>

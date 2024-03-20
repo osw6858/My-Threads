@@ -11,6 +11,15 @@ import { useAuthStore } from '@/app/_store/auth';
 import { useEffect, useState } from 'react';
 import CommentIcon from '../icons/CommentIcon';
 import 'dayjs/locale/ko';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import {
+  GET_ALL_POSTS,
+  GET_SELECTED_POST,
+  GET_USER_POST,
+  REMOVE_POST,
+  SEARCH_POST,
+} from '@/app/_constant/queryKeys';
+import { removePost } from '@/app/_api/post';
 
 const Post = ({
   post,
@@ -21,6 +30,8 @@ const Post = ({
 }) => {
   dayjs.extend(relativeTime);
   dayjs.locale('ko');
+
+  const client = useQueryClient();
   const { userInfo } = useAuthStore();
   const [likeCount, setLikeCount] = useState<number>(post?.likes?.length);
   const [commentCount, setCommentCount] = useState<number>(
@@ -33,6 +44,29 @@ const Post = ({
 
   const isLiked =
     post?.likes?.find((like) => like.user_id === userInfo.uid) !== undefined;
+
+  const handleRemovePost = () => {
+    if (post.users.uuid !== userInfo.uid) {
+      console.log('삭제 중 오류 발생');
+      return;
+    }
+
+    const removePostData = {
+      postId: post.post_id,
+      uuid: userInfo.uid,
+    };
+    mutate(removePostData);
+  };
+
+  const { mutate } = useMutation({
+    mutationKey: [REMOVE_POST],
+    mutationFn: removePost,
+    onSuccess: () => {
+      client.invalidateQueries({ queryKey: [GET_ALL_POSTS] });
+      client.invalidateQueries({ queryKey: [GET_USER_POST] });
+      client.invalidateQueries({ queryKey: [SEARCH_POST] });
+    },
+  });
 
   return (
     <div className="relative mb-3">
@@ -88,9 +122,17 @@ const Post = ({
                   tabIndex={0}
                   className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-28 text-red-600 font-bold"
                 >
-                  <li>
-                    <Link href={''}>신고하기</Link>
-                  </li>
+                  {post?.users?.uuid === userInfo.uid ? (
+                    <li onClick={handleRemovePost}>
+                      <p className="text-darkFontColor dark:text-lightFontColor">
+                        삭제
+                      </p>
+                    </li>
+                  ) : (
+                    <li>
+                      <Link href={''}>신고하기</Link>
+                    </li>
+                  )}
                 </ul>
               </div>
             </div>

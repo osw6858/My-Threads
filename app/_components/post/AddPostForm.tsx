@@ -161,7 +161,7 @@ export const AddPostForm = () => {
           onChange={handleImageChange}
         />
       </form>
-      <div className="modal-action absolute bottom-3 right-3 sm:flex sm:static">
+      <div className="modal-action">
         <form method="dialog">
           <button
             className={`btn  p-4 rounded-2xl ${

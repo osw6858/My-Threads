@@ -97,6 +97,46 @@ export const uploadPost = async (postData: {
   }
 };
 
+export const removePost = async ({
+  postId,
+  uuid,
+}: {
+  postId: number;
+  uuid: string;
+}) => {
+  const { data: comments, error: commentError } = await supabase
+    .from('comments')
+    .delete()
+    .match({ post_id: postId });
+
+  const { data: likes, error: likeError } = await supabase
+    .from('likes')
+    .delete()
+    .match({ post_id: postId });
+
+  const { data: image, error: imageError } = await supabase
+    .from('images')
+    .delete()
+    .match({ post_id: postId });
+
+  const { data: post, error: postError } = await supabase
+    .from('posts')
+    .delete()
+    .match({ post_id: postId, user_id: uuid });
+
+  if (commentError || likeError || imageError || postError) {
+    console.error(
+      '포스트 삭제중 문제 발생',
+      commentError,
+      likeError,
+      imageError,
+      postError,
+    );
+  }
+
+  return { comments, likes, image, post };
+};
+
 export const getSelectedPost = async (postId: number | undefined) => {
   const { data, error } = await supabase
     .from('posts')

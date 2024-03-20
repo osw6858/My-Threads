@@ -18,8 +18,6 @@ const SearchResult = () => {
     enabled: isPostSearch,
   });
 
-  console.log(data);
-
   return (
     <div>
       <SearchInput

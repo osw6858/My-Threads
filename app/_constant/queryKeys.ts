@@ -43,3 +43,5 @@ export const GET_ACTIVE_USER = 'getActiveUser' as const;
 export const RESET_PASSWORD = 'resetPassword' as const;
 
 export const UPDATE_PASSWORD = 'updatePassword' as const;
+
+export const REMOVE_POST = 'removePost' as const;

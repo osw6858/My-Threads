@@ -7,14 +7,14 @@ import { useAuthStore } from '@/app/_store/auth';
 import { useQuery } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
+import Skeleton from '../common/Skeleton';
 
 interface ModalProps {
   modalId: string;
 }
 
-// TODO: 로딩 메시지 개선
 const AddPostForm = dynamic(() => import('../post/AddPostForm'), {
-  loading: () => <div>...loading</div>,
+  loading: () => <Skeleton count={1} />,
   ssr: false,
 });
 
@@ -28,7 +28,7 @@ const PostModal = ({ modalId }: ModalProps) => {
 
   return (
     <dialog id={modalId} className="modal modal-bottom sm:modal-middle">
-      <div className="relative modal-box overflow-y-scroll  p-5 pt-16 min-h-full sm:h-auto">
+      <div className="relative modal-box overflow-y-scroll p-5 pt-16 h-full sm:h-auto">
         <h3 className="absolute -top-9 left-52 max-w-24 font-bold text-base  text-white hidden sm:block">
           새로운 스레드
         </h3>
