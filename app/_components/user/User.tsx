@@ -3,6 +3,8 @@ import BasicButton from '../common/BasicButton';
 import Image from 'next/image';
 import { useFollow } from '@/app/_hooks/useFollow';
 import { useAuthStore } from '@/app/_store/auth';
+import { END_POINT } from '@/app/_constant/endPoint';
+import Link from 'next/link';
 
 const User = ({
   user,
@@ -25,15 +27,19 @@ const User = ({
         <div>
           <div className="avatar flex items-center">
             <div className="w-9 rounded-full">
-              <picture>
-                <Image height={20} width={20} src={user?.avatar_url} alt="" />
-              </picture>
+              <Link href={`${END_POINT.USER}/${user.user_name}`}>
+                <picture>
+                  <Image height={20} width={20} src={user?.avatar_url} alt="" />
+                </picture>
+              </Link>
             </div>
           </div>
         </div>
         <div className="flex justify-between w-full pl-3">
           <div className="grid gap-2">
-            <p className="font-semibold">{user.user_name}</p>
+            <Link href={`${END_POINT.USER}/${user.user_name}`}>
+              <p className="font-semibold">{user.user_name}</p>
+            </Link>
             <p className="text-lightFontColor pr-5  dark:text-darkFontColor">
               {user.user_intro}
             </p>
