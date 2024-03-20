@@ -28,7 +28,7 @@ const PostModal = ({ modalId }: ModalProps) => {
 
   return (
     <dialog id={modalId} className="modal modal-bottom sm:modal-middle">
-      <div className="relative modal-box overflow-y-visible h-4/6 p-5 sm:h-auto">
+      <div className="relative modal-box overflow-y-scroll  p-5 pt-16 min-h-full sm:h-auto">
         <h3 className="absolute -top-9 left-52 max-w-24 font-bold text-base  text-white hidden sm:block">
           새로운 스레드
         </h3>
@@ -46,7 +46,25 @@ const PostModal = ({ modalId }: ModalProps) => {
         <div className="p-3">
           <AddPostForm />
         </div>
+        <form method="dialog">
+          <button className="btn btn-sm btn-circle btn-ghost absolute left-5 top-3">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="25"
+              height="25"
+              fill="currentColor"
+              className="cursor-pointer transform transition duration-200 hover:scale-125"
+              viewBox="0 0 16 16"
+            >
+              <path
+                fillRule="evenodd"
+                d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"
+              />
+            </svg>
+          </button>
+        </form>
       </div>
+
       <form method="dialog" className="modal-backdrop">
         <button>닫기</button>
       </form>

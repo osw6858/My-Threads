@@ -56,7 +56,7 @@ const AddCommentForm = ({ postId }: { postId: number }) => {
           placeholder="댓글을 달아 주세요..."
         />
       </form>
-      <div className="modal-action absolute bottom-3 right-3 sm:flex sm:static">
+      <div className="modal-action">
         <form method="dialog">
           <button
             className={`btn  p-4 rounded-2xl ${
