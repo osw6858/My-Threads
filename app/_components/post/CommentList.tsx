@@ -19,8 +19,10 @@ import useInfiniteScroll from '@/app/_hooks/useInfiniteScroll';
 import Comment from './Comment';
 import { useRouter } from 'next/navigation';
 import { END_POINT } from '@/app/_constant/endPoint';
+import useScrollToTop from '@/app/_hooks/scrollTop';
 
 const CommentList = () => {
+  useScrollToTop();
   const pathname = usePathname();
   const router = useRouter();
   const client = useQueryClient();
