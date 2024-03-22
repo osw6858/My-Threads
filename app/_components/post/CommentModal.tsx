@@ -39,7 +39,7 @@ const CommentModal = ({
 
   return (
     <dialog id={modalId} className="modal modal-bottom sm:modal-middle">
-      <div className="relative modal-box overflow-y-scroll p-5 pt-16 min-h-full sm:h-auto">
+      <div className="relative modal-box overflow-y-scroll p-5 pt-16 h-full sm:h-auto">
         <h3 className="absolute -top-9 left-52 max-w-24 font-bold text-base  text-white hidden sm:block">
           새로운 댓글
         </h3>
