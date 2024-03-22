@@ -14,7 +14,6 @@ import 'dayjs/locale/ko';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   GET_ALL_POSTS,
-  GET_SELECTED_POST,
   GET_USER_POST,
   REMOVE_POST,
   SEARCH_POST,
@@ -178,15 +177,15 @@ const Post = ({
                 <LikeIcon
                   setLikeCount={setLikeCount}
                   isLiked={isLiked}
-                  postId={post.post_id}
+                  postId={post?.post_id}
                 />
-                <CommentIcon postId={post.post_id} />
+                <CommentIcon postId={post?.post_id} />
               </div>
               <div className=" mt-3 text-sm text-lightFontColor dark:text-darkFontColor">
                 {likeCount > 0 && <span>좋아요 {likeCount}개</span>}
                 <Link
                   className="ml-3"
-                  href={`${END_POINT.COMMENT}/${post.post_id}`}
+                  href={`${END_POINT.COMMENT}/${post?.post_id}`}
                 >
                   {post?.comments?.length > 0 && (
                     <span>댓글{commentCount}개</span>

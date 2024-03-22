@@ -179,7 +179,7 @@ export const getComments = async (
     `,
     )
     .eq('post_id', postId)
-    .order('created_at', { ascending: false })
+    .order('created_at', { ascending: true })
     .range(startIndex, endIndex);
 
   if (error) {
