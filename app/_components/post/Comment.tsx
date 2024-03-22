@@ -11,6 +11,7 @@ import {
   GET_COMMENT,
 } from '@/app/_constant/queryKeys';
 import { removeComment } from '@/app/_api/post';
+import { END_POINT } from '@/app/_constant/endPoint';
 
 const Comment = ({ comment }: { comment: CommentType }) => {
   const { userInfo } = useAuthStore();
@@ -49,16 +50,22 @@ const Comment = ({ comment }: { comment: CommentType }) => {
           <div className="flex items-center">
             <div className="avatar flex items-center">
               <div className="w-9 rounded-full">
-                <Image
-                  className="rounded-full"
-                  width={36}
-                  height={36}
-                  src={comment.users.avatar_url}
-                  alt={''}
-                />
+                <Link href={`${END_POINT.USER}/${comment.users.user_name}`}>
+                  <picture>
+                    <Image
+                      className="rounded-full"
+                      width={36}
+                      height={36}
+                      src={comment.users.avatar_url}
+                      alt={''}
+                    />
+                  </picture>
+                </Link>
               </div>
             </div>
-            <p className="ml-3">{comment.users.user_name}</p>
+            <Link href={`${END_POINT.USER}/${comment.users.user_name}`}>
+              <p className="ml-3">{comment.users.user_name}</p>
+            </Link>
           </div>
           <div className="dropdown dropdown-end">
             <span tabIndex={0} role="button">
@@ -80,6 +87,7 @@ const Comment = ({ comment }: { comment: CommentType }) => {
             </ul>
           </div>
         </div>
+
         <div className="mt-2 pl-11">{parse(comment.content)}</div>
       </div>
     </div>
