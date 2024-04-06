@@ -11,6 +11,10 @@ export const SIGN_IN_ERROR_MESSAGE = [
     modalId: 'sign_in_error_modal',
     content: '로그인중 오류가 발생했습니다. 잠시후 다시 시도해 주세요.',
   },
+  {
+    modalId: 'email-verified',
+    content: `이메일 인증을 먼저 진행해 주세요.`,
+  },
 ];
 
 export const SIGN_UP_ERROR_MESSAGE = [

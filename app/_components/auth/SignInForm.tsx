@@ -34,7 +34,12 @@ const SignInForm = () => {
   const { mutate } = useMutation({
     mutationFn: signInWhithEmail,
     onSuccess: (data) => {
-      // console.log(data?.error?.message);
+      console.log(data?.error?.message);
+      if (data?.error?.message === 'Email not confirmed') {
+        openModal('email-verified');
+        return;
+      }
+
       if (data?.error !== null) {
         openModal('incorrect_error_modal');
         return;
