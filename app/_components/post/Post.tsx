@@ -20,7 +20,6 @@ import {
 } from '@/app/_constant/queryKeys';
 import { removePost } from '@/app/_api/post';
 import { useActive } from '@/app/_hooks/useActive';
-import ActiveIconNav from '../icons/ActiveIconsNav';
 
 const Post = ({
   post,
@@ -38,10 +37,17 @@ const Post = ({
     likeCounts: post?.likes?.length,
     commentCounts: post?.comments?.length,
   });
+  const [isUsersPost, setIsUserPost] = useState<boolean>();
 
   useEffect(() => {
     setCommentCount(post?.comments?.length);
-  }, [post?.comments?.length, setCommentCount]);
+    setIsUserPost(post?.users?.uuid === userInfo.uid);
+  }, [
+    post?.comments?.length,
+    post?.users?.uuid,
+    setCommentCount,
+    userInfo.uid,
+  ]);
 
   const isLiked =
     post?.likes?.find((like) => like.user_id === userInfo.uid) !== undefined;
@@ -123,15 +129,15 @@ const Post = ({
                   tabIndex={0}
                   className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-28 text-red-600 font-bold"
                 >
-                  {post?.users?.uuid === userInfo.uid ? (
+                  {isUsersPost ? (
                     <li onClick={handleRemovePost}>
-                      <p className="text-darkFontColor dark:text-lightFontColor">
+                      <span className="text-darkFontColor dark:text-lightFontColor">
                         삭제
-                      </p>
+                      </span>
                     </li>
                   ) : (
                     <li>
-                      <Link href={''}>신고하기</Link>
+                      <span>신고하기</span>
                     </li>
                   )}
                 </ul>
@@ -174,13 +180,25 @@ const Post = ({
             )}
           </div>
           {!isOpenComment && (
-            <ActiveIconNav
-              setLikeCount={setLikeCount}
-              isLiked={isLiked}
-              postId={post?.post_id}
-              likeCount={likeCount}
-              commentCount={commentCount}
-            />
+            <>
+              <div className="flex  mt-5 ">
+                <LikeIcon
+                  setLikeCount={setLikeCount}
+                  isLiked={isLiked}
+                  postId={post?.post_id}
+                />
+                <CommentIcon postId={post?.post_id} />
+              </div>
+              <div className=" mt-3 text-sm text-lightFontColor dark:text-darkFontColor">
+                {likeCount > 0 && <span>좋아요 {likeCount}개</span>}
+                <Link
+                  className="ml-3"
+                  href={`${END_POINT.COMMENT}/${post?.post_id}`}
+                >
+                  {commentCount > 0 && <span>댓글{commentCount}개</span>}
+                </Link>
+              </div>
+            </>
           )}
         </div>
       </div>

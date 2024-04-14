@@ -76,12 +76,11 @@ const Comment = ({ comment }: { comment: CommentType }) => {
               className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-28 text-red-600 font-bold"
             >
               <li>
-                <Link href={''}>신고하기</Link>
+                <span>신고하기</span>
               </li>
-
               {isCommentUser && (
                 <li onClick={handleComment}>
-                  <p>삭제</p>
+                  <span>삭제</span>
                 </li>
               )}
             </ul>
