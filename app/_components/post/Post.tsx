@@ -19,6 +19,8 @@ import {
   SEARCH_POST,
 } from '@/app/_constant/queryKeys';
 import { removePost } from '@/app/_api/post';
+import { useActive } from '@/app/_hooks/useActive';
+import ActiveIconNav from '../icons/ActiveIconsNav';
 
 const Post = ({
   post,
@@ -32,14 +34,14 @@ const Post = ({
 
   const client = useQueryClient();
   const { userInfo } = useAuthStore();
-  const [likeCount, setLikeCount] = useState<number>(post?.likes?.length);
-  const [commentCount, setCommentCount] = useState<number>(
-    post?.comments?.length,
-  );
+  const { likeCount, setLikeCount, commentCount, setCommentCount } = useActive({
+    likeCounts: post?.likes?.length,
+    commentCounts: post?.comments?.length,
+  });
 
   useEffect(() => {
     setCommentCount(post?.comments?.length);
-  }, [post?.comments?.length]);
+  }, [post?.comments?.length, setCommentCount]);
 
   const isLiked =
     post?.likes?.find((like) => like.user_id === userInfo.uid) !== undefined;
@@ -172,27 +174,13 @@ const Post = ({
             )}
           </div>
           {!isOpenComment && (
-            <>
-              <div className="flex  mt-5 ">
-                <LikeIcon
-                  setLikeCount={setLikeCount}
-                  isLiked={isLiked}
-                  postId={post?.post_id}
-                />
-                <CommentIcon postId={post?.post_id} />
-              </div>
-              <div className=" mt-3 text-sm text-lightFontColor dark:text-darkFontColor">
-                {likeCount > 0 && <span>좋아요 {likeCount}개</span>}
-                <Link
-                  className="ml-3"
-                  href={`${END_POINT.COMMENT}/${post?.post_id}`}
-                >
-                  {post?.comments?.length > 0 && (
-                    <span>댓글{commentCount}개</span>
-                  )}
-                </Link>
-              </div>
-            </>
+            <ActiveIconNav
+              setLikeCount={setLikeCount}
+              isLiked={isLiked}
+              postId={post?.post_id}
+              likeCount={likeCount}
+              commentCount={commentCount}
+            />
           )}
         </div>
       </div>
