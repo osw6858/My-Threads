@@ -1,6 +1,6 @@
 import Skeleton from '@/app/_components/common/Skeleton';
 import { Suspense } from 'react';
-import CommentList from '@/app/_components/post/CommentList';
+import CommentList from '@/app/_components/comment/CommentList';
 
 const CommentPage = () => {
   return (

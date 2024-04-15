@@ -13,7 +13,7 @@ import {
   useQueryClient,
 } from '@tanstack/react-query';
 import { usePathname } from 'next/navigation';
-import Post from './Post';
+import Post from '../post/Post';
 import { extractNumberFromUrl } from '@/app/_helper/extractNumberFromUrl';
 import useInfiniteScroll from '@/app/_hooks/useInfiniteScroll';
 import Comment from './Comment';

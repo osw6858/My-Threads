@@ -8,7 +8,7 @@ import { useQueries } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { getSelectedPost } from '@/app/_api/post';
-import Post from './Post';
+import Post from '../post/Post';
 
 const AddCommentForm = dynamic(() => import('../post/AddCommentForm'), {
   loading: () => <div>...loading</div>,

@@ -1,7 +1,7 @@
 import { GET_COMMENT, GET_SELECTED_POST } from '@/app/_constant/queryKeys';
 import { openModal } from '@/app/_helper/openModal';
 import { useQueryClient } from '@tanstack/react-query';
-import CommentModal from '../post/CommentModal';
+import CommentModal from '../comment/CommentModal';
 
 const CommentIcon = ({ postId }: { postId: number }) => {
   const client = useQueryClient();
