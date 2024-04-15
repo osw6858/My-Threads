@@ -23,5 +23,7 @@ export interface CommentType {
   created_at: string;
   post_id: number;
   user_id: string;
+  parent_id: number;
+  replies: CommentType[];
   users: { avatar_url: string; id: number; user_name: string };
 }

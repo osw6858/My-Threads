@@ -158,6 +158,38 @@ export const getSelectedPost = async (postId: number | undefined) => {
   return { data, error };
 };
 
+const fetchCommentsWithReplies = async (
+  parentId: number,
+  postId: number | null,
+) => {
+  const { data: comments, error } = await supabase
+    .from('comments')
+    .select(
+      `
+      *,
+      users (
+        id,
+        user_name,
+        avatar_url
+      )
+    `,
+    )
+    .eq(parentId ? 'parent_id' : 'post_id', parentId ? parentId : postId)
+    .order('created_at', { ascending: true });
+
+  if (error) {
+    console.error(`댓글 불러오기 에러: `, error);
+    return [];
+  }
+
+  // 각 댓글에 대해 재귀적으로 하위 댓글을 조회
+  for (const comment of comments) {
+    comment.replies = await fetchCommentsWithReplies(comment.id, null);
+  }
+
+  return comments;
+};
+
 export const getComments = async (
   postId: number | undefined,
   page = 1,
@@ -166,7 +198,11 @@ export const getComments = async (
   const startIndex = (page - 1) * limit;
   const endIndex = page * limit - 1;
 
-  const { data, error, count } = await supabase
+  const {
+    data: parentComments,
+    error: parentError,
+    count,
+  } = await supabase
     .from('comments')
     .select(
       `
@@ -179,14 +215,24 @@ export const getComments = async (
     `,
     )
     .eq('post_id', postId)
+    .is('parent_id', null)
     .order('created_at', { ascending: true })
     .range(startIndex, endIndex);
 
-  if (error) {
-    console.error(`댓글 및 사용자 정보 불러오기 에러`, error);
+  if (parentError) {
+    console.error(`상위 댓글 불러오기 에러`, parentError);
+    return { data: null, error: parentError, count: 0 };
   }
 
-  return { data, error, count };
+  // 각 상위 댓글에 대해 재귀적으로 하위 댓글을 조회
+  const commentsWithReplies = await Promise.all(
+    parentComments.map(async (comment) => {
+      comment.replies = await fetchCommentsWithReplies(comment.id, null);
+      return comment;
+    }),
+  );
+
+  return { data: commentsWithReplies, error: null, count };
 };
 
 export const addComment = async ({

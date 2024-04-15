@@ -60,7 +60,7 @@ const CommentList = () => {
   const { loader } = useInfiniteScroll({ fetchNextPage, hasNextPage });
 
   return (
-    <div className="h-screen">
+    <div className="h-full">
       <div className="my-5" onClick={goBack}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -76,7 +76,9 @@ const CommentList = () => {
           />
         </svg>
       </div>
-      <Post post={post.data?.data && postData} isOpenComment={false} />
+      {postData && (
+        <Post post={post.data?.data && postData} isOpenComment={false} />
+      )}
       {data?.pages.map((comments, i) => (
         <div key={i}>
           {comments.data?.map((comment: CommentType) => (

@@ -50,8 +50,10 @@ const Comment = ({ comment }: { comment: CommentType }) => {
     },
   });
 
+  console.log(comment);
+
   return (
-    <div key={comment.id} className="my-10">
+    <div key={comment.id} className="">
       <div className="flex flex-col">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
@@ -93,29 +95,43 @@ const Comment = ({ comment }: { comment: CommentType }) => {
             </ul>
           </div>
         </div>
-        <div className="mt-2 pl-11">
-          {parse(comment.content)}
-          <>
-            <div className="flex  mt-5 ">
-              <LikeIcon
-                setLikeCount={setLikeCount}
-                isLiked={false}
-                id={comment.post_id}
-              />
-              <CommentIcon id={comment?.post_id} />
-            </div>
-            <div className=" mt-3 text-sm text-lightFontColor dark:text-darkFontColor">
-              {likeCount > 0 && <span>좋아요 {likeCount}개</span>}
-              <Link
-                className="ml-3"
-                href={`${END_POINT.COMMENT}/${comment?.post_id}`}
-              >
-                {commentCount > 0 && <span>댓글{commentCount}개</span>}
-              </Link>
-            </div>
-          </>
+        <div className="flex mb-3">
+          <div className="flex justify-center w-9 mt-2">
+            {comment.replies?.length > 0 && (
+              <div className="w-[2px] min-h-4 bg-gray-200  dark:bg-darkBorder" />
+            )}
+          </div>
+          <div className="mt-1 pl-3">
+            {parse(comment.content)}
+            <>
+              <div className="flex  mt-5">
+                <LikeIcon
+                  setLikeCount={setLikeCount}
+                  isLiked={false}
+                  id={comment.post_id}
+                />
+                <CommentIcon id={comment?.post_id} />
+              </div>
+              <div className=" mt-3 text-sm text-lightFontColor dark:text-darkFontColor">
+                {likeCount > 0 && <span>좋아요 {likeCount}개</span>}
+                <Link
+                  className="ml-3"
+                  href={`${END_POINT.COMMENT}/${comment?.post_id}`}
+                >
+                  {commentCount > 0 && <span>댓글{commentCount}개</span>}
+                </Link>
+              </div>
+            </>
+          </div>
         </div>
       </div>
+      {comment.replies &&
+        comment.replies.map((reply) => (
+          <Comment key={reply.id} comment={reply} />
+        ))}
+      {comment.parent_id === null && (
+        <hr className="border-gray-200 dark:border-gray-800 pb-4" />
+      )}
     </div>
   );
 };

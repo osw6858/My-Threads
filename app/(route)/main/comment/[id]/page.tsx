@@ -4,7 +4,7 @@ import CommentList from '@/app/_components/comment/CommentList';
 
 const CommentPage = () => {
   return (
-    <div className="h-screen">
+    <div className="min-h-screen">
       <Suspense fallback={<Skeleton count={1} />}>
         <CommentList />
       </Suspense>
