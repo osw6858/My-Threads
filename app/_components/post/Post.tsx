@@ -180,11 +180,12 @@ const Post = ({
             <>
               <div className="flex  mt-5 ">
                 <LikeIcon
+                  isComment={false}
                   setLikeCount={setLikeCount}
                   isLiked={isLiked}
                   id={post?.post_id}
                 />
-                <CommentIcon id={post?.post_id} />
+                <CommentIcon isReply={false} id={post?.post_id} />
               </div>
               <div className=" mt-3 text-sm text-lightFontColor dark:text-darkFontColor">
                 {likeCount > 0 && <span>좋아요 {likeCount}개</span>}

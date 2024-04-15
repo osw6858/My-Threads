@@ -3,15 +3,17 @@ import { openModal } from '@/app/_helper/openModal';
 import { useQueryClient } from '@tanstack/react-query';
 import CommentModal from '../comment/CommentModal';
 
-const CommentIcon = ({ id }: { id: number }) => {
+const CommentIcon = ({ id, isReply }: { id: number; isReply: boolean }) => {
   const client = useQueryClient();
 
   const handleComment = () => {
-    client.removeQueries({ queryKey: [GET_SELECTED_POST, id] });
-    client.removeQueries({
-      queryKey: [GET_COMMENT, id],
-    });
-    openModal(`open-comment-modal${id}`);
+    if (!isReply) {
+      client.removeQueries({ queryKey: [GET_SELECTED_POST, id] });
+      client.removeQueries({
+        queryKey: [GET_COMMENT, id],
+      });
+      openModal(`open-comment-modal${id}`);
+    }
   };
 
   return (

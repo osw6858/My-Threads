@@ -9,10 +9,12 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 const LikeIcon = ({
+  isComment,
   isLiked,
   id,
   setLikeCount,
 }: {
+  isComment: boolean;
   isLiked: boolean;
   id: number;
   setLikeCount: Dispatch<SetStateAction<number>>;
@@ -28,15 +30,17 @@ const LikeIcon = ({
   }, []);
 
   const handleLike = () => {
-    if (!like) {
-      addLikeMutation.mutate({ userId: userInfo.uid, postId: id });
-      setLikeCount((prev) => prev + 1);
-    } else {
-      removeLikeMutation.mutate({ userId: userInfo.uid, postId: id });
-      setLikeCount((prev) => prev - 1);
+    if (!isComment) {
+      if (!like) {
+        addLikeMutation.mutate({ userId: userInfo.uid, postId: id });
+        setLikeCount((prev) => prev + 1);
+      } else {
+        removeLikeMutation.mutate({ userId: userInfo.uid, postId: id });
+        setLikeCount((prev) => prev - 1);
+      }
+      client.invalidateQueries({ queryKey: [GET_ALL_POSTS] });
+      setLike(!like);
     }
-    client.invalidateQueries({ queryKey: [GET_ALL_POSTS] });
-    setLike(!like);
   };
 
   const addLikeMutation = useMutation({
