@@ -20,6 +20,7 @@ const TopPostBar = () => {
           </BasicButton>
         </div>
       </div>
+      <hr className="border-gray-200 dark:border-gray-800 my-5" />
     </>
   );
 };

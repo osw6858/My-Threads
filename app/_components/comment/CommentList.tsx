@@ -76,7 +76,7 @@ const CommentList = () => {
           />
         </svg>
       </div>
-      <Post post={post.data?.data && postData} isOpenComment />
+      <Post post={post.data?.data && postData} isOpenComment={false} />
       {data?.pages.map((comments, i) => (
         <div key={i}>
           {comments.data?.map((comment: CommentType) => (

@@ -77,9 +77,6 @@ const Post = ({
 
   return (
     <div className="relative mb-3">
-      {!isOpenComment && (
-        <hr className="border-gray-200 dark:border-gray-800 my-5" />
-      )}
       <div className="flex">
         <div className="w-9 flex flex-col">
           <div className="avatar flex items-center">
@@ -202,6 +199,9 @@ const Post = ({
           )}
         </div>
       </div>
+      {!isOpenComment && (
+        <hr className="border-gray-200 dark:border-gray-800 my-5" />
+      )}
     </div>
   );
 };
