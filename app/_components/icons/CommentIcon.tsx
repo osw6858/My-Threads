@@ -3,15 +3,15 @@ import { openModal } from '@/app/_helper/openModal';
 import { useQueryClient } from '@tanstack/react-query';
 import CommentModal from '../comment/CommentModal';
 
-const CommentIcon = ({ postId }: { postId: number }) => {
+const CommentIcon = ({ id }: { id: number }) => {
   const client = useQueryClient();
 
   const handleComment = () => {
-    client.removeQueries({ queryKey: [GET_SELECTED_POST, postId] });
+    client.removeQueries({ queryKey: [GET_SELECTED_POST, id] });
     client.removeQueries({
-      queryKey: [GET_COMMENT, postId],
+      queryKey: [GET_COMMENT, id],
     });
-    openModal(`open-comment-modal${postId}`);
+    openModal(`open-comment-modal${id}`);
   };
 
   return (
@@ -27,7 +27,7 @@ const CommentIcon = ({ postId }: { postId: number }) => {
         <title>답글</title>
         <path d="M20.656 17.008a9.993 9.993 0 1 0-3.59 3.615L22 22Z"></path>
       </svg>
-      <CommentModal modalId={`open-comment-modal${postId}`} postId={postId} />
+      <CommentModal modalId={`open-comment-modal${id}`} postId={id} />
     </div>
   );
 };

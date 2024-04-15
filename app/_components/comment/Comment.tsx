@@ -12,12 +12,19 @@ import {
 } from '@/app/_constant/queryKeys';
 import { removeComment } from '@/app/_api/post';
 import { END_POINT } from '@/app/_constant/endPoint';
+import LikeIcon from '../icons/LikeIcon';
+import CommentIcon from '../icons/CommentIcon';
+import { useActive } from '@/app/_hooks/useActive';
 
 const Comment = ({ comment }: { comment: CommentType }) => {
   const { userInfo } = useAuthStore();
   const [isCommentUser, setIsCommentUser] = useState(false);
 
   const client = useQueryClient();
+  const { likeCount, setLikeCount, commentCount, setCommentCount } = useActive({
+    likeCounts: 10,
+    commentCounts: 10,
+  });
 
   useEffect(() => {
     if (userInfo.uid === comment.user_id) {
@@ -86,8 +93,28 @@ const Comment = ({ comment }: { comment: CommentType }) => {
             </ul>
           </div>
         </div>
-
-        <div className="mt-2 pl-11">{parse(comment.content)}</div>
+        <div className="mt-2 pl-11">
+          {parse(comment.content)}
+          <>
+            <div className="flex  mt-5 ">
+              <LikeIcon
+                setLikeCount={setLikeCount}
+                isLiked={false}
+                id={comment.post_id}
+              />
+              <CommentIcon id={comment?.post_id} />
+            </div>
+            <div className=" mt-3 text-sm text-lightFontColor dark:text-darkFontColor">
+              {likeCount > 0 && <span>좋아요 {likeCount}개</span>}
+              <Link
+                className="ml-3"
+                href={`${END_POINT.COMMENT}/${comment?.post_id}`}
+              >
+                {commentCount > 0 && <span>댓글{commentCount}개</span>}
+              </Link>
+            </div>
+          </>
+        </div>
       </div>
     </div>
   );

@@ -10,11 +10,11 @@ import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 const LikeIcon = ({
   isLiked,
-  postId,
+  id,
   setLikeCount,
 }: {
   isLiked: boolean;
-  postId: number;
+  id: number;
   setLikeCount: Dispatch<SetStateAction<number>>;
 }) => {
   const { userInfo } = useAuthStore();
@@ -29,10 +29,10 @@ const LikeIcon = ({
 
   const handleLike = () => {
     if (!like) {
-      addLikeMutation.mutate({ userId: userInfo.uid, postId: postId });
+      addLikeMutation.mutate({ userId: userInfo.uid, postId: id });
       setLikeCount((prev) => prev + 1);
     } else {
-      removeLikeMutation.mutate({ userId: userInfo.uid, postId: postId });
+      removeLikeMutation.mutate({ userId: userInfo.uid, postId: id });
       setLikeCount((prev) => prev - 1);
     }
     client.invalidateQueries({ queryKey: [GET_ALL_POSTS] });
