@@ -50,6 +50,10 @@ const Comment = ({ comment }: { comment: CommentType }) => {
     },
   });
 
+  const isLiked =
+    comment?.comment_likes?.find((like) => like.user_id === userInfo.uid) !==
+    undefined;
+
   return (
     <div key={comment.id} className="">
       <div className="flex flex-col">
@@ -106,8 +110,8 @@ const Comment = ({ comment }: { comment: CommentType }) => {
                 <LikeIcon
                   isComment
                   setLikeCount={setLikeCount}
-                  isLiked={false}
-                  id={comment.post_id}
+                  isLiked={isLiked}
+                  id={comment.id}
                 />
                 <CommentIcon isReply id={comment?.post_id} />
               </div>

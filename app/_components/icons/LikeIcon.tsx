@@ -1,8 +1,15 @@
-import { addLike, removeLike } from '@/app/_api/likes';
 import {
-  ADD_LIKE,
+  addCommentLike,
+  addPostLike,
+  removeCommentLike,
+  removePostLike,
+} from '@/app/_api/likes';
+import {
+  ADD_COMMENT_LIKE,
+  ADD_POST_LIKE,
   GET_ALL_POSTS,
-  REMOVE_LIKE,
+  REMOVE_COMMENT_LIKE,
+  REMOVE_POST_LIKE,
 } from '@/app/_constant/queryKeys';
 import { useAuthStore } from '@/app/_store/auth';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -29,28 +36,48 @@ const LikeIcon = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  console.log(isLiked);
+
   const handleLike = () => {
     if (!isComment) {
       if (!like) {
-        addLikeMutation.mutate({ userId: userInfo.uid, postId: id });
+        addPostLikeMutation({ userId: userInfo.uid, postId: id });
         setLikeCount((prev) => prev + 1);
       } else {
-        removeLikeMutation.mutate({ userId: userInfo.uid, postId: id });
+        removeLikeMutation({ userId: userInfo.uid, postId: id });
         setLikeCount((prev) => prev - 1);
       }
-      client.invalidateQueries({ queryKey: [GET_ALL_POSTS] });
-      setLike(!like);
+    } else {
+      if (!like) {
+        addCommentLikeMutation({ userId: userInfo.uid, commentId: id });
+        setLikeCount((prev) => prev + 1);
+      } else {
+        removeCommentLikeMutation({ userId: userInfo.uid, commentId: id });
+        setLikeCount((prev) => prev - 1);
+      }
     }
+    client.invalidateQueries({ queryKey: [GET_ALL_POSTS] });
+    setLike(!like);
   };
 
-  const addLikeMutation = useMutation({
-    mutationKey: [ADD_LIKE],
-    mutationFn: addLike,
+  const { mutate: addPostLikeMutation } = useMutation({
+    mutationKey: [ADD_POST_LIKE],
+    mutationFn: addPostLike,
   });
 
-  const removeLikeMutation = useMutation({
-    mutationKey: [REMOVE_LIKE],
-    mutationFn: removeLike,
+  const { mutate: removeLikeMutation } = useMutation({
+    mutationKey: [REMOVE_POST_LIKE],
+    mutationFn: removePostLike,
+  });
+
+  const { mutate: addCommentLikeMutation } = useMutation({
+    mutationKey: [ADD_COMMENT_LIKE],
+    mutationFn: addCommentLike,
+  });
+
+  const { mutate: removeCommentLikeMutation } = useMutation({
+    mutationKey: [REMOVE_COMMENT_LIKE],
+    mutationFn: removeCommentLike,
   });
 
   return (
