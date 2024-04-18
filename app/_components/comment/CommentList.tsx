@@ -1,6 +1,6 @@
 'use client';
 
-import { getComments, getSelectedPost } from '@/app/_api/post';
+import { getSelectedPost } from '@/app/_api/post';
 import {
   GET_ALL_POSTS,
   GET_COMMENT,
@@ -21,6 +21,7 @@ import { useRouter } from 'next/navigation';
 import { END_POINT } from '@/app/_constant/endPoint';
 import useScrollToTop from '@/app/_hooks/useScrollTop';
 import { useCallback } from 'react';
+import { getComments } from '@/app/_api/comment';
 
 const CommentList = () => {
   useScrollToTop();

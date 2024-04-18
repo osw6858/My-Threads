@@ -82,6 +82,9 @@ const Post = ({
           <div className="avatar flex items-center">
             <div className="w-9 rounded-full">
               <Link href={`${END_POINT.USER}/${post?.users?.user_name}`}>
+                {/**
+                 * TODO: 이미지 컴포넌트로 분리시켜 관리하기
+                 */}
                 <picture>
                   <Image
                     className="rounded-full min-w-9"

@@ -10,11 +10,11 @@ import {
   GET_ALL_POSTS,
   GET_COMMENT,
 } from '@/app/_constant/queryKeys';
-import { removeComment } from '@/app/_api/post';
 import { END_POINT } from '@/app/_constant/endPoint';
 import LikeIcon from '../icons/LikeIcon';
 import CommentIcon from '../icons/CommentIcon';
 import { useActive } from '@/app/_hooks/useActive';
+import { removeComment } from '@/app/_api/comment';
 
 const Comment = ({ comment }: { comment: CommentType }) => {
   const { userInfo } = useAuthStore();
