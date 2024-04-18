@@ -34,7 +34,7 @@ const Post = ({
   const client = useQueryClient();
   const { userInfo } = useAuthStore();
   const { likeCount, setLikeCount, commentCount, setCommentCount } = useActive({
-    likeCounts: post?.likes?.length,
+    likeCounts: post?.post_likes?.length,
     commentCounts: post?.comments?.length,
   });
   const [isUsersPost, setIsUserPost] = useState<boolean>();
@@ -49,8 +49,11 @@ const Post = ({
     userInfo.uid,
   ]);
 
+  console.log(post?.post_likes);
+
   const isLiked =
-    post?.likes?.find((like) => like.user_id === userInfo.uid) !== undefined;
+    post?.post_likes?.find((like) => like.user_id === userInfo.uid) !==
+    undefined;
 
   const handleRemovePost = () => {
     if (post.users.uuid !== userInfo.uid) {

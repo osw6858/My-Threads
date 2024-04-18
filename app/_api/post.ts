@@ -35,7 +35,7 @@ export const getFollowedUsersPosts = async (
         *,
         users(*),
         images(*),
-        likes(user_id),
+        post_likes(user_id),
         comments(id)
       `,
       { count: 'exact' },
@@ -111,7 +111,7 @@ export const removePost = async ({
     .match({ post_id: postId });
 
   const { data: likes, error: likeError } = await supabase
-    .from('likes')
+    .from('post_likes')
     .delete()
     .match({ post_id: postId });
 
@@ -146,7 +146,7 @@ export const getSelectedPost = async (postId: number | undefined) => {
         *,
         users(*),
         images(*),
-        likes(user_id)
+        post_likes(user_id)
       `,
     )
     .eq('post_id', postId)
@@ -170,7 +170,7 @@ export const getUserPost = async (uuId: string, page = 1, limit = 5) => {
         *,
         users(*),
         images(*),
-        likes(user_id),
+        post_likes(user_id),
         comments(id)
        
       `,
@@ -195,7 +195,7 @@ export const searchPost = async (query: string) => {
         *,
         users(*),
         images(*),
-        likes(user_id),
+        post_likes(user_id),
         comments(id)
       `,
     )

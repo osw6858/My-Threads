@@ -14,7 +14,7 @@ export interface PostType {
   post_id: number;
   user_id: number;
   users: UserType;
-  likes: { user_id: string }[];
+  post_likes: { user_id: string }[];
 }
 
 export interface CommentType {

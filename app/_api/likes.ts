@@ -7,7 +7,7 @@ interface Like {
 
 export const addLike = async ({ postId, userId }: Like) => {
   const { data, error } = await supabase
-    .from('likes')
+    .from('post_likes')
     .insert([{ post_id: postId, user_id: userId }]);
 
   if (error) {
@@ -19,7 +19,7 @@ export const addLike = async ({ postId, userId }: Like) => {
 
 export const removeLike = async ({ postId, userId }: Like) => {
   const { data, error } = await supabase
-    .from('likes')
+    .from('post_likes')
     .delete()
     .match({ post_id: postId, user_id: userId });
 

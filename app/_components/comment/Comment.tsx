@@ -21,7 +21,7 @@ const Comment = ({ comment }: { comment: CommentType }) => {
   const [isCommentUser, setIsCommentUser] = useState(false);
 
   const client = useQueryClient();
-  const { likeCount, setLikeCount, commentCount, setCommentCount } = useActive({
+  const { likeCount, setLikeCount } = useActive({
     likeCounts: 10,
     commentCounts: 10,
   });
