@@ -117,9 +117,9 @@ const Comment = ({ comment }: { comment: CommentType }) => {
               </div>
               <div className=" mt-3 text-sm text-lightFontColor dark:text-darkFontColor">
                 {likeCount > 0 && <span>좋아요 {likeCount}개</span>}
-                <div className="ml-3">
+                <span className="ml-3">
                   {commentCount > 0 && <span>댓글{commentCount}개</span>}
-                </div>
+                </span>
               </div>
             </>
           </div>

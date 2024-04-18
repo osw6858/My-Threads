@@ -36,8 +36,6 @@ const LikeIcon = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log(isLiked);
-
   const handleLike = () => {
     if (!isComment) {
       if (!like) {
