@@ -17,8 +17,16 @@ export interface PostType {
   post_likes: { user_id: string }[];
 }
 
+interface CommentLieks {
+  id: number;
+  created_at: string;
+  user_id: string;
+  comment_id: number;
+}
+
 export interface CommentType {
   id: number;
+  comment_likes: CommentLieks[];
   content: string;
   created_at: string;
   post_id: number;

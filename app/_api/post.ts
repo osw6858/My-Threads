@@ -146,7 +146,8 @@ export const getSelectedPost = async (postId: number | undefined) => {
         *,
         users(*),
         images(*),
-        post_likes(user_id)
+        post_likes(user_id),
+        comments(user_id)
       `,
     )
     .eq('post_id', postId)

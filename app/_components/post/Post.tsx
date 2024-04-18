@@ -20,6 +20,7 @@ import {
 } from '@/app/_constant/queryKeys';
 import { removePost } from '@/app/_api/post';
 import { useActive } from '@/app/_hooks/useActive';
+import { comment } from 'postcss';
 
 const Post = ({
   post,

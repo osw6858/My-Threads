@@ -17,7 +17,8 @@ export const getComments = async (
         id,
         user_name,
         avatar_url
-      )
+      ),
+      comment_likes(user_id)
     `,
       { count: 'exact' },
     )

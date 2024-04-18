@@ -21,9 +21,9 @@ const Comment = ({ comment }: { comment: CommentType }) => {
   const [isCommentUser, setIsCommentUser] = useState(false);
 
   const client = useQueryClient();
-  const { likeCount, setLikeCount } = useActive({
-    likeCounts: 10,
-    commentCounts: 10,
+  const { likeCount, setLikeCount, commentCount } = useActive({
+    likeCounts: comment?.comment_likes?.length,
+    commentCounts: comment?.replies?.length,
   });
 
   useEffect(() => {
@@ -113,6 +113,9 @@ const Comment = ({ comment }: { comment: CommentType }) => {
               </div>
               <div className=" mt-3 text-sm text-lightFontColor dark:text-darkFontColor">
                 {likeCount > 0 && <span>좋아요 {likeCount}개</span>}
+                <div className="ml-3">
+                  {commentCount > 0 && <span>댓글{commentCount}개</span>}
+                </div>
               </div>
             </>
           </div>
