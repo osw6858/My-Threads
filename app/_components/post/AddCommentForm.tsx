@@ -1,4 +1,4 @@
-import { addComment, getComments } from '@/app/_api/post';
+import { addComment } from '@/app/_api/comment';
 import {
   ADD_COMMENT,
   GET_ALL_POSTS,

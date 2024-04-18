@@ -49,8 +49,6 @@ const Post = ({
     userInfo.uid,
   ]);
 
-  console.log(post?.post_likes);
-
   const isLiked =
     post?.post_likes?.find((like) => like.user_id === userInfo.uid) !==
     undefined;
