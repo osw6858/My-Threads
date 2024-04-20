@@ -69,8 +69,53 @@ export const removeComment = async ({
   userId: string;
   postId: number;
 }) => {
+  // 대댓글 ID 조회
+  const { data: replyComments, error: fetchReplyError } = await supabase
+    .from('comments')
+    .select('id')
+    .match({ parent_id: commentId });
+
+  if (fetchReplyError) {
+    console.error('대댓글 조회 중 오류 발생:', fetchReplyError);
+    return;
+  }
+
+  // 대댓글의 좋아요 삭제
+  for (const replyComment of replyComments) {
+    const { error: deleteReplyLikeError } = await supabase
+      .from('comment_likes')
+      .delete()
+      .match({ comment_id: replyComment.id });
+
+    if (deleteReplyLikeError) {
+      console.error('대댓글 좋아요 삭제 중 오류 발생:', deleteReplyLikeError);
+    }
+  }
+
+  // 대댓글 삭제
+  const { error: deleteReplyError } = await supabase
+    .from('comments')
+    .delete()
+    .match({ parent_id: commentId });
+
+  if (deleteReplyError) {
+    console.error('대댓글 삭제 중 오류 발생:', deleteReplyError);
+  }
+
+  // 댓글의 좋아요 삭제
+  const { error: deleteCommentLikeError } = await supabase
+    .from('comment_likes')
+    .delete()
+    .match({
+      comment_id: commentId,
+    });
+
+  if (deleteCommentLikeError) {
+    console.error('댓글 좋아요 삭제 중 오류 발생:', deleteCommentLikeError);
+  }
+
   // 댓글 삭제
-  const { data: deletedComments, error: deletCommnetError } = await supabase
+  const { data: deletedComments, error: deleteCommentError } = await supabase
     .from('comments')
     .delete()
     .match({
@@ -79,17 +124,8 @@ export const removeComment = async ({
       post_id: postId,
     });
 
-  if (deletCommnetError) {
-    console.error('댓글 삭제 중 오류 발생:', deletCommnetError);
-  }
-
-  const { error: deleteReplyError } = await supabase
-    .from('comments')
-    .delete()
-    .match({ parent_id: commentId });
-
-  if (deleteReplyError) {
-    console.error('답글 삭제 중 오류 발생:', deleteReplyError);
+  if (deleteCommentError) {
+    console.error('댓글 삭제 중 오류 발생:', deleteCommentError);
   }
 
   return deletedComments;
