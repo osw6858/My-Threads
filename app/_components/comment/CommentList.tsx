@@ -22,6 +22,13 @@ import { END_POINT } from '@/app/_constant/endPoint';
 import useScrollToTop from '@/app/_hooks/useScrollTop';
 import { useCallback } from 'react';
 import { getComments } from '@/app/_api/comment';
+import { PostgrestError } from '@supabase/supabase-js';
+
+interface PageType {
+  data: CommentType[] | null;
+  error: PostgrestError | null;
+  count: number | null;
+}
 
 const CommentList = () => {
   useScrollToTop();
@@ -57,31 +64,51 @@ const CommentList = () => {
     router.push(END_POINT.MAIN);
   };
 
-  const combinReply = useCallback((comments: CommentType[] | null) => {
-    if (comments === null) {
-      throw new Error('댓글을 불러오는 과정에서 문제가 발생.');
-    }
-
-    const idToCommentMap: { [key: number]: CommentType } = {};
-    const rootComments: CommentType[] = [];
-
-    comments.forEach((comment) => {
-      idToCommentMap[comment.id] = { ...comment, replies: [] };
-    });
-
-    comments.forEach((comment: CommentType) => {
-      if (comment.parent_id) {
-        const parent = idToCommentMap[comment.parent_id];
-        if (parent && parent.replies) {
-          parent.replies.push(idToCommentMap[comment.id]);
-        }
-      } else {
-        rootComments.push(idToCommentMap[comment.id]);
+  const processPagesAndComments = useCallback(
+    (pages: PageType[] | undefined) => {
+      if (!pages) {
+        return [];
       }
-    });
+      const allComments: CommentType[] = [];
 
-    return rootComments;
-  }, []);
+      // 모든 페이지의 댓글 데이터를 하나의 배열로 통합
+      pages.forEach((page) => {
+        if (page.data !== null) {
+          allComments.push(...page.data);
+        }
+      });
+
+      // 댓글을 처리
+      const combinReply = (comments: CommentType[]) => {
+        if (comments === null) {
+          throw new Error('댓글을 불러오는 과정에서 문제가 발생.');
+        }
+
+        const idToCommentMap: { [key: number]: CommentType } = {};
+        const rootComments: CommentType[] = [];
+
+        comments.forEach((comment) => {
+          idToCommentMap[comment.id] = { ...comment, replies: [] };
+        });
+
+        comments.forEach((comment: CommentType) => {
+          if (comment.parent_id) {
+            const parent = idToCommentMap[comment.parent_id];
+            if (parent && parent.replies) {
+              parent.replies.push(idToCommentMap[comment.id]);
+            }
+          } else {
+            rootComments.push(idToCommentMap[comment.id]);
+          }
+        });
+
+        return rootComments;
+      };
+
+      return combinReply(allComments);
+    },
+    [],
+  );
 
   const { loader } = useInfiniteScroll({ fetchNextPage, hasNextPage });
 
@@ -103,12 +130,8 @@ const CommentList = () => {
         </svg>
       </div>
       {post.data?.data && <Post post={post.data?.data} isOpenComment={false} />}
-      {data?.pages.map((comments, i) => (
-        <div key={i}>
-          {combinReply(comments?.data).map((comment: CommentType) => (
-            <Comment key={comment.id} comment={comment} depthLimit={false} />
-          ))}
-        </div>
+      {processPagesAndComments(data?.pages).map((comment, i) => (
+        <Comment key={comment.id} comment={comment} depthLimit={false} />
       ))}
       <div
         className="-translate-y-52"
