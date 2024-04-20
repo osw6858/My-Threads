@@ -30,9 +30,10 @@ const Comment = ({
   const pathname = usePathname();
   const { userInfo } = useAuthStore();
   const [isCommentUser, setIsCommentUser] = useState(false);
+  const [seeMore, setSeeMore] = useState(true);
 
   const client = useQueryClient();
-  const { likeCount, setLikeCount, commentCount } = useActive({
+  const { likeCount, setLikeCount, commentCount, setCommentCount } = useActive({
     likeCounts: comment?.comment_likes?.length,
     commentCounts: comment?.replies?.length,
   });
@@ -41,7 +42,13 @@ const Comment = ({
     if (userInfo.uid === comment.user_id) {
       setIsCommentUser(true);
     }
-  }, [comment.user_id, userInfo.uid]);
+    setCommentCount(comment?.replies?.length);
+  }, [
+    comment?.replies?.length,
+    comment.user_id,
+    setCommentCount,
+    userInfo.uid,
+  ]);
 
   const handleComment = () => {
     const commentData = {
@@ -71,7 +78,7 @@ const Comment = ({
     undefined;
 
   return (
-    <div key={comment.id} className="">
+    <div key={comment.id} className={`${depthLimit ? 'mb-2' : ''}`}>
       <div className="flex flex-col">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
@@ -116,10 +123,15 @@ const Comment = ({
         <div className="flex mb-3">
           <div className="flex justify-center w-9 mt-2">
             {comment.replies?.length > 0 && (
-              <div className="w-[2px] min-h-4 bg-gray-200  dark:bg-darkBorder" />
+              <div className="flex flex-col items-center">
+                <div className="w-[2px] h-full bg-gray-200  dark:bg-darkBorder" />
+
+                <div className="w-4 min-h-4 rounded-full bg-gray-200  dark:bg-darkBorder mt-3" />
+              </div>
             )}
           </div>
-          <div className="mt-1 pl-3">
+
+          <div className="mt-1 pl-3 w-full">
             {parse(comment.content)}
             <>
               <div className="flex  mt-5">
@@ -139,20 +151,36 @@ const Comment = ({
                   </>
                 )}
               </div>
-              <div className=" mt-3 text-sm text-lightFontColor dark:text-darkFontColor">
-                {likeCount > 0 && <span>좋아요 {likeCount}개</span>}
-                <span className="ml-3">
-                  {commentCount > 0 && <span>댓글{commentCount}개</span>}
-                </span>
-              </div>
+              {comment.replies.length > 0 && (
+                <div className="collapse bg-white dark:bg-darkMode">
+                  <input type="checkbox" onClick={() => setSeeMore(!seeMore)} />
+                  <div className="collapse-title text-sm text-gray-500 pl-2">
+                    {seeMore ? <p>댓글 펼치기</p> : <p>댓글 접기</p>}
+                  </div>
+                  <div
+                    style={{ paddingBottom: 0 }}
+                    className="collapse-content pl-2"
+                  >
+                    {comment.replies.map((reply) => (
+                      <Comment key={reply.id} comment={reply} depthLimit />
+                    ))}
+                  </div>
+                </div>
+              )}
+              <>
+                {likeCount > 0 || commentCount > 0 ? (
+                  <div className=" mt-3 text-sm text-lightFontColor dark:text-darkFontColor">
+                    {likeCount > 0 && <span>좋아요 {likeCount}개</span>}
+                    <span className="ml-3">
+                      {commentCount > 0 && <span>댓글{commentCount}개</span>}
+                    </span>
+                  </div>
+                ) : null}
+              </>
             </>
           </div>
         </div>
       </div>
-      {comment.replies &&
-        comment.replies.map((reply) => (
-          <Comment key={reply.id} comment={reply} depthLimit />
-        ))}
       {comment.parent_id === null && (
         <hr className="border-gray-200 dark:border-gray-800 pb-4" />
       )}
