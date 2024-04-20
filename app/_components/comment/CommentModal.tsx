@@ -60,7 +60,14 @@ const CommentModal = ({
           </div>
 
           <div className="p-3">
-            <AddCommentForm postId={post?.post_id} commentId={comment?.id} />
+            {post ? (
+              <AddCommentForm postId={post?.post_id} commentId={comment?.id} />
+            ) : (
+              <AddCommentForm
+                postId={comment?.post_id}
+                commentId={comment?.id}
+              />
+            )}
           </div>
         </div>
         <form method="dialog">

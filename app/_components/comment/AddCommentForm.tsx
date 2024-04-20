@@ -1,10 +1,8 @@
 import { addComment } from '@/app/_api/comment';
 import {
-  ADD_COMMENT,
   GET_ALL_POSTS,
   GET_COMMENT,
   GET_SELECTED_POST,
-  SEARCH_POST,
 } from '@/app/_constant/queryKeys';
 import { extractNumberFromUrl } from '@/app/_helper/extractNumberFromUrl';
 import { useAuthStore } from '@/app/_store/auth';
@@ -46,25 +44,23 @@ const AddCommentForm = ({
     const commentData = {
       content: safeHTML,
       userId: userInfo.uid,
+      commentId,
       postId,
     };
 
     mutate(commentData);
-    client.invalidateQueries({ queryKey: [GET_ALL_POSTS] });
-    client.invalidateQueries({
-      queryKey: [GET_COMMENT, extractNumberFromUrl(pathname)],
-    });
-    client.invalidateQueries({
-      queryKey: [GET_SELECTED_POST, extractNumberFromUrl(pathname)],
-    });
-    client.invalidateQueries({ queryKey: [SEARCH_POST] });
   };
 
   const { mutate } = useMutation({
-    mutationKey: [ADD_COMMENT],
     mutationFn: addComment,
-    onSuccess: (data) => {
-      console.log(data);
+    onSuccess: () => {
+      client.invalidateQueries({ queryKey: [GET_ALL_POSTS] });
+      client.invalidateQueries({
+        queryKey: [GET_COMMENT, extractNumberFromUrl(pathname)],
+      });
+      client.invalidateQueries({
+        queryKey: [GET_SELECTED_POST, extractNumberFromUrl(pathname)],
+      });
     },
   });
 

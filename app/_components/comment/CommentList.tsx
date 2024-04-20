@@ -6,7 +6,7 @@ import {
   GET_COMMENT,
   GET_SELECTED_POST,
 } from '@/app/_constant/queryKeys';
-import { CommentType, PostType } from '@/app/_types/post';
+import { CommentType } from '@/app/_types/post';
 import {
   useInfiniteQuery,
   useQuery,
@@ -102,13 +102,11 @@ const CommentList = () => {
           />
         </svg>
       </div>
-      {post.data?.data && (
-        <Post post={post.data?.data && post.data?.data} isOpenComment={false} />
-      )}
+      {post.data?.data && <Post post={post.data?.data} isOpenComment={false} />}
       {data?.pages.map((comments, i) => (
         <div key={i}>
           {combinReply(comments?.data).map((comment: CommentType) => (
-            <Comment key={comment.id} comment={comment} />
+            <Comment key={comment.id} comment={comment} depthLimit={false} />
           ))}
         </div>
       ))}

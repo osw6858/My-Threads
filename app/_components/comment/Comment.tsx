@@ -9,6 +9,7 @@ import {
   DELETE_COMMENT,
   GET_ALL_POSTS,
   GET_COMMENT,
+  GET_SELECTED_POST,
 } from '@/app/_constant/queryKeys';
 import { END_POINT } from '@/app/_constant/endPoint';
 import LikeIcon from '../icons/LikeIcon';
@@ -19,7 +20,13 @@ import CommentModal from './CommentModal';
 import { extractNumberFromUrl } from '@/app/_helper/extractNumberFromUrl';
 import { usePathname } from 'next/navigation';
 
-const Comment = ({ comment }: { comment: CommentType }) => {
+const Comment = ({
+  comment,
+  depthLimit,
+}: {
+  comment: CommentType;
+  depthLimit: boolean;
+}) => {
   const pathname = usePathname();
   const { userInfo } = useAuthStore();
   const [isCommentUser, setIsCommentUser] = useState(false);
@@ -53,6 +60,9 @@ const Comment = ({ comment }: { comment: CommentType }) => {
         queryKey: [GET_COMMENT, extractNumberFromUrl(pathname)],
       });
       client.invalidateQueries({ queryKey: [GET_ALL_POSTS] });
+      client.invalidateQueries({
+        queryKey: [GET_SELECTED_POST, extractNumberFromUrl(pathname)],
+      });
     },
   });
 
@@ -119,11 +129,15 @@ const Comment = ({ comment }: { comment: CommentType }) => {
                   isLiked={isLiked}
                   id={comment.id}
                 />
-                <CommentIcon isReply id={comment.id} />
-                <CommentModal
-                  modalId={`open-reply-modal${comment.id}`}
-                  comment={comment}
-                />
+                {!depthLimit && (
+                  <>
+                    <CommentIcon isReply id={comment.id} />
+                    <CommentModal
+                      modalId={`open-reply-modal${comment.id}`}
+                      comment={comment}
+                    />
+                  </>
+                )}
               </div>
               <div className=" mt-3 text-sm text-lightFontColor dark:text-darkFontColor">
                 {likeCount > 0 && <span>좋아요 {likeCount}개</span>}
@@ -137,7 +151,7 @@ const Comment = ({ comment }: { comment: CommentType }) => {
       </div>
       {comment.replies &&
         comment.replies.map((reply) => (
-          <Comment key={reply.id} comment={reply} />
+          <Comment key={reply.id} comment={reply} depthLimit />
         ))}
       {comment.parent_id === null && (
         <hr className="border-gray-200 dark:border-gray-800 pb-4" />

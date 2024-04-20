@@ -6,15 +6,16 @@ const CommentIcon = ({ id, isReply }: { id: number; isReply: boolean }) => {
   const client = useQueryClient();
 
   const handleComment = () => {
+    console.log('포스팅 아이디', id);
     if (!isReply) {
-      client.removeQueries({ queryKey: [GET_SELECTED_POST, id] });
-      client.removeQueries({
-        queryKey: [GET_COMMENT, id],
-      });
       openModal(`open-comment-modal${id}`);
     } else {
       openModal(`open-reply-modal${id}`);
     }
+    client.invalidateQueries({ queryKey: [GET_SELECTED_POST, id] });
+    client.invalidateQueries({
+      queryKey: [GET_COMMENT, id],
+    });
   };
 
   return (
