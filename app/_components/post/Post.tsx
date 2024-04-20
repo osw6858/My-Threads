@@ -20,6 +20,7 @@ import {
 } from '@/app/_constant/queryKeys';
 import { removePost } from '@/app/_api/post';
 import { useActive } from '@/app/_hooks/useActive';
+import CommentModal from '../comment/CommentModal';
 
 const Post = ({
   post,
@@ -190,6 +191,10 @@ const Post = ({
                   id={post?.post_id}
                 />
                 <CommentIcon isReply={false} id={post?.post_id} />
+                <CommentModal
+                  modalId={`open-comment-modal${post?.post_id}`}
+                  post={post}
+                />
               </div>
               <div className=" mt-3 text-sm text-lightFontColor dark:text-darkFontColor">
                 {likeCount > 0 && <span>좋아요 {likeCount}개</span>}

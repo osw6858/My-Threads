@@ -2,37 +2,36 @@
 
 import { getCurrentUser } from '@/app/_api/user';
 import { DEFAULT_PROFIL_IMAGE } from '@/app/_constant/endPoint';
-import { GET_SELECTED_POST, GET_USER_PROFILE } from '@/app/_constant/queryKeys';
+import { GET_USER_PROFILE } from '@/app/_constant/queryKeys';
 import { useAuthStore } from '@/app/_store/auth';
 import { useQueries } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import { getSelectedPost } from '@/app/_api/post';
 import Post from '../post/Post';
+import { CommentType, PostType } from '@/app/_types/post';
+import Reply from '../reply/Reply';
 
-const AddCommentForm = dynamic(() => import('../post/AddCommentForm'), {
+const AddCommentForm = dynamic(() => import('./AddCommentForm'), {
   loading: () => <div>...loading</div>,
   ssr: false,
 });
 
 const CommentModal = ({
   modalId,
-  postId,
+  post,
+  comment,
 }: {
   modalId: string;
-  postId: number;
+  post?: PostType;
+  comment?: CommentType;
 }) => {
   const { userInfo } = useAuthStore();
 
-  const [user, post] = useQueries({
+  const [user] = useQueries({
     queries: [
       {
         queryKey: [GET_USER_PROFILE],
         queryFn: () => getCurrentUser(userInfo.uid),
-      },
-      {
-        queryKey: [GET_SELECTED_POST, postId],
-        queryFn: () => getSelectedPost(postId),
       },
     ],
   });
@@ -44,7 +43,8 @@ const CommentModal = ({
           새로운 댓글
         </h3>
         <div className="max-w-sm">
-          <Post post={post.data?.data && post.data?.data} isOpenComment />
+          {post && <Post post={post} isOpenComment />}
+          {comment && <Reply reply={comment} />}
         </div>
         <div className="mb-10">
           <div className="avatar flex items-center">
@@ -60,7 +60,7 @@ const CommentModal = ({
           </div>
 
           <div className="p-3">
-            <AddCommentForm postId={postId} />
+            <AddCommentForm postId={post?.post_id} commentId={comment?.id} />
           </div>
         </div>
         <form method="dialog">

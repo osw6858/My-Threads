@@ -38,7 +38,7 @@ const PostList = () => {
   return (
     <div className={`w-full ${data ? 'h-full' : 'h-screen'} flex flex-col`}>
       {data?.pages.map((page, i) => (
-        <div className="min-h-screen" key={i}>
+        <div className="min-h-full" key={i}>
           {page.data?.length === 0 ? (
             <div className="h-screen flex justify-center items-center">
               <div className="pb-48 text-lg font-semibold">

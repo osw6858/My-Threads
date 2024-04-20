@@ -1,7 +1,6 @@
 import { GET_COMMENT, GET_SELECTED_POST } from '@/app/_constant/queryKeys';
 import { openModal } from '@/app/_helper/openModal';
 import { useQueryClient } from '@tanstack/react-query';
-import CommentModal from '../comment/CommentModal';
 
 const CommentIcon = ({ id, isReply }: { id: number; isReply: boolean }) => {
   const client = useQueryClient();
@@ -13,6 +12,8 @@ const CommentIcon = ({ id, isReply }: { id: number; isReply: boolean }) => {
         queryKey: [GET_COMMENT, id],
       });
       openModal(`open-comment-modal${id}`);
+    } else {
+      openModal(`open-reply-modal${id}`);
     }
   };
 
@@ -29,7 +30,6 @@ const CommentIcon = ({ id, isReply }: { id: number; isReply: boolean }) => {
         <title>답글</title>
         <path d="M20.656 17.008a9.993 9.993 0 1 0-3.59 3.615L22 22Z"></path>
       </svg>
-      <CommentModal modalId={`open-comment-modal${id}`} postId={id} />
     </div>
   );
 };

@@ -83,8 +83,6 @@ const CommentList = () => {
     return rootComments;
   }, []);
 
-  const postData: PostType = post.data?.data;
-
   const { loader } = useInfiniteScroll({ fetchNextPage, hasNextPage });
 
   return (
@@ -104,8 +102,8 @@ const CommentList = () => {
           />
         </svg>
       </div>
-      {postData && (
-        <Post post={post.data?.data && postData} isOpenComment={false} />
+      {post.data?.data && (
+        <Post post={post.data?.data && post.data?.data} isOpenComment={false} />
       )}
       {data?.pages.map((comments, i) => (
         <div key={i}>

@@ -15,8 +15,12 @@ import LikeIcon from '../icons/LikeIcon';
 import CommentIcon from '../icons/CommentIcon';
 import { useActive } from '@/app/_hooks/useActive';
 import { removeComment } from '@/app/_api/comment';
+import CommentModal from './CommentModal';
+import { extractNumberFromUrl } from '@/app/_helper/extractNumberFromUrl';
+import { usePathname } from 'next/navigation';
 
 const Comment = ({ comment }: { comment: CommentType }) => {
+  const pathname = usePathname();
   const { userInfo } = useAuthStore();
   const [isCommentUser, setIsCommentUser] = useState(false);
 
@@ -45,7 +49,9 @@ const Comment = ({ comment }: { comment: CommentType }) => {
     mutationKey: [DELETE_COMMENT],
     mutationFn: removeComment,
     onSuccess: () => {
-      client.invalidateQueries({ queryKey: [GET_COMMENT, comment.post_id] });
+      client.invalidateQueries({
+        queryKey: [GET_COMMENT, extractNumberFromUrl(pathname)],
+      });
       client.invalidateQueries({ queryKey: [GET_ALL_POSTS] });
     },
   });
@@ -113,7 +119,11 @@ const Comment = ({ comment }: { comment: CommentType }) => {
                   isLiked={isLiked}
                   id={comment.id}
                 />
-                <CommentIcon isReply id={comment?.post_id} />
+                <CommentIcon isReply id={comment.id} />
+                <CommentModal
+                  modalId={`open-reply-modal${comment.id}`}
+                  comment={comment}
+                />
               </div>
               <div className=" mt-3 text-sm text-lightFontColor dark:text-darkFontColor">
                 {likeCount > 0 && <span>좋아요 {likeCount}개</span>}
