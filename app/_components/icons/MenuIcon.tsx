@@ -7,6 +7,7 @@ import {
   GET_ACTIVE_USER,
   GET_CURRENT_USER,
   GET_USER_INFO,
+  GET_USER_PROFILE,
 } from '@/app/_constant/queryKeys';
 
 const MenuIcon = ({ style }: { style?: string }) => {
@@ -17,6 +18,7 @@ const MenuIcon = ({ style }: { style?: string }) => {
     client.removeQueries({ queryKey: [GET_ACTIVE_USER] });
     client.removeQueries({ queryKey: [GET_USER_INFO] });
     client.removeQueries({ queryKey: [GET_CURRENT_USER] });
+    client.removeQueries({ queryKey: [GET_USER_PROFILE] });
   }
 
   return (

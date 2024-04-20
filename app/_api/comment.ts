@@ -37,14 +37,21 @@ export const addComment = async ({
   content,
   userId,
   postId,
+  commentId,
 }: {
   content: string;
   userId: string;
   postId: number;
+  commentId: number | undefined;
 }) => {
-  const { data, error } = await supabase
-    .from('comments')
-    .insert([{ content: content, user_id: userId, post_id: postId }]);
+  const { data, error } = await supabase.from('comments').insert([
+    {
+      content: content,
+      user_id: userId,
+      post_id: postId,
+      parent_id: commentId ?? null,
+    },
+  ]);
 
   if (error) {
     console.error('댓글 저장 중 오류 발생:', error);
@@ -62,14 +69,28 @@ export const removeComment = async ({
   userId: string;
   postId: number;
 }) => {
-  const { data, error } = await supabase
+  // 댓글 삭제
+  const { data: deletedComments, error: deletCommnetError } = await supabase
     .from('comments')
     .delete()
-    .match({ id: commentId, user_id: userId, post_id: postId });
+    .match({
+      id: commentId,
+      user_id: userId,
+      post_id: postId,
+    });
 
-  if (error) {
-    console.error('댓글 삭제 중 오류 발생:', error);
+  if (deletCommnetError) {
+    console.error('댓글 삭제 중 오류 발생:', deletCommnetError);
   }
 
-  return data;
+  const { error: deleteReplyError } = await supabase
+    .from('comments')
+    .delete()
+    .match({ parent_id: commentId });
+
+  if (deleteReplyError) {
+    console.error('답글 삭제 중 오류 발생:', deleteReplyError);
+  }
+
+  return deletedComments;
 };
