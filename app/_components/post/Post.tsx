@@ -20,7 +20,7 @@ import {
 } from '@/app/_constant/queryKeys';
 import { removePost } from '@/app/_api/post';
 import { useActive } from '@/app/_hooks/useActive';
-import ActiveIconNav from '../icons/ActiveIconsNav';
+import CommentModal from '../comment/CommentModal';
 
 const Post = ({
   post,
@@ -35,16 +35,24 @@ const Post = ({
   const client = useQueryClient();
   const { userInfo } = useAuthStore();
   const { likeCount, setLikeCount, commentCount, setCommentCount } = useActive({
-    likeCounts: post?.likes?.length,
+    likeCounts: post?.post_likes?.length,
     commentCounts: post?.comments?.length,
   });
+  const [isUsersPost, setIsUserPost] = useState<boolean>();
 
   useEffect(() => {
     setCommentCount(post?.comments?.length);
-  }, [post?.comments?.length, setCommentCount]);
+    setIsUserPost(post?.users?.uuid === userInfo.uid);
+  }, [
+    post?.comments?.length,
+    post?.users?.uuid,
+    setCommentCount,
+    userInfo.uid,
+  ]);
 
   const isLiked =
-    post?.likes?.find((like) => like.user_id === userInfo.uid) !== undefined;
+    post?.post_likes?.find((like) => like.user_id === userInfo.uid) !==
+    undefined;
 
   const handleRemovePost = () => {
     if (post.users.uuid !== userInfo.uid) {
@@ -71,14 +79,14 @@ const Post = ({
 
   return (
     <div className="relative mb-3">
-      {!isOpenComment && (
-        <hr className="border-gray-200 dark:border-gray-800 my-5" />
-      )}
       <div className="flex">
         <div className="w-9 flex flex-col">
           <div className="avatar flex items-center">
             <div className="w-9 rounded-full">
               <Link href={`${END_POINT.USER}/${post?.users?.user_name}`}>
+                {/**
+                 * TODO: 이미지 컴포넌트로 분리시켜 관리하기
+                 */}
                 <picture>
                   <Image
                     className="rounded-full min-w-9"
@@ -123,15 +131,15 @@ const Post = ({
                   tabIndex={0}
                   className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-28 text-red-600 font-bold"
                 >
-                  {post?.users?.uuid === userInfo.uid ? (
+                  {isUsersPost ? (
                     <li onClick={handleRemovePost}>
-                      <p className="text-darkFontColor dark:text-lightFontColor">
+                      <span className="text-darkFontColor dark:text-lightFontColor">
                         삭제
-                      </p>
+                      </span>
                     </li>
                   ) : (
                     <li>
-                      <Link href={''}>신고하기</Link>
+                      <span>신고하기</span>
                     </li>
                   )}
                 </ul>
@@ -174,16 +182,36 @@ const Post = ({
             )}
           </div>
           {!isOpenComment && (
-            <ActiveIconNav
-              setLikeCount={setLikeCount}
-              isLiked={isLiked}
-              postId={post?.post_id}
-              likeCount={likeCount}
-              commentCount={commentCount}
-            />
+            <>
+              <div className="flex  mt-5 ">
+                <LikeIcon
+                  isComment={false}
+                  setLikeCount={setLikeCount}
+                  isLiked={isLiked}
+                  id={post?.post_id}
+                />
+                <CommentIcon isReply={false} id={post?.post_id} />
+                <CommentModal
+                  modalId={`open-comment-modal${post?.post_id}`}
+                  post={post}
+                />
+              </div>
+              <div className=" mt-3 text-sm text-lightFontColor dark:text-darkFontColor">
+                {likeCount > 0 && <span>좋아요 {likeCount}개</span>}
+                <Link
+                  className="ml-3"
+                  href={`${END_POINT.COMMENT}/${post?.post_id}`}
+                >
+                  {commentCount > 0 && <span>댓글{commentCount}개</span>}
+                </Link>
+              </div>
+            </>
           )}
         </div>
       </div>
+      {!isOpenComment && (
+        <hr className="border-gray-200 dark:border-gray-800 my-5" />
+      )}
     </div>
   );
 };

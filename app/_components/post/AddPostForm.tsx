@@ -87,10 +87,11 @@ export const AddPostForm = () => {
 
   const postUpload = useMutation({
     mutationFn: uploadPost,
-    onSuccess: () => {
+    onSuccess: (data) => {
       setPost('');
       setImagePreviewUrls([]);
       client.invalidateQueries({ queryKey: [GET_ALL_POSTS] });
+      console.log(data);
     },
   });
 

@@ -6,9 +6,13 @@ export const GET_USER_PROFILE = 'getUserProfile' as const;
 
 export const GET_ALL_POSTS = 'getAllPosts' as const;
 
-export const ADD_LIKE = 'addLike' as const;
+export const ADD_POST_LIKE = 'addLike' as const;
 
-export const REMOVE_LIKE = 'removeLike' as const;
+export const REMOVE_POST_LIKE = 'removeLike' as const;
+
+export const ADD_COMMENT_LIKE = 'addLike' as const;
+
+export const REMOVE_COMMENT_LIKE = 'removeLike' as const;
 
 export const GET_SELECTED_POST = 'getSelectedPost' as const;
 

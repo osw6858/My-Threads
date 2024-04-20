@@ -1,4 +1,5 @@
 import { supabase } from '../_supabase/supabaseClient';
+import { CommentType } from '../_types/post';
 
 export const getFollowedUsersPosts = async (
   userId: string,
@@ -34,7 +35,7 @@ export const getFollowedUsersPosts = async (
         *,
         users(*),
         images(*),
-        likes(user_id),
+        post_likes(user_id),
         comments(id)
       `,
       { count: 'exact' },
@@ -110,7 +111,7 @@ export const removePost = async ({
     .match({ post_id: postId });
 
   const { data: likes, error: likeError } = await supabase
-    .from('likes')
+    .from('post_likes')
     .delete()
     .match({ post_id: postId });
 
@@ -145,7 +146,8 @@ export const getSelectedPost = async (postId: number | undefined) => {
         *,
         users(*),
         images(*),
-        likes(user_id)
+        post_likes(user_id),
+        comments(user_id)
       `,
     )
     .eq('post_id', postId)
@@ -156,78 +158,6 @@ export const getSelectedPost = async (postId: number | undefined) => {
   }
 
   return { data, error };
-};
-
-export const getComments = async (
-  postId: number | undefined,
-  page = 1,
-  limit = 5,
-) => {
-  const startIndex = (page - 1) * limit;
-  const endIndex = page * limit - 1;
-
-  const { data, error, count } = await supabase
-    .from('comments')
-    .select(
-      `
-      *,
-      users (
-        id,
-        user_name,
-        avatar_url
-      )
-    `,
-    )
-    .eq('post_id', postId)
-    .order('created_at', { ascending: true })
-    .range(startIndex, endIndex);
-
-  if (error) {
-    console.error(`댓글 및 사용자 정보 불러오기 에러`, error);
-  }
-
-  return { data, error, count };
-};
-
-export const addComment = async ({
-  content,
-  userId,
-  postId,
-}: {
-  content: string;
-  userId: string;
-  postId: number;
-}) => {
-  const { data, error } = await supabase
-    .from('comments')
-    .insert([{ content: content, user_id: userId, post_id: postId }]);
-
-  if (error) {
-    console.error('댓글 저장 중 오류 발생:', error);
-  }
-
-  return data;
-};
-
-export const removeComment = async ({
-  commentId,
-  userId,
-  postId,
-}: {
-  commentId: number;
-  userId: string;
-  postId: number;
-}) => {
-  const { data, error } = await supabase
-    .from('comments')
-    .delete()
-    .match({ id: commentId, user_id: userId, post_id: postId });
-
-  if (error) {
-    console.error('댓글 삭제 중 오류 발생:', error);
-  }
-
-  return data;
 };
 
 export const getUserPost = async (uuId: string, page = 1, limit = 5) => {
@@ -241,7 +171,7 @@ export const getUserPost = async (uuId: string, page = 1, limit = 5) => {
         *,
         users(*),
         images(*),
-        likes(user_id),
+        post_likes(user_id),
         comments(id)
        
       `,
@@ -266,7 +196,7 @@ export const searchPost = async (query: string) => {
         *,
         users(*),
         images(*),
-        likes(user_id),
+        post_likes(user_id),
         comments(id)
       `,
     )
