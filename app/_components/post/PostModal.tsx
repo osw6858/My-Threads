@@ -8,6 +8,7 @@ import { useQuery } from '@tanstack/react-query';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Skeleton from '../common/Skeleton';
+import { useState } from 'react';
 
 interface ModalProps {
   modalId: string;
@@ -19,6 +20,7 @@ const AddPostForm = dynamic(() => import('../post/AddPostForm'), {
 });
 
 const PostModal = ({ modalId }: ModalProps) => {
+  const [post, setPost] = useState<string>('');
   const { userInfo } = useAuthStore();
 
   const { data } = useQuery({
@@ -44,7 +46,7 @@ const PostModal = ({ modalId }: ModalProps) => {
           <p className="ml-3 font-semibold">{data?.user_name}</p>
         </div>
         <div className="p-3">
-          <AddPostForm />
+          <AddPostForm setPost={setPost} post={post} />
         </div>
         <form method="dialog">
           <button className="btn btn-sm btn-circle btn-ghost absolute left-5 top-3">
@@ -55,6 +57,9 @@ const PostModal = ({ modalId }: ModalProps) => {
               fill="currentColor"
               className="cursor-pointer transform transition duration-200 hover:scale-125"
               viewBox="0 0 16 16"
+              onClick={() => {
+                setPost('');
+              }}
             >
               <path
                 fillRule="evenodd"
@@ -66,7 +71,13 @@ const PostModal = ({ modalId }: ModalProps) => {
       </div>
 
       <form method="dialog" className="modal-backdrop">
-        <button>닫기</button>
+        <button
+          onClick={() => {
+            setPost('');
+          }}
+        >
+          닫기
+        </button>
       </form>
     </dialog>
   );

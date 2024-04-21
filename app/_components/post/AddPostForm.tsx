@@ -1,6 +1,12 @@
 'use client';
 
-import { ChangeEvent, useEffect, useState } from 'react';
+import {
+  ChangeEvent,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState,
+} from 'react';
 import ReactQuill from 'react-quill';
 import DOMPurify from 'dompurify';
 import PostTooltipIcon from '../icons/PostTooltipIcon';
@@ -16,15 +22,17 @@ import './style/quillStyle.css';
 import 'slick-carousel/slick/slick.css';
 import { GET_ALL_POSTS } from '@/app/_constant/queryKeys';
 
-export const AddPostForm = () => {
-  const [post, setPost] = useState<string | Node>('');
+interface PostProps {
+  post: string;
+  setPost: Dispatch<SetStateAction<string>>;
+}
+
+export const AddPostForm = ({ post, setPost }: PostProps) => {
   const [imagePreviewUrls, setImagePreviewUrls] = useState<string[]>([]);
   const [isEmpty, setIsEmpty] = useState(true);
   const [loading, setLoading] = useState(false);
 
   const { userInfo } = useAuthStore();
-
-  const safeHTML = DOMPurify.sanitize(post);
 
   const client = useQueryClient();
 
@@ -64,7 +72,7 @@ export const AddPostForm = () => {
     }
 
     const postData = {
-      content: safeHTML,
+      content: DOMPurify.sanitize(post),
       userId: userInfo.uid,
       imageUrl: imagePreviewUrls,
     };
@@ -87,11 +95,10 @@ export const AddPostForm = () => {
 
   const postUpload = useMutation({
     mutationFn: uploadPost,
-    onSuccess: (data) => {
+    onSuccess: () => {
       setPost('');
       setImagePreviewUrls([]);
       client.invalidateQueries({ queryKey: [GET_ALL_POSTS] });
-      console.log(data);
     },
   });
 
@@ -102,6 +109,7 @@ export const AddPostForm = () => {
           className="text-gray-700 dark:text-gray-400 placeholder:text-nonSelectIcon"
           theme="bubble"
           onChange={setPost}
+          value={post}
           placeholder="스레드를 시작하세요..."
         />
 
