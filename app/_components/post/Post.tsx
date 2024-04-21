@@ -148,16 +148,34 @@ const Post = ({
               </div>
             </div>
           </div>
-          <div>
-            {post?.images?.length <= 1 ? (
-              post?.images.map((image) => (
-                <div key={image.image_id}>
-                  <picture
-                    onClick={() => openModal(`open-image-modal${post.post_id}`)}
-                    className="cursor-pointer"
-                  >
+          {post?.images?.length <= 1 ? (
+            post?.images.map((image) => (
+              <div key={image.image_id}>
+                <picture
+                  onClick={() => openModal(`open-image-modal${post.post_id}`)}
+                  className="cursor-pointer"
+                >
+                  <Image
+                    className="rounded-xl select-none pointer-events-none h-auto w-80"
+                    width={350}
+                    height={350}
+                    src={image.image_url}
+                    alt={''}
+                    priority
+                  />
+                </picture>
+              </div>
+            ))
+          ) : (
+            <div
+              className="pr-5"
+              onClick={() => openModal(`open-image-modal${post.post_id}`)}
+            >
+              <ImageSlider>
+                {post?.images?.map((image) => (
+                  <picture className="p-1 cursor-pointer" key={image.image_id}>
                     <Image
-                      className="rounded-xl select-none pointer-events-none"
+                      className="rounded-xl h-72 object-cover "
                       width={350}
                       height={350}
                       src={image.image_url}
@@ -165,33 +183,10 @@ const Post = ({
                       priority
                     />
                   </picture>
-                </div>
-              ))
-            ) : (
-              <div
-                className="pr-5"
-                onClick={() => openModal(`open-image-modal${post.post_id}`)}
-              >
-                <ImageSlider>
-                  {post?.images?.map((image) => (
-                    <picture
-                      className="p-1 cursor-pointer"
-                      key={image.image_id}
-                    >
-                      <Image
-                        className="rounded-xl h-72 object-cover "
-                        width={350}
-                        height={350}
-                        src={image.image_url}
-                        alt={''}
-                        priority
-                      />
-                    </picture>
-                  ))}
-                </ImageSlider>
-              </div>
-            )}
-          </div>
+                ))}
+              </ImageSlider>
+            </div>
+          )}
           {!isOpenComment && (
             <>
               <div className="flex  mt-5 ">
@@ -207,15 +202,17 @@ const Post = ({
                   post={post}
                 />
               </div>
-              <div className=" mt-3 text-sm text-lightFontColor dark:text-darkFontColor">
-                {likeCount > 0 && <span>좋아요 {likeCount}개</span>}
-                <Link
-                  className="ml-3"
-                  href={`${END_POINT.COMMENT}/${post?.post_id}`}
-                >
-                  {commentCount > 0 && <span>댓글{commentCount}개</span>}
-                </Link>
-              </div>
+              {likeCount > 0 || commentCount > 0 ? (
+                <div className=" mt-3 text-sm text-lightFontColor dark:text-darkFontColor">
+                  {likeCount > 0 && <span>좋아요 {likeCount}개</span>}
+                  <Link
+                    className="ml-3"
+                    href={`${END_POINT.COMMENT}/${post?.post_id}`}
+                  >
+                    {commentCount > 0 && <span>댓글{commentCount}개</span>}
+                  </Link>
+                </div>
+              ) : null}
             </>
           )}
         </div>
