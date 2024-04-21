@@ -2,6 +2,7 @@ import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 import Image from 'next/image';
 import { ImageType } from '@/app/_types/post';
 import ImageControls from './ImageControls';
+import ImageSlider from './ImageSlider';
 
 interface Image {
   modalId: string;
@@ -13,35 +14,38 @@ interface Image {
 
 const ImageModal = ({ modalId, images, width, height, alt }: Image) => {
   return (
-    <dialog id={modalId} className="modal">
-      <div className="modal-box">
+    <dialog id={modalId} className="modal bg-black bg-opacity-85 ">
+      <div className="modal-box bg-transparent shadow-none overflow-hidden p-0">
         <form method="dialog">
-          <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
-            ✕
-          </button>
+          <button className="btn btn-sm btn-circle btn-ghost absolute"></button>
         </form>
-        <div className="flex flex-col mt-3">
+        <ImageSlider slidesToShow={1}>
           {images.map((image) => (
-            <picture className="mb-2" key={image.image_id}>
+            <div key={image.image_id}>
               <TransformWrapper wheel={{ disabled: true }} disablePadding>
                 <div className="relative">
                   <ImageControls />
                   <TransformComponent>
-                    <Image
-                      className={`p-3`}
-                      width={width}
-                      height={height}
-                      src={image.image_url}
-                      alt={alt}
-                      priority
-                    />
+                    <picture>
+                      <Image
+                        className={`w-screen h-auto`}
+                        width={width}
+                        height={height}
+                        src={image.image_url}
+                        alt={alt}
+                        priority
+                      />
+                    </picture>
                   </TransformComponent>
                 </div>
               </TransformWrapper>
-            </picture>
+            </div>
           ))}
-        </div>
+        </ImageSlider>
       </div>
+      <form method="dialog" className="modal-backdrop">
+        <button>닫기</button>
+      </form>
     </dialog>
   );
 };

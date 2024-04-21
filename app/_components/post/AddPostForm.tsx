@@ -122,7 +122,7 @@ export const AddPostForm = ({ post, setPost }: PostProps) => {
         ) : (
           <div className="p-1">
             {imagePreviewUrls.length !== 0 && (
-              <ImageSlider>
+              <ImageSlider slidesToShow={1.5}>
                 {imagePreviewUrls.map((url, index) => (
                   <picture
                     className={`${
@@ -137,7 +137,7 @@ export const AddPostForm = ({ post, setPost }: PostProps) => {
                       height="500"
                       className="w-full p-1 h-full object-cover rounded-xl"
                       alt={`Image preview ${index}`}
-                      priority={true}
+                      priority
                     />
                     <div
                       className="absolute top-3 right-3"

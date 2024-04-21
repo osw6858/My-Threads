@@ -6,12 +6,18 @@ import 'slick-carousel/slick/slick-theme.css';
 import { ReactNode } from 'react';
 import '../post/style/sliderStyle.css';
 
-const ImageSlider = ({ children }: { children: ReactNode }) => {
+const ImageSlider = ({
+  children,
+  slidesToShow,
+}: {
+  children: ReactNode;
+  slidesToShow: number;
+}) => {
   const SilderSettings = {
     dots: false,
     infinite: false,
     speed: 500,
-    slidesToShow: 1.5,
+    slidesToShow: slidesToShow,
   };
   return <Slider {...SilderSettings}>{children}</Slider>;
 };

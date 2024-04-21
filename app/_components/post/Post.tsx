@@ -171,7 +171,7 @@ const Post = ({
               className="pr-5"
               onClick={() => openModal(`open-image-modal${post.post_id}`)}
             >
-              <ImageSlider>
+              <ImageSlider slidesToShow={1.5}>
                 {post?.images?.map((image) => (
                   <picture className="p-1 cursor-pointer" key={image.image_id}>
                     <Image
@@ -222,8 +222,8 @@ const Post = ({
       )}
       <ImageModal
         images={post.images}
-        width={800}
-        height={800}
+        width={500}
+        height={500}
         alt={''}
         modalId={`open-image-modal${post.post_id}`}
       ></ImageModal>
