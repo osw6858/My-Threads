@@ -5,6 +5,7 @@ import { useFollow } from '@/app/_hooks/useFollow';
 import { useAuthStore } from '@/app/_store/auth';
 import { END_POINT } from '@/app/_constant/endPoint';
 import Link from 'next/link';
+import { useEffect } from 'react';
 
 const User = ({
   user,
@@ -13,13 +14,14 @@ const User = ({
   user: UserList;
   isSearched: boolean;
 }) => {
-  const { handleAddFollow, handleRemoveFollow } = useFollow(user);
+  const { handleAddFollow, handleRemoveFollow, isFollow, setIsFollow } =
+    useFollow(user);
 
   const { userInfo } = useAuthStore();
 
-  const isFollow = user.follows.some(
-    (item) => item.follower_id === userInfo.uid,
-  );
+  useEffect(() => {
+    setIsFollow(user.follows.some((item) => item.follower_id === userInfo.uid));
+  }, [setIsFollow, user.follows, userInfo.uid]);
 
   return (
     <>

@@ -8,6 +8,7 @@ import { useQueries } from '@tanstack/react-query';
 import { GET_FOLLOWERS, GET_FOLLWING } from '@/app/_constant/queryKeys';
 import { getFollowerUser, getFollowingUsers } from '@/app/_api/follows';
 import { useFollow } from '@/app/_hooks/useFollow';
+import { useEffect } from 'react';
 
 const UserProfile = ({ user }: { user: UserType }) => {
   const { userInfo } = useAuthStore();
@@ -15,7 +16,7 @@ const UserProfile = ({ user }: { user: UserType }) => {
   const [follower, following] = useQueries({
     queries: [
       {
-        queryKey: [GET_FOLLWING, 'follower'],
+        queryKey: [GET_FOLLWING, userInfo.uid],
         queryFn: () => getFollowingUsers(userInfo.uid),
       },
       {
@@ -29,11 +30,12 @@ const UserProfile = ({ user }: { user: UserType }) => {
     openModal('profile-eidt');
   };
 
-  const isFollow = follower.data?.some(
-    (item) => item.following_id === user.uuid,
-  );
+  const { handleAddFollow, handleRemoveFollow, isFollow, setIsFollow } =
+    useFollow(user);
 
-  const { handleAddFollow, handleRemoveFollow } = useFollow(user);
+  useEffect(() => {
+    setIsFollow(follower.data?.some((item) => item.following_id === user.uuid));
+  }, [follower.data, setIsFollow, user.uuid]);
 
   return (
     <div className="h-full">
