@@ -42,6 +42,7 @@ export const useFollow = (user: UserType) => {
       client.invalidateQueries({ queryKey: [GET_FOLLOWERS] });
       client.invalidateQueries({ queryKey: [GET_USER_LIST] });
       client.invalidateQueries({ queryKey: [SEARCH_USER] });
+      client.invalidateQueries({ queryKey: [GET_ALL_POSTS] });
       client.invalidateQueries({ queryKey: [GET_FOLLWING] });
     },
   });
