@@ -189,7 +189,7 @@ const Post = ({
           )}
           {!isOpenComment && (
             <>
-              <div className="flex  mt-5 ">
+              <div className="flex mt-5 ">
                 <LikeIcon
                   isComment={false}
                   setLikeCount={setLikeCount}
