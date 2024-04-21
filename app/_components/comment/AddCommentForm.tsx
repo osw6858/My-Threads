@@ -9,32 +9,36 @@ import { useAuthStore } from '@/app/_store/auth';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import DOMPurify from 'dompurify';
 import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import ReactQuill from 'react-quill';
+
+interface CommentProps {
+  postId: number | undefined;
+  commentId: number | undefined;
+  comments: string;
+  setComments: Dispatch<SetStateAction<string>>;
+}
 
 const AddCommentForm = ({
   postId,
   commentId,
-}: {
-  postId: number | undefined;
-  commentId: number | undefined;
-}) => {
+  comments,
+  setComments,
+}: CommentProps) => {
   const pathname = usePathname();
 
-  const [comment, setComment] = useState<string | Node>('');
   const [isEmpty, setIsEmpty] = useState(true);
-  const safeHTML = DOMPurify.sanitize(comment);
 
   const { userInfo } = useAuthStore();
   const client = useQueryClient();
 
   useEffect(() => {
-    if (comment === '' || comment === '<p><br></p>') {
+    if (comments === '' || comments === '<p><br></p>') {
       setIsEmpty(true);
     } else {
       setIsEmpty(false);
     }
-  }, [comment]);
+  }, [comments]);
 
   const handleSubmit = () => {
     if (!postId) {
@@ -42,7 +46,7 @@ const AddCommentForm = ({
       return;
     }
     const commentData = {
-      content: safeHTML,
+      content: DOMPurify.sanitize(comments),
       userId: userInfo.uid,
       commentId,
       postId,
@@ -70,7 +74,8 @@ const AddCommentForm = ({
         <ReactQuill
           className="text-gray-700 dark:text-gray-400 placeholder:text-nonSelectIcon pl-5"
           theme="bubble"
-          onChange={setComment}
+          value={comments}
+          onChange={setComments}
           placeholder="댓글을 달아 주세요..."
         />
       </form>

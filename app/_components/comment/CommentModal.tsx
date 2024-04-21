@@ -10,6 +10,7 @@ import Image from 'next/image';
 import Post from '../post/Post';
 import { CommentType, PostType } from '@/app/_types/post';
 import Reply from '../reply/Reply';
+import { useState } from 'react';
 
 const AddCommentForm = dynamic(() => import('./AddCommentForm'), {
   loading: () => <div>...loading</div>,
@@ -25,6 +26,7 @@ const CommentModal = ({
   post?: PostType;
   comment?: CommentType;
 }) => {
+  const [comments, setComments] = useState<string>('');
   const { userInfo } = useAuthStore();
 
   const [user] = useQueries({
@@ -61,11 +63,18 @@ const CommentModal = ({
 
           <div className="p-3">
             {post ? (
-              <AddCommentForm postId={post?.post_id} commentId={comment?.id} />
+              <AddCommentForm
+                postId={post?.post_id}
+                commentId={comment?.id}
+                comments={comments}
+                setComments={setComments}
+              />
             ) : (
               <AddCommentForm
                 postId={comment?.post_id}
                 commentId={comment?.id}
+                comments={comments}
+                setComments={setComments}
               />
             )}
           </div>
@@ -79,6 +88,7 @@ const CommentModal = ({
               fill="currentColor"
               className="cursor-pointer transform transition duration-200 hover:scale-125"
               viewBox="0 0 16 16"
+              onClick={() => setComments('')}
             >
               <path
                 fillRule="evenodd"
@@ -89,7 +99,7 @@ const CommentModal = ({
         </form>
       </div>
       <form method="dialog" className="modal-backdrop">
-        <button>닫기</button>
+        <button onClick={() => setComments('')}>닫기</button>
       </form>
     </dialog>
   );
