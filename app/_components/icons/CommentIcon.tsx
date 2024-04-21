@@ -1,4 +1,3 @@
-import { GET_COMMENT, GET_SELECTED_POST } from '@/app/_constant/queryKeys';
 import { openModal } from '@/app/_helper/openModal';
 import { useQueryClient } from '@tanstack/react-query';
 
@@ -6,16 +5,11 @@ const CommentIcon = ({ id, isReply }: { id: number; isReply: boolean }) => {
   const client = useQueryClient();
 
   const handleComment = () => {
-    console.log('포스팅 아이디', id);
     if (!isReply) {
       openModal(`open-comment-modal${id}`);
     } else {
       openModal(`open-reply-modal${id}`);
     }
-    client.invalidateQueries({ queryKey: [GET_SELECTED_POST, id] });
-    client.invalidateQueries({
-      queryKey: [GET_COMMENT, id],
-    });
   };
 
   return (
