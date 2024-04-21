@@ -21,6 +21,8 @@ import {
 import { removePost } from '@/app/_api/post';
 import { useActive } from '@/app/_hooks/useActive';
 import CommentModal from '../comment/CommentModal';
+import ImageModal from '../common/ImageModal';
+import { openModal } from '@/app/_helper/openModal';
 
 const Post = ({
   post,
@@ -149,10 +151,13 @@ const Post = ({
           <div>
             {post?.images?.length <= 1 ? (
               post?.images.map((image) => (
-                <div className="" key={image.image_id}>
-                  <picture>
+                <div key={image.image_id}>
+                  <picture
+                    onClick={() => openModal(`open-image-modal${post.post_id}`)}
+                    className="cursor-pointer"
+                  >
                     <Image
-                      className="rounded-xl"
+                      className="rounded-xl select-none pointer-events-none"
                       width={350}
                       height={350}
                       src={image.image_url}
@@ -163,12 +168,18 @@ const Post = ({
                 </div>
               ))
             ) : (
-              <div className="pr-5">
+              <div
+                className="pr-5"
+                onClick={() => openModal(`open-image-modal${post.post_id}`)}
+              >
                 <ImageSlider>
                   {post?.images?.map((image) => (
-                    <picture className="p-1 " key={image.image_id}>
+                    <picture
+                      className="p-1 cursor-pointer"
+                      key={image.image_id}
+                    >
                       <Image
-                        className="rounded-xl h-72 object-cover"
+                        className="rounded-xl h-72 object-cover "
                         width={350}
                         height={350}
                         src={image.image_url}
@@ -212,6 +223,13 @@ const Post = ({
       {!isOpenComment && (
         <hr className="border-gray-200 dark:border-gray-800 my-5" />
       )}
+      <ImageModal
+        images={post.images}
+        width={800}
+        height={800}
+        alt={''}
+        modalId={`open-image-modal${post.post_id}`}
+      ></ImageModal>
     </div>
   );
 };

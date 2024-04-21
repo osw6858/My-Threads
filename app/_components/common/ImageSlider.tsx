@@ -4,6 +4,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { ReactNode } from 'react';
+import '../post/style/sliderStyle.css';
 
 const ImageSlider = ({ children }: { children: ReactNode }) => {
   const SilderSettings = {
