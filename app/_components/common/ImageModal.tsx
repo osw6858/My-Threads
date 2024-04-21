@@ -23,7 +23,7 @@ const ImageModal = ({ modalId, images, width, height, alt }: Image) => {
         <div className="flex flex-col mt-3">
           {images.map((image) => (
             <picture className="mb-2" key={image.image_id}>
-              <TransformWrapper wheel={{ disabled: true }}>
+              <TransformWrapper wheel={{ disabled: true }} disablePadding>
                 <div className="relative">
                   <ImageControls />
                   <TransformComponent>
