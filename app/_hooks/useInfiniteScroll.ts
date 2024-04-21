@@ -1,5 +1,11 @@
 import { InfiniteQueryObserverResult } from '@tanstack/react-query';
-import { useState, useEffect, useRef, MutableRefObject } from 'react';
+import {
+  useState,
+  useEffect,
+  useRef,
+  MutableRefObject,
+  useCallback,
+} from 'react';
 
 interface UseInfiniteScrollProps {
   fetchNextPage: () => Promise<InfiniteQueryObserverResult<any, any>>;
@@ -11,17 +17,20 @@ const useInfiniteScroll = ({
   hasNextPage,
 }: UseInfiniteScrollProps) => {
   const [isFetchingMore, setIsFetchingMore] = useState<boolean>(false);
-  const loader: MutableRefObject<null | HTMLDivElement> =
-    useRef<null | HTMLDivElement>(null);
+  const loader = useRef<HTMLDivElement | null>(null);
+  const observerRef = useRef<IntersectionObserver | null>(null);
 
-  useEffect(() => {
-    const handleObserver = (entities: IntersectionObserverEntry[]) => {
-      const target = entities[0];
+  const handleObserver = useCallback(
+    (entries: IntersectionObserverEntry[]) => {
+      const target = entries[0];
       if (target.isIntersecting && !isFetchingMore && hasNextPage) {
         setIsFetchingMore(true);
       }
-    };
+    },
+    [isFetchingMore, hasNextPage],
+  );
 
+  useEffect(() => {
     const observer = new IntersectionObserver(handleObserver, {
       root: null,
       rootMargin: '20px',
@@ -32,18 +41,27 @@ const useInfiniteScroll = ({
       observer.observe(loader.current);
     }
 
+    observerRef.current = observer;
+
     return () => {
-      observer.disconnect();
+      if (observerRef.current) {
+        observerRef.current.disconnect();
+      }
     };
-  }, [isFetchingMore, hasNextPage]);
+  }, [handleObserver]);
 
   useEffect(() => {
     if (!isFetchingMore) return;
 
-    fetchNextPage().then(() => setIsFetchingMore(false));
-  }, [isFetchingMore, fetchNextPage]);
+    const fetchData = async () => {
+      await fetchNextPage();
+      setIsFetchingMore(false);
+    };
 
-  return { loader, isFetchingMore };
+    fetchData();
+  }, [isFetchingMore]);
+
+  return { loader };
 };
 
 export default useInfiniteScroll;

@@ -10,6 +10,18 @@ import { useAuthStore } from '@/app/_store/auth';
 import Skeleton from '../common/Skeleton';
 import Link from 'next/link';
 import { END_POINT } from '@/app/_constant/endPoint';
+import { useMemo } from 'react';
+import React from 'react';
+
+const MemoizedPost = React.memo(
+  ({ post, isOpenComment }: { post: PostType; isOpenComment: boolean }) => {
+    return (
+      <Post key={post.post_id} post={post} isOpenComment={isOpenComment} />
+    );
+  },
+);
+
+MemoizedPost.displayName = 'MemoizedPost';
 
 const PostList = () => {
   const { userInfo } = useAuthStore();
@@ -31,34 +43,40 @@ const PostList = () => {
 
   const { loader } = useInfiniteScroll({ fetchNextPage, hasNextPage });
 
-  if (!data) {
-    return <Skeleton count={3} />;
-  }
+  const renderPosts = useMemo(() => {
+    if (!data) return <Skeleton count={3} />;
+
+    return data.pages.map((page, i) => (
+      <div key={i}>
+        {page.data?.length === 0 ? (
+          <div className="h-screen flex justify-center items-center">
+            <div className="pb-48 text-lg font-semibold">
+              <Link href={END_POINT.SEARCH}>
+                <p>팔로우 해서 스레드 시작하기</p>
+              </Link>
+            </div>
+          </div>
+        ) : (
+          <>
+            {page.data?.map((post: PostType) => (
+              <MemoizedPost
+                key={post.post_id}
+                post={post}
+                isOpenComment={false}
+              />
+            ))}
+          </>
+        )}
+      </div>
+    ));
+  }, [data]);
 
   return (
-    <div className={`w-full ${data ? 'h-full' : 'h-screen'} flex flex-col`}>
-      {data?.pages.map((page, i) => (
-        <div className="min-h-full" key={i}>
-          {page.data?.length === 0 ? (
-            <div className="h-screen flex justify-center items-center">
-              <div className="pb-48 text-lg font-semibold">
-                <Link href={END_POINT.SEARCH}>
-                  <p>팔로우 해서 스레드 시작하기</p>
-                </Link>
-              </div>
-            </div>
-          ) : (
-            <>
-              {page.data?.map((post: PostType) => (
-                <Post key={post.post_id} post={post} isOpenComment={false} />
-              ))}
-            </>
-          )}
-        </div>
-      ))}
+    <div className="w-full h-full flex flex-col">
+      {renderPosts}
       <div
         className="-translate-y-72"
-        ref={loader}
+        ref={loader as React.RefObject<HTMLDivElement>}
         style={{ visibility: 'hidden' }}
       ></div>
     </div>
