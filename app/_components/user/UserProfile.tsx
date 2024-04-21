@@ -5,7 +5,7 @@ import { useAuthStore } from '@/app/_store/auth';
 import ProfilEditModal from './ProfilEditModal';
 import { openModal } from '@/app/_helper/openModal';
 import { useQueries } from '@tanstack/react-query';
-import { GET_FOLLOWERS } from '@/app/_constant/queryKeys';
+import { GET_FOLLOWERS, GET_FOLLWING } from '@/app/_constant/queryKeys';
 import { getFollowerUser, getFollowingUsers } from '@/app/_api/follows';
 import { useFollow } from '@/app/_hooks/useFollow';
 
@@ -15,11 +15,11 @@ const UserProfile = ({ user }: { user: UserType }) => {
   const [follower, following] = useQueries({
     queries: [
       {
-        queryKey: [GET_FOLLOWERS, 'follower'],
+        queryKey: [GET_FOLLWING, 'follower'],
         queryFn: () => getFollowingUsers(userInfo.uid),
       },
       {
-        queryKey: [GET_FOLLOWERS, 'following'],
+        queryKey: [GET_FOLLOWERS, user.uuid],
         queryFn: () => getFollowerUser(user.uuid),
       },
     ],
