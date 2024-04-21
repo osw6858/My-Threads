@@ -8,6 +8,7 @@ import { useQueries } from '@tanstack/react-query';
 import { GET_FOLLOWERS, GET_FOLLWING } from '@/app/_constant/queryKeys';
 import { getFollowerUser, getFollowingUsers } from '@/app/_api/follows';
 import { useFollow } from '@/app/_hooks/useFollow';
+import { useEffect } from 'react';
 
 const UserProfile = ({ user }: { user: UserType }) => {
   const { userInfo } = useAuthStore();
@@ -15,8 +16,8 @@ const UserProfile = ({ user }: { user: UserType }) => {
   const [follower, following] = useQueries({
     queries: [
       {
-        queryKey: [GET_FOLLWING, 'follower'],
-        queryFn: () => getFollowingUsers(userInfo.uid),
+        queryKey: [GET_FOLLWING, user.uuid],
+        queryFn: () => getFollowingUsers(user.uuid),
       },
       {
         queryKey: [GET_FOLLOWERS, user.uuid],
@@ -29,11 +30,12 @@ const UserProfile = ({ user }: { user: UserType }) => {
     openModal('profile-eidt');
   };
 
-  const isFollow = follower.data?.some(
-    (item) => item.following_id === user.uuid,
-  );
+  const { handleAddFollow, handleRemoveFollow, isFollow, setIsFollow } =
+    useFollow(user);
 
-  const { handleAddFollow, handleRemoveFollow } = useFollow(user);
+  useEffect(() => {
+    setIsFollow(follower.data?.some((item) => item.following_id === user.uuid));
+  }, [follower.data, setIsFollow, user.uuid]);
 
   return (
     <div className="h-full">
@@ -54,8 +56,13 @@ const UserProfile = ({ user }: { user: UserType }) => {
         </div>
       </div>
       <div className="mb-10">{user.user_intro}</div>
-      <div className="mb-5 text-lightFontColor dark:text-darkFontColor">
-        팔로워 {following.data?.length}명
+      <div className="flex">
+        <div className="mb-5 mr-3 text-lightFontColor dark:text-darkFontColor">
+          팔로워 {following.data?.length}명
+        </div>
+        <div className="mb-5 text-lightFontColor dark:text-darkFontColor">
+          팔로잉 {follower.data?.length}명
+        </div>
       </div>
       <div>
         {userInfo.uid === user.uuid ? (

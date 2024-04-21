@@ -36,13 +36,7 @@ const ProfilEditModal = ({
   const route = useRouter();
 
   const handleEditProfile = (data: ProfileData) => {
-    const regex = /^[A-Za-z0-9\-\._\!~\*'\(\)]+$/;
     const userName = data.user_name;
-
-    if (!regex.test(userName)) {
-      setError('닉네임 형식이 올바르지 않습니다.');
-      return;
-    }
 
     const profileDatas = {
       uuid: user.uuid,
@@ -50,7 +44,6 @@ const ProfilEditModal = ({
       avatar_url: profilImage,
       user_intro: data.user_intro,
     };
-    console.log(profileDatas);
 
     changeProfile.mutate(profileDatas);
     setUserUrl(data.user_name);
@@ -135,7 +128,7 @@ const ProfilEditModal = ({
           프로필 편집
         </h3>
         <>
-          <form onSubmit={handleSubmit(handleEditProfile)}>
+          <form onSubmit={handleSubmit(handleEditProfile)} method="dialog">
             {error && (
               <p className="pl-3 mb-3 text-sm text-lightFontColor dark:text-darkFontColor">
                 {error}

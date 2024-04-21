@@ -5,13 +5,16 @@ import {
   ADD_FOLLOW,
   GET_ALL_POSTS,
   GET_FOLLOWERS,
+  GET_FOLLWING,
   GET_USER_LIST,
   REMOVE_FOLLOW,
   SEARCH_USER,
 } from '../_constant/queryKeys';
 import { addfollowUser, removeFollowingUser } from '../_api/follows';
+import { useState } from 'react';
 
 export const useFollow = (user: UserType) => {
+  const [isFollow, setIsFollow] = useState<boolean>();
   const { userInfo } = useAuthStore();
   const client = useQueryClient();
 
@@ -28,6 +31,7 @@ export const useFollow = (user: UserType) => {
       client.invalidateQueries({ queryKey: [GET_USER_LIST] });
       client.invalidateQueries({ queryKey: [SEARCH_USER] });
       client.invalidateQueries({ queryKey: [GET_ALL_POSTS] });
+      client.invalidateQueries({ queryKey: [GET_FOLLWING] });
     },
   });
 
@@ -39,14 +43,17 @@ export const useFollow = (user: UserType) => {
       client.invalidateQueries({ queryKey: [GET_USER_LIST] });
       client.invalidateQueries({ queryKey: [SEARCH_USER] });
       client.invalidateQueries({ queryKey: [GET_ALL_POSTS] });
+      client.invalidateQueries({ queryKey: [GET_FOLLWING] });
     },
   });
 
   const handleAddFollow = () => {
+    setIsFollow(false);
     addFollow.mutate(followData);
   };
 
   const handleRemoveFollow = () => {
+    setIsFollow(true);
     removeFollow.mutate(followData);
   };
 
@@ -55,5 +62,7 @@ export const useFollow = (user: UserType) => {
     removeFollowMutation: removeFollow,
     handleAddFollow,
     handleRemoveFollow,
+    isFollow,
+    setIsFollow,
   };
 };

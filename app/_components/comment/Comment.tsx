@@ -155,7 +155,7 @@ const Comment = ({
                 <div className="collapse bg-white dark:bg-darkMode">
                   <input type="checkbox" onClick={() => setSeeMore(!seeMore)} />
                   <div className="collapse-title text-sm text-gray-500 pl-2">
-                    {seeMore ? <p>댓글 펼치기</p> : <p>댓글 접기</p>}
+                    {seeMore ? <p>답글 펼치기</p> : <p>답글 접기</p>}
                   </div>
                   <div
                     style={{ paddingBottom: 0 }}
@@ -172,7 +172,15 @@ const Comment = ({
                   <div className=" mt-3 text-sm text-lightFontColor dark:text-darkFontColor">
                     {likeCount > 0 && <span>좋아요 {likeCount}개</span>}
                     <span className="ml-3">
-                      {commentCount > 0 && <span>댓글{commentCount}개</span>}
+                      {commentCount > 0 && (
+                        <>
+                          {depthLimit ? (
+                            <span>댓글{commentCount}개</span>
+                          ) : (
+                            <span>답글{commentCount}개</span>
+                          )}
+                        </>
+                      )}
                     </span>
                   </div>
                 ) : null}
