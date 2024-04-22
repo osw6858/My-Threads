@@ -4,7 +4,7 @@ import { UserType } from '@/app/_types/user';
 import Image from 'next/image';
 import { ChangeEvent, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import ProfilInput from '../common/ProfilInput';
+import ProfileInput from '../common/ProfileInput';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   GET_ALL_POSTS,
@@ -139,7 +139,7 @@ const ProfileEditModal = ({
               </p>
             )}
             <div className="flex justify-between items-center">
-              <ProfilInput name="user_name" control={control} type="text" />
+              <ProfileInput name="user_name" control={control} type="text" />
               <div className="avatar flex items-center">
                 <div className="w-12 rounded-full">
                   <label className="cursor-pointer" htmlFor="profil-image">
@@ -162,7 +162,7 @@ const ProfileEditModal = ({
                 </div>
               </div>
             </div>
-            <ProfilInput name="user_intro" control={control} type="text" />
+            <ProfileInput name="user_intro" control={control} type="text" />
             <input
               className="hidden"
               type="file"
