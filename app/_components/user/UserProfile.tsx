@@ -2,7 +2,7 @@ import { UserType } from '@/app/_types/user';
 import Image from 'next/image';
 import BasicButton from '../common/BasicButton';
 import { useAuthStore } from '@/app/_store/auth';
-import ProfilEditModal from './ProfilEditModal';
+import ProfileEditModal from './ProfileEditModal';
 import { openModal } from '@/app/_helper/openModal';
 import { useQueries } from '@tanstack/react-query';
 import { GET_FOLLOWERS, GET_FOLLWING } from '@/app/_constant/queryKeys';
@@ -93,7 +93,7 @@ const UserProfile = ({ user }: { user: UserType }) => {
           </div>
         )}
       </div>
-      <ProfilEditModal modalId="profile-eidt" user={user} />
+      <ProfileEditModal modalId="profile-eidt" user={user} />
     </div>
   );
 };
