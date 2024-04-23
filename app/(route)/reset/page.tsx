@@ -1,21 +1,18 @@
+
 'use client';
 
 import { resetPassword } from '@/app/_api/auth';
 import BasicButton from '@/app/_components/common/BasicButton';
-import ConfirmModal from '@/app/_components/common/ConfirmModal';
 import Footer from '@/app/_components/common/Footer';
 import TextNav from '@/app/_components/common/TextNav';
-import TopLogo from '@/app/_components/icons/TopLogo';
 import { END_POINT } from '@/app/_constant/endPoint';
 import { RESET_PASSWORD } from '@/app/_constant/queryKeys';
 import { openModal } from '@/app/_helper/openModal';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
+import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
 
 const ResetPassword = () => {
   const [email, setEmail] = useState<string>('');
-  const router = useRouter();
 
   const { mutate } = useMutation({
     mutationKey: [RESET_PASSWORD],

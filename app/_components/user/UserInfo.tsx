@@ -52,8 +52,7 @@ const UserInfo = () => {
   const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
     queryKey: [GET_USER_POST, userName],
     queryFn: async ({ pageParam }) => {
-      const response = await getUserPost(user.data?.uuid, pageParam, 5);
-      return response;
+      return await getUserPost(user.data?.uuid, pageParam, 5);
     },
     getNextPageParam: (lastPage, allPages) => {
       const nextPage = allPages.length + 1;
@@ -73,8 +72,8 @@ const UserInfo = () => {
   return (
     <div className={`min-h-screen`}>
       <UserProfile user={user.data} />
-      <div className="min-h-screen">
-        <div className="flex justify-center mt-10">
+      <div className="min-h-full">
+        <div className="flex justify-center mt-10 border-b border-solid border-darkBorder p-3 mb-4">
           <p className="font-bold">스레드</p>
         </div>
         {data?.pages.map((postList, i) => (
@@ -90,6 +89,7 @@ const UserInfo = () => {
         ref={loader}
         style={{ visibility: 'hidden' }}
       ></div>
+      <div className='h-10'></div>
     </div>
   );
 };

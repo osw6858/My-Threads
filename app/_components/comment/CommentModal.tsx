@@ -48,7 +48,7 @@ const CommentModal = ({
           {post && <Post post={post} isOpenComment />}
           {comment && <Reply reply={comment} />}
         </div>
-        <div className="mb-10">
+        <div className="mb-1">
           <div className="avatar flex items-center">
             <div className="w-9 rounded-full">
               <Image
@@ -61,7 +61,7 @@ const CommentModal = ({
             <p className="ml-3 font-semibold">{user.data?.user_name}</p>
           </div>
 
-          <div className="p-3">
+          <div className="pl-5 pt-1">
             {post ? (
               <AddCommentForm
                 postId={post?.post_id}

@@ -3,7 +3,6 @@ import {
   useState,
   useEffect,
   useRef,
-  MutableRefObject,
   useCallback,
 } from 'react';
 

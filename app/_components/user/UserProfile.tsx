@@ -38,9 +38,11 @@ const UserProfile = ({ user }: { user: UserType }) => {
   }, [follower.data, setIsFollow, user.uuid]);
 
   return (
-    <div className="h-full">
+    <div className="h-full pt-4">
       <div className="flex justify-between items-center mb-8">
-        <div className="text-2xl font-bold">{user.user_name}</div>
+        <div className="text-2xl font-bold">{user.user_name}
+          <div className="my-3 text-base font-medium">{user.user_intro}</div>
+        </div>
         <div className="avatar flex items-center">
           <div className="w-20 rounded-full">
             <picture>
@@ -55,7 +57,6 @@ const UserProfile = ({ user }: { user: UserType }) => {
           </div>
         </div>
       </div>
-      <div className="mb-10">{user.user_intro}</div>
       <div className="flex">
         <div className="mb-5 mr-3 text-lightFontColor dark:text-darkFontColor">
           팔로워 {following.data?.length}명

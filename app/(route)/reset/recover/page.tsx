@@ -3,8 +3,6 @@
 import { updatePassword } from '@/app/_api/auth';
 import BasicButton from '@/app/_components/common/BasicButton';
 import ConfirmModal from '@/app/_components/common/ConfirmModal';
-import Footer from '@/app/_components/common/Footer';
-import TopLogo from '@/app/_components/icons/TopLogo';
 import { SIGN_UP_ERROR_MESSAGE } from '@/app/_constant/modalErrorMessage';
 import { UPDATE_PASSWORD } from '@/app/_constant/queryKeys';
 import { openModal } from '@/app/_helper/openModal';
