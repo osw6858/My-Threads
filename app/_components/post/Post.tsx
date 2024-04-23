@@ -189,7 +189,7 @@ const Post = ({
           )}
           {!isOpenComment && (
             <div className='py-1'>
-              <div className="flex pl-1">
+              <div className="flex pl-1 ">
                 <LikeIcon
                   isComment={false}
                   setLikeCount={setLikeCount}
