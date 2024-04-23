@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { supabase } from '../_supabase/supabaseClient';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '../_store/auth';

@@ -5,7 +5,7 @@ import { SEARCH_USER } from '@/app/_constant/queryKeys';
 import { useDebounce } from '@/app/_hooks/useDebounce';
 import { useQuery } from '@tanstack/react-query';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { UserList, UserType } from '@/app/_types/user';
+import { UserList } from '@/app/_types/user';
 import User from '../user/User';
 import { useAuthStore } from '@/app/_store/auth';
 

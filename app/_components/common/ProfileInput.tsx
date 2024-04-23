@@ -9,7 +9,7 @@ interface InputProps {
   control: Control<ProfileData>;
 }
 
-const ProfilInput = ({
+const ProfileInput = ({
   type,
   placeholder,
   style,
@@ -34,4 +34,4 @@ const ProfilInput = ({
   );
 };
 
-export default ProfilInput;
+export default ProfileInput;

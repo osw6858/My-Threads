@@ -1,5 +1,3 @@
-'use client';
-
 import {
   ChangeEvent,
   Dispatch,
@@ -104,7 +102,7 @@ export const AddPostForm = ({ post, setPost }: PostProps) => {
 
   return (
     <>
-      <form>
+      <form className='pl-7'>
         <ReactQuill
           className="text-gray-700 dark:text-gray-400 placeholder:text-nonSelectIcon"
           theme="bubble"
@@ -112,7 +110,6 @@ export const AddPostForm = ({ post, setPost }: PostProps) => {
           value={post}
           placeholder="스레드를 시작하세요..."
         />
-
         {loading ? (
           <div>
             <div className="flex justify-center min-h-56">
@@ -152,7 +149,7 @@ export const AddPostForm = ({ post, setPost }: PostProps) => {
           </div>
         )}
         <label
-          className="flex items-center cursor-pointer w-16"
+          className="flex items-center cursor-pointer w-16 mt-1"
           htmlFor="add-picture"
         >
           <div className="">

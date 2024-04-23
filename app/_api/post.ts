@@ -1,5 +1,4 @@
 import { supabase } from '../_supabase/supabaseClient';
-import { CommentType } from '../_types/post';
 
 export const getFollowedUsersPosts = async (
   userId: string,

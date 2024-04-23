@@ -114,11 +114,11 @@ const Post = ({
               <Link href={`${END_POINT.USER}/${post?.users?.user_name}`}>
                 <div className=" font-semibold">{post?.users?.user_name}</div>
               </Link>
-              <div className="text-black dark:text-contentText my-1">
+              <div className="text-black dark:text-contentText my-2.5">
                 {post?.content && parse(post.content)}
               </div>
             </div>
-            <div className="absolute right-0 mb-4">
+            <div className="absolute right-0 mb-3">
               <span className="mr-3 text-sm text-darkFontColor">
                 {post?.created_at &&
                   dayjs(post.created_at).fromNow().replace('전', '')}
@@ -150,7 +150,7 @@ const Post = ({
           </div>
           {post?.images?.length <= 1 ? (
             post?.images.map((image) => (
-              <div key={image.image_id}>
+              <div key={image.image_id} className='mt-1 mb-3'>
                 <picture
                   onClick={() => openModal(`open-image-modal${post.post_id}`)}
                   className="cursor-pointer"
@@ -168,7 +168,7 @@ const Post = ({
             ))
           ) : (
             <div
-              className="pr-5"
+              className="pr-5 mb-2"
               onClick={() => openModal(`open-image-modal${post.post_id}`)}
             >
               <ImageSlider slidesToShow={1.5}>
@@ -188,8 +188,8 @@ const Post = ({
             </div>
           )}
           {!isOpenComment && (
-            <>
-              <div className="flex mt-5 ">
+            <div className='py-1'>
+              <div className="flex">
                 <LikeIcon
                   isComment={false}
                   setLikeCount={setLikeCount}
@@ -213,7 +213,7 @@ const Post = ({
                   </Link>
                 </div>
               ) : null}
-            </>
+            </div>
           )}
         </div>
       </div>

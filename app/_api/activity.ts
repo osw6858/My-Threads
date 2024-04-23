@@ -1,5 +1,4 @@
 import { supabase } from '../_supabase/supabaseClient';
-import { getCurrentUser } from './user';
 
 interface LikeActive {
   likedPost: number;

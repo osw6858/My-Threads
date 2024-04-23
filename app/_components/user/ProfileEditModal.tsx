@@ -4,7 +4,7 @@ import { UserType } from '@/app/_types/user';
 import Image from 'next/image';
 import { ChangeEvent, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import ProfilInput from '../common/ProfilInput';
+import ProfileInput from '../common/ProfileInput';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   GET_ALL_POSTS,
@@ -20,33 +20,32 @@ import { useRouter } from 'next/navigation';
 import { SUPABASE_ERROR_MESSAGE } from '@/app/_constant/modalErrorMessage';
 import { openModal } from '@/app/_helper/openModal';
 
-const ProfilEditModal = ({
+const ProfileEditModal = ({
   modalId,
   user,
 }: {
   modalId: string;
   user: UserType;
 }) => {
-  const [profilImage, setProfilImage] = useState(user.avatar_url);
+  const [profileImage, setProfileImage] = useState(user.avatar_url);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [changingImage, setChangingImage] = useState(false);
-  const [Userurl, setUserUrl] = useState(user.user_name);
+  const [UserURL, setUserURL] = useState(user.user_name);
   const client = useQueryClient();
   const route = useRouter();
 
   const handleEditProfile = (data: ProfileData) => {
-    const userName = data.user_name;
 
-    const profileDatas = {
+    const profileData = {
       uuid: user.uuid,
       user_name: data.user_name,
-      avatar_url: profilImage,
+      avatar_url: profileImage,
       user_intro: data.user_intro,
     };
 
-    changeProfile.mutate(profileDatas);
-    setUserUrl(data.user_name);
+    changeProfile.mutate(profileData);
+    setUserURL(data.user_name);
   };
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -62,11 +61,11 @@ const ProfilEditModal = ({
       image: file,
       uuid: user.uuid,
     };
-    updateProfilImage.mutate(fileData);
+    updateProfileImage.mutate(fileData);
     setChangingImage(true);
   };
 
-  const updateProfilImage = useMutation({
+  const updateProfileImage = useMutation({
     mutationKey: [UPDATE_PROFILE_IMAGE, user.uuid],
     mutationFn: uploadProfilImage,
     onSuccess: (data) => {
@@ -76,7 +75,7 @@ const ProfilEditModal = ({
       }
       const url = `${STORAGE_ROOT_URL}${data.data?.path}`;
 
-      setProfilImage(url);
+      setProfileImage(url);
       setChangingImage(false);
     },
   });
@@ -98,7 +97,7 @@ const ProfilEditModal = ({
       setSuccess('변경 완료!');
 
       const queryKeys = [
-        [GET_USER_INFO, Userurl],
+        [GET_USER_INFO, UserURL],
         [GET_CURRENT_USER],
         [GET_ALL_POSTS, user.uuid],
         [GET_USER_POST, user.user_name],
@@ -109,7 +108,7 @@ const ProfilEditModal = ({
         client.invalidateQueries({ queryKey });
       });
 
-      route.push(`${END_POINT.USER}/${Userurl}`);
+      route.push(`${END_POINT.USER}/${UserURL}`);
     },
   });
 
@@ -140,7 +139,7 @@ const ProfilEditModal = ({
               </p>
             )}
             <div className="flex justify-between items-center">
-              <ProfilInput name="user_name" control={control} type="text" />
+              <ProfileInput name="user_name" control={control} type="text" />
               <div className="avatar flex items-center">
                 <div className="w-12 rounded-full">
                   <label className="cursor-pointer" htmlFor="profil-image">
@@ -155,7 +154,7 @@ const ProfilEditModal = ({
                           height={55}
                           width={55}
                           alt=""
-                          src={profilImage}
+                          src={profileImage}
                         />
                       </picture>
                     )}
@@ -163,7 +162,7 @@ const ProfilEditModal = ({
                 </div>
               </div>
             </div>
-            <ProfilInput name="user_intro" control={control} type="text" />
+            <ProfileInput name="user_intro" control={control} type="text" />
             <input
               className="hidden"
               type="file"
@@ -193,4 +192,4 @@ const ProfilEditModal = ({
   );
 };
 
-export default ProfilEditModal;
+export default ProfileEditModal;

@@ -38,11 +38,11 @@ const User = ({
           </div>
         </div>
         <div className="flex justify-between w-full pl-3">
-          <div className="grid gap-2">
+          <div className="flex flex-col">
             <Link href={`${END_POINT.USER}/${user.user_name}`}>
-              <p className="font-semibold">{user.user_name}</p>
+              <p className="font-semibold mb-2">{user.user_name}</p>
             </Link>
-            <p className="text-lightFontColor pr-5  dark:text-darkFontColor">
+            <p className="text-lightFontColor pr-5 mb-5 dark:text-darkFontColor">
               {user.user_intro}
             </p>
             {!isSearched && (
@@ -56,20 +56,20 @@ const User = ({
 
           <div>
             {isFollow ? (
-              <BasicButton
+              <button
                 onClick={handleRemoveFollow}
-                style="min-w-[62px] px-3 py-1 text-sm text sm:p-2 sm:px-8 opacity-70"
+                className="rounded-xl border-solid border border-black dark:border-white min-w-[62px] px-3 py-1 text-sm text sm:p-2 sm:px-8 bg-white dark:bg-darkMode"
                 type="button"
               >
-                팔로잉
-              </BasicButton>
+               <span className='text-black dark:text-white'>팔로잉</span>
+              </button>
             ) : (
               <BasicButton
                 onClick={handleAddFollow}
                 style="min-w-[62px] px-3 py-1 text-sm sm:p-2 sm:px-8 "
                 type="button"
               >
-                팔로우
+                <span>팔로우</span>
               </BasicButton>
             )}
           </div>

@@ -1,5 +1,4 @@
 import { supabase } from '../_supabase/supabaseClient';
-import { ProfileData } from '../_types/inputType';
 
 export const getAllUser = async () => {
   const { data, error } = await supabase.from('users').select('*');
