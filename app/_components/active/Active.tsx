@@ -15,6 +15,7 @@ const Active = ({ active }: { active: ActiveType }) => {
         <div>
           <div className="avatar flex items-center">
             <div className="w-9 rounded-full">
+              <Link href={`${END_POINT.USER}/${active.users.user_name}`}>
               <picture>
                 <Image
                   height={20}
@@ -23,12 +24,15 @@ const Active = ({ active }: { active: ActiveType }) => {
                   alt=""
                 />
               </picture>
+              </Link>
             </div>
           </div>
         </div>
         <div className="flex justify-between w-full pl-3">
           <div className="grid gap-2">
+            <Link href={`${END_POINT.USER}/${active.users.user_name}`}>
             <p className="font-semibold">{active.users.user_name}</p>
+            </Link>
             <p className="text-lightFontColor dark:text-darkFontColor pr-7">
               {active.content}
             </p>
